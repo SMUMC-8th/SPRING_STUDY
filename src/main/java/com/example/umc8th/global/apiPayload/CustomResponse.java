@@ -25,7 +25,7 @@ public class CustomResponse<T> {
     public static CustomResponse onSuccess() {
         return new CustomResponse(
                 HttpStatus.OK,
-                "test",
+                "SUCCESS",
                 HttpStatus.OK.getReasonPhrase()
                 ,HttpStatus.OK
         );
