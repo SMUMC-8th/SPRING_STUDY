@@ -25,7 +25,7 @@ public class CustomResponse<T> {
     private T result;
 
 
-    // onSuccess
+    // onSuccess.
     public CustomResponse onSuccess(T result) {
         return new CustomResponse(true, HttpStatus.OK, HttpStatus.OK.getReasonPhrase(), result);
     }
