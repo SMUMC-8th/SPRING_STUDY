@@ -13,7 +13,7 @@ import org.springframework.http.HttpStatus;
 public class GlobalResponse<T> {
 
     @JsonProperty("isSuccess")
-    private final HttpStatus httpStatus;
+    private final boolean isSuccess;
 
     @JsonProperty("code")
     private final String code;
@@ -24,20 +24,17 @@ public class GlobalResponse<T> {
     @JsonProperty("result")
     private T result;
 
-    public static <T> GlobalResponse<T> onSuccess(T result) {
-        return new GlobalResponse<>(
-                GeneralSuccessCode.OK_200.getStatus(),
-                GeneralSuccessCode.OK_200.getCode(),
-                GeneralSuccessCode.OK_200.getMessage(),
-                null
-        );
+    public static <T> GlobalResponse<T> ok(T result) {
+        return GlobalResponse.onSuccess(GeneralSuccessCode.OK_200,result);
     }
-
     public static <T> GlobalResponse<T> onSuccess(GeneralSuccessCode code, T result) {
-        return new GlobalResponse<>(code.getStatus(), code.getCode(), code.getMessage(), result);
+        return new GlobalResponse<>(true, code.getCode(), code.getMessage(), result);
+    }
+    public static <T> GlobalResponse<T> onFailure(String code, String message) {
+        return onFailure(code, message, null);
     }
     // 실패시 result는 null로 반환
-    public static <T> GlobalResponse<T> onFailure(GeneralErrorCode code) {
-        return new GlobalResponse<>(code.getStatus(), code.getCode(), code.getMessage(), null);
+    public static <T> GlobalResponse<T> onFailure(String code, String message, T result) {
+        return new GlobalResponse<>(false, code, message, result);
     }
 }
