@@ -1,5 +1,6 @@
 package com.example.umc8th.article.entity;
 
+import com.example.umc8th.reply.entity.Reply;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
