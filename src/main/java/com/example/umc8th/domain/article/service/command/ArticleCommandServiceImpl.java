@@ -7,8 +7,10 @@ import com.example.umc8th.domain.article.entity.Article;
 import com.example.umc8th.domain.article.repository.ArticleRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
+@Transactional
 @RequiredArgsConstructor
 public class ArticleCommandServiceImpl implements ArticleCommandService{
 
