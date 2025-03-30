@@ -12,7 +12,7 @@ public enum ArticleErrorCode implements BaseErrorCode {
             "작성자가 아닙니다."),
     FORBIDDEN_403(HttpStatus.FORBIDDEN,
             "Article403",
-            "접근이 제한되었습니다."),
+            "게시물이 존재하지 않아 접근이 금지되었습니다."),
     NOT_FOUND_404(HttpStatus.NOT_FOUND,
             "Article404",
             "게시물을 찾을 수 없습니다.");
