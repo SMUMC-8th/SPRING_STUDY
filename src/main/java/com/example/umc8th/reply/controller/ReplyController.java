@@ -1,15 +1,9 @@
 package com.example.umc8th.reply.controller;
 
-import com.example.umc8th.article.dto.ArticleRequestDTO;
-import com.example.umc8th.article.entity.Article;
-import com.example.umc8th.article.repository.ArticleRepository;
-import com.example.umc8th.article.service.command.ArticleCommandService;
-import com.example.umc8th.article.service.query.ArticleQueryService;
 import com.example.umc8th.global.apiPayload.GlobalResponse;
 import com.example.umc8th.global.apiPayload.code.GeneralSuccessCode;
 import com.example.umc8th.reply.dto.ReplyRequestDTO;
 import com.example.umc8th.reply.dto.ReplyResponseDTO;
-import com.example.umc8th.reply.entity.Reply;
 import com.example.umc8th.reply.service.command.ReplyCommandService;
 import com.example.umc8th.reply.service.query.ReplyQueryService;
 import io.swagger.v3.oas.annotations.tags.Tag;

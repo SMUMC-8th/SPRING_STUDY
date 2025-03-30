@@ -1,11 +1,9 @@
 package com.example.umc8th.global.apiPayload.exception.handler;
 
-import com.example.umc8th.article.controller.ArticleController;
 import com.example.umc8th.global.apiPayload.GlobalResponse;
 import com.example.umc8th.global.apiPayload.code.BaseErrorCode;
 import com.example.umc8th.global.apiPayload.exception.ArticleException;
 import com.example.umc8th.global.apiPayload.exception.GeneralException;
-import com.example.umc8th.reply.controller.ReplyController;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
