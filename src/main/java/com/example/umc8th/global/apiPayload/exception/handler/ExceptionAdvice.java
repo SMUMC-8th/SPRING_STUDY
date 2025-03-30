@@ -1,10 +1,11 @@
 package com.example.umc8th.global.apiPayload.exception.handler;
 
+import com.example.umc8th.article.controller.ArticleController;
 import com.example.umc8th.global.apiPayload.GlobalResponse;
 import com.example.umc8th.global.apiPayload.code.BaseErrorCode;
-import com.example.umc8th.global.apiPayload.code.GeneralErrorCode;
 import com.example.umc8th.global.apiPayload.exception.ArticleException;
 import com.example.umc8th.global.apiPayload.exception.GeneralException;
+import com.example.umc8th.reply.controller.ReplyController;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -12,23 +13,21 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 @Slf4j
-// 이슈 발생: ControllerAdvice와 Swagger간 충돌 발생
-// @RestControllerAdvice
+@RestControllerAdvice(annotations = RestController.class)
 public class ExceptionAdvice {
 
     @ExceptionHandler(GeneralException.class)
-    public ResponseEntity<GlobalResponse<String>> generalException(GeneralException e) {
+    public ResponseEntity<?> generalException(GeneralException e) {
         log.warn("General exception: {}", e.getCode().getMessage());
         BaseErrorCode code = e.getCode();
         GlobalResponse<String> response = GlobalResponse.onFailure(code.getCode(), code.getMessage());
         return ResponseEntity.status(code.getStatus()).body(response);
     }
     @ExceptionHandler(ArticleException.class)
-    public ResponseEntity<GlobalResponse<String>> articleException(ArticleException e) {
+    public ResponseEntity<?> articleException(ArticleException e) {
         log.warn("Article exception: {}", e.getCode().getMessage());
         BaseErrorCode code = e.getCode();
         GlobalResponse<String> response = GlobalResponse.onFailure(code.getCode(), code.getMessage());
         return ResponseEntity.status(code.getStatus()).body(response);
     }
-
 }

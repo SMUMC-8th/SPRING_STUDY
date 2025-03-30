@@ -2,6 +2,8 @@ package com.example.umc8th.reply.service.query;
 
 import com.example.umc8th.article.entity.Article;
 import com.example.umc8th.article.repository.ArticleRepository;
+import com.example.umc8th.global.apiPayload.code.ArticleErrorCode;
+import com.example.umc8th.global.apiPayload.exception.ArticleException;
 import com.example.umc8th.reply.dto.ReplyResponseDTO;
 import com.example.umc8th.reply.entity.Reply;
 import com.example.umc8th.reply.repository.ReplyRepository;
@@ -22,7 +24,7 @@ public class ReplyQueryServiceImpl implements ReplyQueryService {
     @Override
     public List<ReplyResponseDTO.ReplyDTO> getReplyList(Long articleId) {
         Article article = articleRepository.findById(articleId).orElseThrow(() ->
-                new IllegalArgumentException("게시물이 존재하지 않습니다."));
+                new ArticleException(ArticleErrorCode.NOT_FOUND_404));
         List<Reply> replies = replyRepository.findAllByArticle((article));
         List<ReplyResponseDTO.ReplyDTO> replyList = new ArrayList<>();
         for (Reply reply : replies) {

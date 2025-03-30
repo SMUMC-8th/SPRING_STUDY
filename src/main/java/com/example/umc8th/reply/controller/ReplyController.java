@@ -12,6 +12,7 @@ import com.example.umc8th.reply.dto.ReplyResponseDTO;
 import com.example.umc8th.reply.entity.Reply;
 import com.example.umc8th.reply.service.command.ReplyCommandService;
 import com.example.umc8th.reply.service.query.ReplyQueryService;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,6 +20,7 @@ import java.util.List;
 
 @RequiredArgsConstructor
 @RestController
+@Tag(name = "댓글 API")
 public class ReplyController {
     private final ReplyCommandService replyCommandService;
     private final ReplyQueryService replyQueryService;

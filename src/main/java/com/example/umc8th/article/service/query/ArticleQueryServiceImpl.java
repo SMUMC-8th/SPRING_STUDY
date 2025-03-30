@@ -4,6 +4,8 @@ import com.example.umc8th.article.dto.ArticleRequestDTO;
 import com.example.umc8th.article.dto.ArticleResponseDTO;
 import com.example.umc8th.article.entity.Article;
 import com.example.umc8th.article.repository.ArticleRepository;
+import com.example.umc8th.global.apiPayload.code.ArticleErrorCode;
+import com.example.umc8th.global.apiPayload.exception.ArticleException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -20,7 +22,7 @@ public class ArticleQueryServiceImpl implements ArticleQueryService {
     @Override
     public ArticleResponseDTO.articleDTO getArticle(Long articleId) {
         Article artic = articleRepository.findById(articleId).orElseThrow(() ->
-                new IllegalArgumentException("Article not found"));
+                new ArticleException(ArticleErrorCode.NOT_FOUND_404));
         return ArticleResponseDTO.articleDTO.toDTO(artic);
     }
 

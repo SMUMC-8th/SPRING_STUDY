@@ -2,6 +2,8 @@ package com.example.umc8th.reply.service.command;
 
 import com.example.umc8th.article.entity.Article;
 import com.example.umc8th.article.repository.ArticleRepository;
+import com.example.umc8th.global.apiPayload.code.ArticleErrorCode;
+import com.example.umc8th.global.apiPayload.exception.ArticleException;
 import com.example.umc8th.reply.dto.ReplyRequestDTO;
 import com.example.umc8th.reply.dto.ReplyResponseDTO;
 import com.example.umc8th.reply.entity.Reply;
@@ -21,7 +23,7 @@ public class ReplyCommandServiceImpl implements ReplyCommandService {
     @Override
     public ReplyResponseDTO.ReplyDTO createReply(Reply reply, Long articleId) {
         Article article = articleRepository.findById(articleId).orElseThrow(() ->
-                new IllegalArgumentException("게시물이 존재하지 않습니다."));
+                new ArticleException(ArticleErrorCode.NOT_FOUND_404));
         Reply replyEntity = replyRepository.save(Reply.builder().content(reply.getContent()).article(article).build());
         return ReplyResponseDTO.ReplyDTO.toDTO(replyEntity);
     }
