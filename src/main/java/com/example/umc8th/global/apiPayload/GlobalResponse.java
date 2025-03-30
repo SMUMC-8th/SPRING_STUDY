@@ -25,10 +25,13 @@ public class GlobalResponse<T> {
     private T result;
 
     public static <T> GlobalResponse<T> ok(T result) {
-        return GlobalResponse.onSuccess(GeneralSuccessCode.OK_200,result);
+        return GlobalResponse.onSuccess(
+                GeneralSuccessCode.OK_200.getCode(),
+                GeneralSuccessCode.OK_200.getMessage(),
+                result);
     }
-    public static <T> GlobalResponse<T> onSuccess(GeneralSuccessCode code, T result) {
-        return new GlobalResponse<>(true, code.getCode(), code.getMessage(), result);
+    public static <T> GlobalResponse<T> onSuccess(String code, String message, T result) {
+        return new GlobalResponse<>(true, code, message, result);
     }
     public static <T> GlobalResponse<T> onFailure(String code, String message) {
         return onFailure(code, message, null);
