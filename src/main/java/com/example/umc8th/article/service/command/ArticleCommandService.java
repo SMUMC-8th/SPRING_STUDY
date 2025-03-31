@@ -5,5 +5,5 @@ import com.example.umc8th.article.dto.ArticleResponseDTO;
 import com.example.umc8th.article.entity.Article;
 
 public interface ArticleCommandService {
-    ArticleResponseDTO.articleDTO createArticle(Article article);
+    ArticleResponseDTO.ArticleDTO createArticle(Article article);
 }

@@ -22,7 +22,7 @@ public class ArticleController {
 
     @PostMapping("/articles")
     public GlobalResponse<?> createArticle(@RequestBody ArticleRequestDTO.CreateArticleDTO dto) {
-        ArticleResponseDTO.articleDTO article = articleCommandService.createArticle(dto.toEntity());
+        ArticleResponseDTO.ArticleDTO article = articleCommandService.createArticle(dto.toEntity());
         return GlobalResponse.onSuccess(
                 GeneralSuccessCode.CREATED_201.getCode(),
                 GeneralSuccessCode.CREATED_201.getMessage(),
@@ -31,13 +31,13 @@ public class ArticleController {
 
     @GetMapping("/articles/{articleId}")
     public GlobalResponse<?> getArticle(@PathVariable("articleId") Long articleId) {
-        ArticleResponseDTO.articleDTO article = articleQueryService.getArticle(articleId);
+        ArticleResponseDTO.ArticleDTO article = articleQueryService.getArticle(articleId);
         return GlobalResponse.ok(article);
     }
 
     @GetMapping("/articles")
     public GlobalResponse<?> getArticles() {
-        List<ArticleResponseDTO.articleDTO> articles = articleQueryService.getArticles();
+        List<ArticleResponseDTO.ArticleDTO> articles = articleQueryService.getArticles();
         return GlobalResponse.ok(articles);
     }
 }

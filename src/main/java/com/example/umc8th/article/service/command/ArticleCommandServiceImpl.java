@@ -15,8 +15,8 @@ public class ArticleCommandServiceImpl implements ArticleCommandService {
     private final ArticleRepository articleRepository;
 
     @Override
-    public ArticleResponseDTO.articleDTO createArticle(Article article) {
+    public ArticleResponseDTO.ArticleDTO createArticle(Article article) {
         Article articleEntity = articleRepository.save(article);
-        return ArticleResponseDTO.articleDTO.toDTO(articleEntity);
+        return ArticleResponseDTO.ArticleDTO.toDTO(articleEntity);
     }
 }

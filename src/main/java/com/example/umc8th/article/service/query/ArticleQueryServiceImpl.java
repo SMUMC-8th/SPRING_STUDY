@@ -19,18 +19,18 @@ public class ArticleQueryServiceImpl implements ArticleQueryService {
     private final ArticleRepository articleRepository;
 
     @Override
-    public ArticleResponseDTO.articleDTO getArticle(Long articleId) {
+    public ArticleResponseDTO.ArticleDTO getArticle(Long articleId) {
         Article artic = articleRepository.findById(articleId).orElseThrow(() ->
                 new ArticleException(ArticleErrorCode.NOT_FOUND_404));
-        return ArticleResponseDTO.articleDTO.toDTO(artic);
+        return ArticleResponseDTO.ArticleDTO.toDTO(artic);
     }
 
     @Override
-    public List<ArticleResponseDTO.articleDTO> getArticles() {
+    public List<ArticleResponseDTO.ArticleDTO> getArticles() {
         List<Article> articles = articleRepository.findAll();
-        List<ArticleResponseDTO.articleDTO> articlesList = new ArrayList<>();
+        List<ArticleResponseDTO.ArticleDTO> articlesList = new ArrayList<>();
         for (Article article : articles) {
-            articlesList.add(ArticleResponseDTO.articleDTO.toDTO(article));
+            articlesList.add(ArticleResponseDTO.ArticleDTO.toDTO(article));
         }
         return articlesList;
     }

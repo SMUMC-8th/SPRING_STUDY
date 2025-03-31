@@ -13,13 +13,13 @@ public class ArticleResponseDTO {
 
     @Builder
     @Data
-    public static class articleDTO {
+    public static class ArticleDTO {
         private String content;
         private String title;
         private LocalDateTime createdAt;
         private LocalDateTime updatedAt;
-        public static articleDTO toDTO(Article article) {
-            return articleDTO.builder()
+        public static ArticleDTO toDTO(Article article) {
+            return ArticleDTO.builder()
                     .content(article.getContent())
                     .title(article.getTitle())
                     .createdAt(article.getCreatedAt())
