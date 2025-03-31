@@ -1,5 +1,6 @@
 package com.example.umc8th.article.entity;
 
+import com.example.umc8th.global.entity.BaseTimeEntity;
 import com.example.umc8th.reply.entity.Reply;
 import jakarta.persistence.*;
 import lombok.*;
@@ -16,7 +17,7 @@ import java.util.List;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 @Getter
-public class Article {
+public class Article extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

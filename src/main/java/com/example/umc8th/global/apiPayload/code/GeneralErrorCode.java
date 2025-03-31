@@ -34,5 +34,5 @@ public enum GeneralErrorCode implements BaseErrorCode{
     private final String message;
 }
 
-// GeneralErrorCode라는 enum의 생성자 호출
+// GeneralErrorCode 라는 enum의 생성자 호출
 // new GeneralErrorCode(HttpStatus.BAD_REQUEST, "COMMON400", "잘못된 요청입니다");
