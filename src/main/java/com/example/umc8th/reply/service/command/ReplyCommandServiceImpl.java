@@ -1,9 +1,9 @@
 package com.example.umc8th.reply.service.command;
 
 import com.example.umc8th.article.entity.Article;
+import com.example.umc8th.article.exception.ArticleException;
+import com.example.umc8th.article.exception.code.ArticleErrorCode;
 import com.example.umc8th.article.repository.ArticleRepository;
-import com.example.umc8th.global.apiPayload.code.ArticleErrorCode;
-import com.example.umc8th.global.apiPayload.exception.ArticleException;
 import com.example.umc8th.reply.dto.ReplyResponseDTO;
 import com.example.umc8th.reply.entity.Reply;
 import com.example.umc8th.reply.repository.ReplyRepository;

@@ -2,8 +2,6 @@ package com.example.umc8th.reply.entity;
 
 import com.example.umc8th.article.entity.Article;
 import com.example.umc8th.global.Entity.BaseEntity;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.*;
 

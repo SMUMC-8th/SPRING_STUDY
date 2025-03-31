@@ -2,7 +2,7 @@ package com.example.umc8th.global.apiPayload.exception.handler;
 
 import com.example.umc8th.global.apiPayload.GlobalResponse;
 import com.example.umc8th.global.apiPayload.code.BaseErrorCode;
-import com.example.umc8th.global.apiPayload.exception.ArticleException;
+import com.example.umc8th.global.apiPayload.code.GeneralErrorCode;
 import com.example.umc8th.global.apiPayload.exception.GeneralException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -21,10 +21,10 @@ public class ExceptionAdvice {
         GlobalResponse<String> response = GlobalResponse.onFailure(code.getCode(), code.getMessage());
         return ResponseEntity.status(code.getStatus()).body(response);
     }
-    @ExceptionHandler(ArticleException.class)
-    public ResponseEntity<?> articleException(ArticleException e) {
-        log.warn("Article exception: {}", e.getCode().getMessage());
-        BaseErrorCode code = e.getCode();
+    @ExceptionHandler(Exception.class)
+    public ResponseEntity<?> Exception(Exception e) {
+        log.warn("Internal Server exception: {}", e.getMessage());
+        BaseErrorCode code = GeneralErrorCode.INTERNAL_SERVER_ERROR_500;
         GlobalResponse<String> response = GlobalResponse.onFailure(code.getCode(), code.getMessage());
         return ResponseEntity.status(code.getStatus()).body(response);
     }

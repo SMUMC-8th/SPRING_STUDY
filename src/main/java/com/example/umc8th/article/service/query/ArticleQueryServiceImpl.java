@@ -2,9 +2,9 @@ package com.example.umc8th.article.service.query;
 
 import com.example.umc8th.article.dto.ArticleResponseDTO;
 import com.example.umc8th.article.entity.Article;
+import com.example.umc8th.article.exception.ArticleException;
+import com.example.umc8th.article.exception.code.ArticleErrorCode;
 import com.example.umc8th.article.repository.ArticleRepository;
-import com.example.umc8th.global.apiPayload.code.ArticleErrorCode;
-import com.example.umc8th.global.apiPayload.exception.ArticleException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

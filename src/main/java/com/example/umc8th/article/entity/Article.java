@@ -2,8 +2,6 @@ package com.example.umc8th.article.entity;
 
 import com.example.umc8th.global.Entity.BaseEntity;
 import com.example.umc8th.reply.entity.Reply;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -20,9 +18,11 @@ public class Article extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column
+    @Column(name = "title")
     private String title;
+    @Column(name = "content")
     private String content;
+    @Column(name = "like_num")
     private int likeNum;
 
     @OneToMany(mappedBy = "article", fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)

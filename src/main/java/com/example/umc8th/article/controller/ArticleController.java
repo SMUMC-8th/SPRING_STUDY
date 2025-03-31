@@ -2,7 +2,6 @@ package com.example.umc8th.article.controller;
 
 import com.example.umc8th.article.dto.ArticleRequestDTO;
 import com.example.umc8th.article.dto.ArticleResponseDTO;
-import com.example.umc8th.article.entity.Article;
 import com.example.umc8th.article.service.command.ArticleCommandService;
 import com.example.umc8th.article.service.query.ArticleQueryService;
 import com.example.umc8th.global.apiPayload.GlobalResponse;

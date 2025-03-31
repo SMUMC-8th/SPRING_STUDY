@@ -6,7 +6,6 @@ import lombok.Builder;
 import lombok.Data;
 
 import java.time.LocalDateTime;
-import java.util.List;
 
 
 public class ArticleResponseDTO {

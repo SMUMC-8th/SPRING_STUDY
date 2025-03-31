@@ -1,6 +1,5 @@
 package com.example.umc8th.reply.dto;
 
-import com.example.umc8th.article.entity.Article;
 import com.example.umc8th.reply.entity.Reply;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

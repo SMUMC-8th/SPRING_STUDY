@@ -1,12 +1,10 @@
 package com.example.umc8th.global.apiPayload;
 
-import com.example.umc8th.global.apiPayload.code.GeneralErrorCode;
 import com.example.umc8th.global.apiPayload.code.GeneralSuccessCode;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
-import org.springframework.http.HttpStatus;
 
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 @JsonPropertyOrder({"isSuccess", "code", "message", "result"})
