@@ -27,7 +27,7 @@ public class ReplyController {
         return CustomResponse.onSuccess(reply);
     }
 
-    @GetMapping("/articles/{articleId}/{replyId}")
+    @GetMapping("/articles/{articleId}/replies/{replyId}")
     public CustomResponse<Reply> getReply(@PathVariable("replyId") Long replyId){
         Reply reply = replyQueryService.getReply(replyId);
 
