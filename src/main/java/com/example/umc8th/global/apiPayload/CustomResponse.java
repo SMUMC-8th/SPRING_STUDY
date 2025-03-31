@@ -8,6 +8,7 @@ import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 
+
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 @JsonPropertyOrder({"isSuccess", "code", "message", "result"})
 public class CustomResponse<T> {

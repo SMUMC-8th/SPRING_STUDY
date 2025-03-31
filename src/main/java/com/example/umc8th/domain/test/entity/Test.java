@@ -3,6 +3,7 @@ package com.example.umc8th.domain.test.entity;
 import jakarta.persistence.*;
 import lombok.*;
 
+
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
