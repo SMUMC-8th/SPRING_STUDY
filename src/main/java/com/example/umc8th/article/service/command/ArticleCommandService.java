@@ -1,8 +1,8 @@
 package com.example.umc8th.article.service.command;
 
 import com.example.umc8th.article.dto.ArticleRequestDTO;
-import com.example.umc8th.article.entity.Article;
+import com.example.umc8th.article.dto.ArticleResponseDTO;
 
 public interface ArticleCommandService {
-    Article createArticle(ArticleRequestDTO.CreateArticleDTO dto);
+    ArticleResponseDTO createArticle(ArticleRequestDTO.CreateArticleDTO dto);
 }
