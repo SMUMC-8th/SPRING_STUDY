@@ -16,7 +16,7 @@ public class ExceptionAdvice {
 
     @ExceptionHandler(GeneralException.class)
     public ResponseEntity<?> generalException(GeneralException e) {
-        log.warn("General exception: {}", e.getCode().getMessage());
+        log.warn("{}: {}",e.getClass().getSimpleName() ,e.getCode().getMessage());
         BaseErrorCode code = e.getCode();
         GlobalResponse<String> response = GlobalResponse.onFailure(code.getCode(), code.getMessage());
         return ResponseEntity.status(code.getStatus()).body(response);
