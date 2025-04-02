@@ -1,0 +1,50 @@
+package com.example.umc8th.domain.reply.converter;
+
+import com.example.umc8th.domain.article.entity.Article;
+import com.example.umc8th.domain.reply.dto.request.ReplyReqDTO;
+import com.example.umc8th.domain.reply.dto.response.ReplyResDTO;
+import com.example.umc8th.domain.reply.entity.Reply;
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
+
+import java.util.List;
+
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
+public class ReplyConverter {
+
+    // CreateReplyReqDTO -> Reply Entity
+    public static Reply toReply(ReplyReqDTO.CreateReplyReqDTO resDTO, Article article) {
+        return Reply.builder()
+                .article(article)
+                .content(resDTO.content())
+                .build();
+    }
+
+    // Reply Entity -> CreateReplyResDTO
+    public static ReplyResDTO.CreateReplyResDTO toCreateReplyResponseDto(Reply reply) {
+        return ReplyResDTO.CreateReplyResDTO.builder()
+                .id(reply.getId())
+                .createdAt(reply.getCreatedAt())
+                .build();
+    }
+
+    // Reply -> ReplyPreviewDTO
+    public static ReplyResDTO.ReplyPreviewDTO toReplyPreviewDTO(Reply reply) {
+        return ReplyResDTO.ReplyPreviewDTO.builder()
+                .id(reply.getId())
+                .articleId(reply.getArticle().getId())
+                .content(reply.getContent())
+                .createdAt(reply.getCreatedAt())
+                .updatedAt(reply.getUpdatedAt())
+                .build();
+    }
+
+    // List<Reply> -> ReplyPreviewListDTO
+    public static ReplyResDTO.ReplyPreviewListDTO toReplyPreviewListDTO(List<Reply> replies) {
+        return ReplyResDTO.ReplyPreviewListDTO.builder()
+                .replies(replies.stream()
+                        .map(ReplyConverter::toReplyPreviewDTO)
+                        .toList())
+                .build();
+    }
+}
