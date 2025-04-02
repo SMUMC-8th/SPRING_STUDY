@@ -29,6 +29,30 @@ public class ArticleConverter {
                 .build();
     }
 
+    // Article -> UpdateArticleResDTO
+    public static ArticleResDTO.UpdateArticleResDTO toUpdateArticleResDTO(Article article) {
+        return ArticleResDTO.UpdateArticleResDTO.builder()
+                .id(article.getId())
+                .updatedAt(article.getUpdatedAt())
+                .build();
+    }
+
+    // Article -> ArticleLikeResDTO
+    public static ArticleResDTO.ArticleLikeResDTO toArticleLikeResDTO(Article article) {
+        return ArticleResDTO.ArticleLikeResDTO.builder()
+                .id(article.getId())
+                .likeNum(article.getLikeNum())
+                .build();
+    }
+
+    // Article -> DeleteArticleResDTO
+    public static ArticleResDTO.DeleteArticleResDTO toDeleteArticleResDTO(Article article) {
+        return ArticleResDTO.DeleteArticleResDTO.builder()
+                .id(article.getId())
+                .deletedAt(article.getDeletedAt())
+                .build();
+    }
+
     // Article -> ArticlePreviewDTO
     public static ArticleResDTO.ArticlePreviewDTO toArticlePreviewDTO(Article article) {
         return ArticleResDTO.ArticlePreviewDTO.builder()
