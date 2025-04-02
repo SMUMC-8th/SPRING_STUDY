@@ -29,6 +29,22 @@ public class ReplyConverter {
                 .build();
     }
 
+    // Reply -> UpdateReplyResDTO
+    public static ReplyResDTO.UpdateReplyResDTO toUpdateReplyResDTO(Reply reply) {
+        return ReplyResDTO.UpdateReplyResDTO.builder()
+                .id(reply.getId())
+                .updatedAt(reply.getUpdatedAt())
+                .build();
+    }
+
+    // Reply -> DeleteReplyResDTO
+    public static ReplyResDTO.DeleteReplyResDTO toDeleteReplyResDTO(Reply reply) {
+        return ReplyResDTO.DeleteReplyResDTO.builder()
+                .id(reply.getId())
+                .deletedAt(reply.getDeletedAt())
+                .build();
+    }
+
     // Reply -> ReplyPreviewDTO
     public static ReplyResDTO.ReplyPreviewDTO toReplyPreviewDTO(Reply reply) {
         return ReplyResDTO.ReplyPreviewDTO.builder()

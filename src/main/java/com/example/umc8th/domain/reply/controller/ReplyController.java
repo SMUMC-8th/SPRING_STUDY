@@ -34,4 +34,20 @@ public class ReplyController {
         ReplyResDTO.ReplyPreviewListDTO replies = replyQueryService.getRepliesByArticle(articleId);
         return CustomResponse.onSuccess(replies);
     }
+
+    @PutMapping("/{replyId}")
+    @Operation(summary = "댓글 수정", description = "특정 댓글(replyId)을 수정합니다.")
+    public CustomResponse<ReplyResDTO.UpdateReplyResDTO> updateReply(@PathVariable Long replyId,
+                                                                     @RequestBody ReplyReqDTO.UpdateReplyReqDTO reqDTO) {
+        ReplyResDTO.UpdateReplyResDTO resDTO = replyCommandService.updateReply(replyId, reqDTO);
+        return CustomResponse.onSuccess(resDTO);
+    }
+
+    @DeleteMapping("/{replyId}")
+    @Operation(summary = "댓글 삭제", description = "특정 댓글(replyId)을 삭제합니다. (소프트 딜리트)")
+    public CustomResponse<ReplyResDTO.DeleteReplyResDTO> deleteReply(@PathVariable Long replyId) {
+        ReplyResDTO.DeleteReplyResDTO resDTO = replyCommandService.deleteReply(replyId);
+        return CustomResponse.onSuccess(resDTO);
+    }
+
 }

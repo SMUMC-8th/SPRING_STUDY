@@ -8,6 +8,8 @@ import com.example.umc8th.domain.reply.converter.ReplyConverter;
 import com.example.umc8th.domain.reply.dto.request.ReplyReqDTO;
 import com.example.umc8th.domain.reply.dto.response.ReplyResDTO;
 import com.example.umc8th.domain.reply.entity.Reply;
+import com.example.umc8th.domain.reply.exception.ReplyErrorCode;
+import com.example.umc8th.domain.reply.exception.ReplyException;
 import com.example.umc8th.domain.reply.repository.ReplyRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -32,5 +34,21 @@ public class ReplyCommandServiceImpl implements ReplyCommandService {
 
         // 저장 된 Entity를 reply로 변환 후 controller 단에 반환
         return ReplyConverter.toCreateReplyResponseDTO(savedReply);
+    }
+
+    @Override
+    public ReplyResDTO.UpdateReplyResDTO updateReply(Long replyId, ReplyReqDTO.UpdateReplyReqDTO reqDTO) {
+        Reply reply = replyRepository.findById(replyId)
+                .orElseThrow(() -> new ReplyException(ReplyErrorCode.REPLY_NOT_FOUND));
+        reply.update(reqDTO.content());
+        return ReplyConverter.toUpdateReplyResDTO(reply);
+    }
+
+    @Override
+    public ReplyResDTO.DeleteReplyResDTO deleteReply(Long replyId) {
+        Reply reply = replyRepository.findById(replyId)
+                .orElseThrow(() -> new ReplyException(ReplyErrorCode.REPLY_NOT_FOUND));
+        reply.softDelete();
+        return ReplyConverter.toDeleteReplyResDTO(reply);
     }
 }
