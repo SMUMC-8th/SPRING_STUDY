@@ -17,11 +17,12 @@ public class ReplyConverter {
         return Reply.builder()
                 .article(article)
                 .content(resDTO.content())
+                .deletedAt(null)
                 .build();
     }
 
     // Reply Entity -> CreateReplyResDTO
-    public static ReplyResDTO.CreateReplyResDTO toCreateReplyResponseDto(Reply reply) {
+    public static ReplyResDTO.CreateReplyResDTO toCreateReplyResponseDTO(Reply reply) {
         return ReplyResDTO.CreateReplyResDTO.builder()
                 .id(reply.getId())
                 .createdAt(reply.getCreatedAt())

@@ -17,6 +17,7 @@ public class ArticleConverter {
                 .title(reqDTO.title())
                 .content(reqDTO.content())
                 .likeNum(0)
+                .deletedAt(null)
                 .build();
     }
 

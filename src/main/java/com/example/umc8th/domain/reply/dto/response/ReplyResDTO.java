@@ -29,4 +29,18 @@ public class ReplyResDTO {
             List<ReplyPreviewDTO> replies
     ) {
     }
+
+    @Builder
+    public record UpdateReplyResDTO(
+            Long id,
+            LocalDateTime updatedAt
+    ){
+    }
+
+    @Builder
+    public record DeleteReplyResDTO(
+            Long id,
+            LocalDateTime deletedAt
+    ){
+    }
 }

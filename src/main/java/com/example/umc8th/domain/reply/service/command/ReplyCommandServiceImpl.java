@@ -31,6 +31,6 @@ public class ReplyCommandServiceImpl implements ReplyCommandService {
         Reply savedReply = replyRepository.save(ReplyConverter.toReply(reqDTO, article));
 
         // 저장 된 Entity를 reply로 변환 후 controller 단에 반환
-        return ReplyConverter.toCreateReplyResponseDto(savedReply);
+        return ReplyConverter.toCreateReplyResponseDTO(savedReply);
     }
 }
