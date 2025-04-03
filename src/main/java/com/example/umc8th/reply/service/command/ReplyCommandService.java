@@ -1,8 +1,8 @@
 package com.example.umc8th.reply.service.command;
 
+import com.example.umc8th.reply.dto.ReplyRequestDTO;
 import com.example.umc8th.reply.dto.ReplyResponseDTO;
-import com.example.umc8th.reply.entity.Reply;
 
 public interface ReplyCommandService {
-    ReplyResponseDTO.ReplyDTO createReply(Reply reply, Long articleId);
+    ReplyResponseDTO.ReplyDTO createReply(ReplyRequestDTO.CreateReplyDTO dto, Long articleId);
 }

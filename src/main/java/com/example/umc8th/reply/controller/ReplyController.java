@@ -10,8 +10,6 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
 @RequiredArgsConstructor
 @RestController
 @Tag(name = "댓글 API")
@@ -21,8 +19,8 @@ public class ReplyController {
 
 
     @PostMapping("article/{articleId}/reply")
-    public GlobalResponse<?> createReply(@RequestBody ReplyRequestDTO.CreateReplyDTO dto, @PathVariable Long articleId) {
-        ReplyResponseDTO.ReplyDTO reply = replyCommandService.createReply(dto.toEntity(), articleId);
+    public GlobalResponse<ReplyResponseDTO.ReplyDTO> createReply(@RequestBody ReplyRequestDTO.CreateReplyDTO dto, @PathVariable Long articleId) {
+        ReplyResponseDTO.ReplyDTO reply = replyCommandService.createReply(dto, articleId);
         return GlobalResponse.onSuccess(
                 GeneralSuccessCode.CREATED_201.getCode(),
                 GeneralSuccessCode.CREATED_201.getMessage(),
@@ -30,8 +28,8 @@ public class ReplyController {
     }
 
     @GetMapping("article/{articleId}/replies")
-    public GlobalResponse<?> getReplyList(@PathVariable Long articleId) {
-        List<ReplyResponseDTO.ReplyDTO> replies = replyQueryService.getReplyList(articleId);
+    public GlobalResponse<ReplyResponseDTO.ReplyListDTO> getReplyList(@PathVariable Long articleId) {
+        ReplyResponseDTO.ReplyListDTO replies = replyQueryService.getReplyList(articleId);
         return GlobalResponse.ok(replies);
     }
 }

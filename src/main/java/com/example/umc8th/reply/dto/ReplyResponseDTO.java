@@ -1,10 +1,10 @@
 package com.example.umc8th.reply.dto;
 
-import com.example.umc8th.reply.entity.Reply;
 import lombok.Builder;
 import lombok.Getter;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 public class ReplyResponseDTO {
 
@@ -15,14 +15,11 @@ public class ReplyResponseDTO {
         private LocalDateTime createdAt;
         private LocalDateTime updatedAt;
         private Long articleId;
+    }
 
-        public static ReplyDTO toDTO(Reply reply) {
-            return ReplyDTO.builder()
-                    .createdAt(reply.getCreatedAt())
-                    .updatedAt(reply.getUpdatedAt())
-                    .content(reply.getContent())
-                    .articleId(reply.getArticle().getId())
-                    .build();
-        }
+    @Getter
+    @Builder
+    public static class ReplyListDTO {
+        private List<ReplyDTO> replies;
     }
 }

@@ -10,8 +10,6 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
 @RestController
 @RequiredArgsConstructor
 @Tag(name = "게시물 API")
@@ -20,8 +18,8 @@ public class ArticleController {
     private final ArticleCommandService articleCommandService;
 
     @PostMapping("/articles")
-    public GlobalResponse<?> createArticle(@RequestBody ArticleRequestDTO.CreateArticleDTO dto) {
-        ArticleResponseDTO.ArticleDTO article = articleCommandService.createArticle(dto.toEntity());
+    public GlobalResponse<ArticleResponseDTO.ArticleDTO> createArticle(@RequestBody ArticleRequestDTO.CreateArticleDTO dto) {
+        ArticleResponseDTO.ArticleDTO article = articleCommandService.createArticle(dto);
         return GlobalResponse.onSuccess(
                 GeneralSuccessCode.CREATED_201.getCode(),
                 GeneralSuccessCode.CREATED_201.getMessage(),
@@ -29,14 +27,14 @@ public class ArticleController {
     }
 
     @GetMapping("/articles/{articleId}")
-    public GlobalResponse<?> getArticle(@PathVariable("articleId") Long articleId) {
+    public GlobalResponse<ArticleResponseDTO.ArticleDTO> getArticle(@PathVariable("articleId") Long articleId) {
         ArticleResponseDTO.ArticleDTO article = articleQueryService.getArticle(articleId);
         return GlobalResponse.ok(article);
     }
 
     @GetMapping("/articles")
-    public GlobalResponse<?> getArticles() {
-        List<ArticleResponseDTO.ArticleDTO> articles = articleQueryService.getArticles();
+    public GlobalResponse<ArticleResponseDTO.ArticleListDTO> getArticles() {
+        ArticleResponseDTO.ArticleListDTO articles = articleQueryService.getArticles();
         return GlobalResponse.ok(articles);
     }
 }

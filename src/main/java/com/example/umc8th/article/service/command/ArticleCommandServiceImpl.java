@@ -1,5 +1,7 @@
 package com.example.umc8th.article.service.command;
 
+import com.example.umc8th.article.converter.ArticleConverter;
+import com.example.umc8th.article.dto.ArticleRequestDTO;
 import com.example.umc8th.article.dto.ArticleResponseDTO;
 import com.example.umc8th.article.entity.Article;
 import com.example.umc8th.article.repository.ArticleRepository;
@@ -14,8 +16,8 @@ public class ArticleCommandServiceImpl implements ArticleCommandService {
     private final ArticleRepository articleRepository;
 
     @Override
-    public ArticleResponseDTO.ArticleDTO createArticle(Article article) {
-        Article articleEntity = articleRepository.save(article);
-        return ArticleResponseDTO.ArticleDTO.toDTO(articleEntity);
+    public ArticleResponseDTO.ArticleDTO createArticle(ArticleRequestDTO.CreateArticleDTO dto) {
+        Article article = ArticleConverter.toArticle(dto);
+        return ArticleConverter.toArticleDTO(articleRepository.save(article));
     }
 }

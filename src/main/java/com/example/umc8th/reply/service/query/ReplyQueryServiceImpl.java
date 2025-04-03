@@ -4,6 +4,7 @@ import com.example.umc8th.article.entity.Article;
 import com.example.umc8th.article.exception.ArticleException;
 import com.example.umc8th.article.exception.code.ArticleErrorCode;
 import com.example.umc8th.article.repository.ArticleRepository;
+import com.example.umc8th.reply.converter.ReplyConverter;
 import com.example.umc8th.reply.dto.ReplyResponseDTO;
 import com.example.umc8th.reply.entity.Reply;
 import com.example.umc8th.reply.repository.ReplyRepository;
@@ -11,7 +12,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -22,14 +22,10 @@ public class ReplyQueryServiceImpl implements ReplyQueryService {
     private final ReplyRepository replyRepository;
 
     @Override
-    public List<ReplyResponseDTO.ReplyDTO> getReplyList(Long articleId) {
+    public ReplyResponseDTO.ReplyListDTO getReplyList(Long articleId) {
         Article article = articleRepository.findById(articleId).orElseThrow(() ->
                 new ArticleException(ArticleErrorCode.NOT_FOUND_404));
         List<Reply> replies = replyRepository.findAllByArticle(article);
-        List<ReplyResponseDTO.ReplyDTO> replyList = new ArrayList<>();
-        for (Reply reply : replies) {
-            replyList.add(ReplyResponseDTO.ReplyDTO.toDTO(reply));
-        }
-        return replyList;
+        return ReplyConverter.toReplyListDTO(replies);
     }
 }
