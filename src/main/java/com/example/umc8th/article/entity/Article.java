@@ -32,14 +32,6 @@ public class Article extends BaseTimeEntity {
     @Column(name = "like_num")
     private Integer likeNum;
 
-    @CreatedDate
-    @Column(name = "created_at")
-    private LocalDateTime createdAt;
-
-    @LastModifiedDate
-    @Column(name = "updated_at")
-    private LocalDateTime updatedAt;
-
     @OneToMany(mappedBy = "article")
     private List<Reply> replies = new ArrayList<Reply>();
 }

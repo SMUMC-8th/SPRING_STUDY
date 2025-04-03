@@ -21,9 +21,9 @@ public class ArticleController {
     @PostMapping("/articles")
     public CustomResponse<ArticleResponseDTO> createArticle(@RequestBody ArticleRequestDTO.CreateArticleDTO dto) {
         // service 에서 게시글 생성한 게시글 가져오기
-        Article article = articleCommandService.createArticle(dto);
+        ArticleResponseDTO response = articleCommandService.createArticle(dto);
 
-        return CustomResponse.onSuccess(ArticleResponseDTO.ArticleConverter(article));
+        return CustomResponse.onSuccess(response);
     }
 
     @GetMapping("/articles/{articleId}")
