@@ -21,10 +21,7 @@ public class ReplyController {
     @PostMapping("article/{articleId}/reply")
     public GlobalResponse<ReplyResponseDTO.ReplyDTO> createReply(@RequestBody ReplyRequestDTO.CreateReplyDTO dto, @PathVariable Long articleId) {
         ReplyResponseDTO.ReplyDTO reply = replyCommandService.createReply(dto, articleId);
-        return GlobalResponse.onSuccess(
-                GeneralSuccessCode.CREATED_201.getCode(),
-                GeneralSuccessCode.CREATED_201.getMessage(),
-                reply);
+        return GlobalResponse.created(reply);
     }
 
     @GetMapping("article/{articleId}/replies")

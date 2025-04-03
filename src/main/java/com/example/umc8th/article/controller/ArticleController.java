@@ -20,10 +20,7 @@ public class ArticleController {
     @PostMapping("/articles")
     public GlobalResponse<ArticleResponseDTO.ArticleDTO> createArticle(@RequestBody ArticleRequestDTO.CreateArticleDTO dto) {
         ArticleResponseDTO.ArticleDTO article = articleCommandService.createArticle(dto);
-        return GlobalResponse.onSuccess(
-                GeneralSuccessCode.CREATED_201.getCode(),
-                GeneralSuccessCode.CREATED_201.getMessage(),
-                article);
+        return GlobalResponse.created(article);
     }
 
     @GetMapping("/articles/{articleId}")

@@ -26,14 +26,26 @@ public class GlobalResponse<T> {
         return GlobalResponse.onSuccess(
                 GeneralSuccessCode.OK_200.getCode(),
                 GeneralSuccessCode.OK_200.getMessage(),
-                result);
+                result
+        );
     }
+
+    public static <T> GlobalResponse<T> created(T result) {
+        return GlobalResponse.onSuccess(
+                GeneralSuccessCode.CREATED_201.getCode(),
+                GeneralSuccessCode.CREATED_201.getMessage(),
+                result
+        );
+    }
+
     public static <T> GlobalResponse<T> onSuccess(String code, String message, T result) {
         return new GlobalResponse<>(true, code, message, result);
     }
+
     public static <T> GlobalResponse<T> onFailure(String code, String message) {
         return onFailure(code, message, null);
     }
+
     // 실패시 result는 null로 반환
     public static <T> GlobalResponse<T> onFailure(String code, String message, T result) {
         return new GlobalResponse<>(false, code, message, result);
