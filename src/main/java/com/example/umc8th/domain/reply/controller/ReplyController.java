@@ -20,7 +20,8 @@ public class ReplyController {
     @PostMapping("articles/{articleId}/replies")
     public GlobalResponse<ReplyResponseDTO.ReplyDTO> createReply(
             @RequestBody ReplyRequestDTO.CreateReplyDTO dto,
-            @PathVariable Long articleId) {
+            @PathVariable Long articleId
+    ) {
         ReplyResponseDTO.ReplyDTO reply = replyCommandService.createReply(dto, articleId);
         return GlobalResponse.created(reply);
     }

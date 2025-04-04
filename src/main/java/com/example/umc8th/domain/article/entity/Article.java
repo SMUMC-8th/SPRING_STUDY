@@ -14,6 +14,7 @@ import java.util.List;
 @Builder
 @Getter
 public class Article extends BaseEntity {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -28,4 +29,19 @@ public class Article extends BaseEntity {
     @OneToMany(mappedBy = "article", fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
     @OrderBy("id asc")
     private List<Reply> replies;
+
+    // Update method
+    public void updateTitle(String title) {
+        this.title = title;
+    }
+    public void updateContent(String content) {
+        this.content = content;
+    }
+    public void updateLikeNum(int likeNum) {
+        this.likeNum = likeNum;
+    }
+    public void updateAll(String content, String title) {
+        this.title = title;
+        this.content = content;
+    }
 }

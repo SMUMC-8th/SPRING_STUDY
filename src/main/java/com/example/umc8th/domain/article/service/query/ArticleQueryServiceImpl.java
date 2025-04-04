@@ -30,5 +30,4 @@ public class ArticleQueryServiceImpl implements ArticleQueryService {
         List<Article> articles = articleRepository.findAll();
         return ArticleConverter.toArticleListDTO(articles);
     }
-
 }

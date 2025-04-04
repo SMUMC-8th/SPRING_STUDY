@@ -34,4 +34,22 @@ public class ArticleController {
         ArticleResponseDTO.ArticleListDTO articles = articleQueryService.getArticles();
         return GlobalResponse.ok(articles);
     }
+
+    @PutMapping("/articles/{articleId}")
+    public GlobalResponse<ArticleResponseDTO.ArticleDTO> updateArticle(
+            @RequestBody ArticleRequestDTO.UpdateArticleDTO dto,
+            @PathVariable Long articleId
+    ) {
+
+        if (dto.getTitle().isEmpty()) {
+            ArticleResponseDTO.ArticleDTO article = articleCommandService.updateArticleContent(dto, articleId);
+            return GlobalResponse.ok(article);
+        } else if (dto.getContent().isEmpty()) {
+            ArticleResponseDTO.ArticleDTO article = articleCommandService.updateArticleTitle(dto, articleId);
+            return GlobalResponse.ok(article);
+        } else {
+            ArticleResponseDTO.ArticleDTO article = articleCommandService.updateArticleAll(dto, articleId);
+            return GlobalResponse.ok(article);
+        }
+    }
 }
