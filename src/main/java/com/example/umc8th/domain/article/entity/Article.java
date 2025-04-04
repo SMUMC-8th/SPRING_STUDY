@@ -1,7 +1,7 @@
 package com.example.umc8th.domain.article.entity;
 
-import com.example.umc8th.global.Entity.BaseEntity;
 import com.example.umc8th.domain.reply.entity.Reply;
+import com.example.umc8th.global.Entity.BaseEntity;
 import jakarta.persistence.*;
 import lombok.*;
 
