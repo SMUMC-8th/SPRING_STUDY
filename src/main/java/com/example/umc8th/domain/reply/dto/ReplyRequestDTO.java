@@ -9,4 +9,9 @@ public class ReplyRequestDTO {
     public static class CreateReplyDTO{
         private String content;
     }
+
+    @Getter
+    public static class UpdateReplyDTO{
+        private String content;
+    }
 }

@@ -8,6 +8,10 @@ import org.springframework.http.HttpStatus;
 @AllArgsConstructor
 @Getter
 public enum ArticleErrorCode implements BaseErrorCode {
+
+    BAD_REQUEST_400(HttpStatus.BAD_REQUEST,
+            "Article400",
+            "잘못된 문법으로 요청했습니다."),
     UNAUTHORIZED_401(HttpStatus.UNAUTHORIZED,
             "Article401",
             "작성자가 아닙니다."),

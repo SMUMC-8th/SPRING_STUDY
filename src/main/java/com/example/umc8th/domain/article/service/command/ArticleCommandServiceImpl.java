@@ -24,7 +24,6 @@ public class ArticleCommandServiceImpl implements ArticleCommandService {
     }
 
     @Override
-    @Transactional
     public ArticleResponseDTO.ArticleDTO updateArticleAll(ArticleRequestDTO.UpdateArticleDTO dto, Long articleId) {
         Article article = articleRepository.findById(articleId).orElseThrow(() ->
                 new ArticleException(ArticleErrorCode.NOT_FOUND_404));
@@ -33,7 +32,6 @@ public class ArticleCommandServiceImpl implements ArticleCommandService {
     }
 
     @Override
-    @Transactional
     public ArticleResponseDTO.ArticleDTO updateArticleContent(
             ArticleRequestDTO.UpdateArticleDTO dto,
             Long articleId
@@ -45,7 +43,6 @@ public class ArticleCommandServiceImpl implements ArticleCommandService {
     }
 
     @Override
-    @Transactional
     public ArticleResponseDTO.ArticleDTO updateArticleTitle(
             ArticleRequestDTO.UpdateArticleDTO dto,
             Long articleId

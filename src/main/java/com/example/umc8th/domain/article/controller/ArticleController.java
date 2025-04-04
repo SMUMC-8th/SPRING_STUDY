@@ -2,6 +2,8 @@ package com.example.umc8th.domain.article.controller;
 
 import com.example.umc8th.domain.article.dto.ArticleRequestDTO;
 import com.example.umc8th.domain.article.dto.ArticleResponseDTO;
+import com.example.umc8th.domain.article.exception.ArticleException;
+import com.example.umc8th.domain.article.exception.code.ArticleErrorCode;
 import com.example.umc8th.domain.article.service.command.ArticleCommandService;
 import com.example.umc8th.domain.article.service.query.ArticleQueryService;
 import com.example.umc8th.global.apiPayload.GlobalResponse;
@@ -40,8 +42,9 @@ public class ArticleController {
             @RequestBody ArticleRequestDTO.UpdateArticleDTO dto,
             @PathVariable Long articleId
     ) {
-
-        if (dto.getTitle().isEmpty()) {
+        if (dto.getContent().isEmpty() && dto.getTitle().isEmpty()) {
+            throw new ArticleException(ArticleErrorCode.BAD_REQUEST_400);
+        } else if (dto.getTitle().isEmpty()) {
             ArticleResponseDTO.ArticleDTO article = articleCommandService.updateArticleContent(dto, articleId);
             return GlobalResponse.ok(article);
         } else if (dto.getContent().isEmpty()) {

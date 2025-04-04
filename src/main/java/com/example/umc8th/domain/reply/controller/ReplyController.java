@@ -31,4 +31,14 @@ public class ReplyController {
         ReplyResponseDTO.ReplyListDTO replies = replyQueryService.getReplyList(articleId);
         return GlobalResponse.ok(replies);
     }
+
+    @PutMapping("articles/{articleId}/replies/{replyId}")
+    public GlobalResponse<ReplyResponseDTO.ReplyDTO> updateReply(
+            @PathVariable Long articleId,
+            @PathVariable Long replyId,
+            @RequestBody ReplyRequestDTO.UpdateReplyDTO dto
+    ) {
+        ReplyResponseDTO.ReplyDTO reply = replyCommandService.updateReply(dto, articleId, replyId);
+        return GlobalResponse.ok(reply);
+    }
 }

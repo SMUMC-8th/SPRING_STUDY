@@ -15,6 +15,7 @@ public class ReplyResponseDTO {
         private LocalDateTime createdAt;
         private LocalDateTime updatedAt;
         private Long articleId;
+        private Long replyId;
     }
 
     @Getter

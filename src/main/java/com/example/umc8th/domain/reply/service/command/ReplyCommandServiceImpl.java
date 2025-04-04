@@ -8,6 +8,8 @@ import com.example.umc8th.domain.reply.converter.ReplyConverter;
 import com.example.umc8th.domain.reply.dto.ReplyRequestDTO;
 import com.example.umc8th.domain.reply.dto.ReplyResponseDTO;
 import com.example.umc8th.domain.reply.entity.Reply;
+import com.example.umc8th.domain.reply.exception.ReplyErrorCode;
+import com.example.umc8th.domain.reply.exception.ReplyException;
 import com.example.umc8th.domain.reply.repository.ReplyRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -26,5 +28,18 @@ public class ReplyCommandServiceImpl implements ReplyCommandService {
                 new ArticleException(ArticleErrorCode.FORBIDDEN_403));
         Reply reply = ReplyConverter.toReply(dto,article);
         return ReplyConverter.toReplyDTO(replyRepository.save(reply));
+    }
+
+    @Override
+    public ReplyResponseDTO.ReplyDTO updateReply(ReplyRequestDTO.UpdateReplyDTO dto, Long articleId, Long replyId) {
+        Article article = articleRepository.findById(articleId).orElseThrow(() ->
+                new ArticleException(ArticleErrorCode.NOT_FOUND_404));
+        Reply reply = replyRepository.findById(replyId).orElseThrow(() ->
+                new ReplyException(ReplyErrorCode.NOT_FOUND_404));
+        if (!reply.getArticle().getId().equals(article.getId())) {
+            throw new ReplyException(ReplyErrorCode.FORBIDDEN_403);
+        }
+        reply.updateContent(dto.getContent());
+        return ReplyConverter.toReplyDTO(reply);
     }
 }

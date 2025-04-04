@@ -22,6 +22,7 @@ public class ReplyConverter {
         return ReplyResponseDTO.ReplyDTO.builder()
                 .content(reply.getContent())
                 .articleId(reply.getArticle().getId())
+                .replyId(reply.getId())
                 .createdAt(reply.getCreatedAt())
                 .updatedAt(reply.getUpdatedAt())
                 .build();
