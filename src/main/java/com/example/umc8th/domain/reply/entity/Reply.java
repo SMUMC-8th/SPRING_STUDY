@@ -4,13 +4,18 @@ import com.example.umc8th.domain.article.entity.Article;
 import com.example.umc8th.global.Entity.BaseEntity;
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
+import org.hibernate.annotations.SQLRestriction;
+import org.hibernate.annotations.Where;
 
-@Entity
-@Table(name = "reply")
+@Getter
 @Builder
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
-@Getter
+@Entity
+@Table(name = "reply")
+@SQLRestriction("deleted = false")
 public class Reply extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

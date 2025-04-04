@@ -4,15 +4,19 @@ import com.example.umc8th.domain.reply.entity.Reply;
 import com.example.umc8th.global.Entity.BaseEntity;
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.SQLRestriction;
 
 import java.util.List;
 
-@Entity
-@Table(name = "article")
+@Getter
+@Builder
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
-@Builder
-@Getter
+@Entity
+@SQLDelete(sql = "UPDATE article SET deleted = true WHERE id = ?")
+@SQLRestriction("deleted = false")
+@Table(name = "article")
 public class Article extends BaseEntity {
 
     @Id

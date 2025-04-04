@@ -23,4 +23,10 @@ public class ReplyResponseDTO {
     public static class ReplyListDTO {
         private List<ReplyDTO> replies;
     }
+
+    @Getter
+    @Builder
+    public static class DeleteReplyDTO {
+        private Long replyId;
+    }
 }

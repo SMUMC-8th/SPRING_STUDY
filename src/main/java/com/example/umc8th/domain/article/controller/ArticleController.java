@@ -42,15 +42,15 @@ public class ArticleController {
             @RequestBody ArticleRequestDTO.UpdateArticleDTO dto,
             @PathVariable Long articleId
     ) {
-        if (dto.getContent().isEmpty() && dto.getTitle().isEmpty()) {
+        if (dto.getContent().isEmpty() && dto.getTitle().isEmpty()) {   // 잘못된 요청이 들어온 경우 (둘 다 빈칸)
             throw new ArticleException(ArticleErrorCode.BAD_REQUEST_400);
-        } else if (dto.getTitle().isEmpty()) {
+        } else if (dto.getTitle().isEmpty()) {  // 내용만 수정하는 경우
             ArticleResponseDTO.ArticleDTO article = articleCommandService.updateArticleContent(dto, articleId);
             return GlobalResponse.ok(article);
-        } else if (dto.getContent().isEmpty()) {
+        } else if (dto.getContent().isEmpty()) {    // 제목만 수정하는 경우
             ArticleResponseDTO.ArticleDTO article = articleCommandService.updateArticleTitle(dto, articleId);
             return GlobalResponse.ok(article);
-        } else {
+        } else {    // 모든 요소를 수정하는 경우
             ArticleResponseDTO.ArticleDTO article = articleCommandService.updateArticleAll(dto, articleId);
             return GlobalResponse.ok(article);
         }

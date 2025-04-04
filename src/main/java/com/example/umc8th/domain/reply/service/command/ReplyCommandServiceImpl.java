@@ -42,4 +42,19 @@ public class ReplyCommandServiceImpl implements ReplyCommandService {
         reply.updateContent(dto.getContent());
         return ReplyConverter.toReplyDTO(reply);
     }
+
+    @Override
+    public ReplyResponseDTO.DeleteReplyDTO deleteReply(Long articleId, Long replyId) {
+        Article article = articleRepository.findById(articleId).orElseThrow(() ->
+                new ArticleException(ArticleErrorCode.NOT_FOUND_404));
+        Reply reply = replyRepository.findById(replyId).orElseThrow(() ->
+                new ReplyException(ReplyErrorCode.NOT_FOUND_404));
+        if (!reply.getArticle().getId().equals(article.getId())) {
+            throw new ReplyException(ReplyErrorCode.FORBIDDEN_403);
+        }
+        replyRepository.deleteById(replyId);
+        return ReplyConverter.toDeleteReplyDTO(replyId);
+    }
+
+
 }

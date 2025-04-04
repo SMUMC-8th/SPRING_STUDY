@@ -36,4 +36,11 @@ public class ReplyConverter {
                         .toList())
                 .build();
     }
+
+    // replyId -> DeleteReplyDTO
+    public static ReplyResponseDTO.DeleteReplyDTO toDeleteReplyDTO(Long replyId) {
+        return ReplyResponseDTO.DeleteReplyDTO.builder()
+                .replyId(replyId)
+                .build();
+    }
 }
