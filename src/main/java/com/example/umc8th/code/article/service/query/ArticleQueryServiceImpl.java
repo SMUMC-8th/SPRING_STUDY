@@ -26,7 +26,6 @@ public class ArticleQueryServiceImpl implements ArticleQueryService {
 
     @Override
     public Article getArticle(Long id) {
-        Optional<Article> findArticle = articleRepository.findById(id);
         return articleRepository.findById(id)
                 .orElseThrow(() -> new GeneralException(GeneralErrorCode.NOT_FOUND_404));
     }

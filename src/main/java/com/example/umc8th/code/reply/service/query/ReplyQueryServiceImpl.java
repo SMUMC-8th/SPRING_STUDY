@@ -28,10 +28,6 @@ public class ReplyQueryServiceImpl implements ReplyQueryService {
 
     @Override
     public Reply getReply(Long id) {
-        Optional<Reply> reply = replyRepository.findById(id);
-        if(reply.isPresent()) {
-            return reply.get();
-        }
         return replyRepository.findById(id)
                 .orElseThrow(() -> new GeneralException(GeneralErrorCode.NOT_FOUND_404));
 

@@ -42,11 +42,13 @@ public class ReplyController {
     public CustomResponse<List<ReplyResponseDTO>> getAllReplies(@PathVariable Long articleId) {
         List<Reply> replies = replyQueryService.getRepliesByArticle(articleId);
 
-        List<ReplyResponseDTO> replyDTOs = new ArrayList<>();
-        for (Reply reply : replies) {
-            replyDTOs.add(new ReplyResponseDTO(reply));
-        }
+//        List<ReplyResponseDTO> replyDTOs = new ArrayList<>();
+//        for (Reply reply : replies) {
+//            replyDTOs.add(new ReplyResponseDTO(reply));
+//        }
+        //아직 stream에 익숙치 않아서..
 
+        List<ReplyResponseDTO> replyDTOs = replies.stream().map(ReplyResponseDTO::new).toList();
         return CustomResponse.onSuccess(replyDTOs);
     }
 
