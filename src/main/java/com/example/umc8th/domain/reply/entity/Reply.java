@@ -3,11 +3,9 @@ package com.example.umc8th.domain.reply.entity;
 import com.example.umc8th.domain.article.entity.Article;
 import com.example.umc8th.global.entity.BaseEntity;
 import jakarta.persistence.*;
-import jakarta.persistence.Table;
 import lombok.*;
-import org.hibernate.annotations.*;
-
-import java.time.LocalDateTime;
+import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.SQLRestriction;
 
 @Getter
 @Builder
