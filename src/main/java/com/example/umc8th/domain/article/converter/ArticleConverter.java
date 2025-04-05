@@ -35,4 +35,11 @@ public class ArticleConverter {
                         .toList())
                 .build();
     }
+
+    // articleId -> DeleteArticleDTO
+    public static ArticleResponseDTO.DeleteArticleDTO toDeleteArticleDTO(Long articleId) {
+        return ArticleResponseDTO.DeleteArticleDTO.builder()
+                .articleId(articleId)
+                .build();
+    }
 }

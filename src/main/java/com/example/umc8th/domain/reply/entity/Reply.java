@@ -1,13 +1,13 @@
 package com.example.umc8th.domain.reply.entity;
 
 import com.example.umc8th.domain.article.entity.Article;
-import com.example.umc8th.global.Entity.BaseEntity;
+import com.example.umc8th.global.entity.BaseEntity;
 import jakarta.persistence.*;
+import jakarta.persistence.Table;
 import lombok.*;
-import org.hibernate.annotations.OnDelete;
-import org.hibernate.annotations.OnDeleteAction;
-import org.hibernate.annotations.SQLRestriction;
-import org.hibernate.annotations.Where;
+import org.hibernate.annotations.*;
+
+import java.time.LocalDateTime;
 
 @Getter
 @Builder
@@ -15,7 +15,8 @@ import org.hibernate.annotations.Where;
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 @Entity
 @Table(name = "reply")
-@SQLRestriction("deleted = false")
+@SQLDelete(sql = "UPDATE reply SET deleted_at = NOW() WHERE id = ?")
+@SQLRestriction("deleted_at IS NULL")
 public class Reply extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

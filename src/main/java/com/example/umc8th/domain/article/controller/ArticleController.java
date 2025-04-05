@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 @Tag(name = "게시물 API")
 public class ArticleController {
+
     private final ArticleQueryService articleQueryService;
     private final ArticleCommandService articleCommandService;
 
@@ -54,5 +55,11 @@ public class ArticleController {
             ArticleResponseDTO.ArticleDTO article = articleCommandService.updateArticleAll(dto, articleId);
             return GlobalResponse.ok(article);
         }
+    }
+
+    @DeleteMapping("articles/{articleId}")
+    public GlobalResponse<ArticleResponseDTO.DeleteArticleDTO> deleteArticle(@PathVariable Long articleId) {
+        ArticleResponseDTO.DeleteArticleDTO article = articleCommandService.deleteArticle(articleId);
+        return GlobalResponse.ok(article);
     }
 }

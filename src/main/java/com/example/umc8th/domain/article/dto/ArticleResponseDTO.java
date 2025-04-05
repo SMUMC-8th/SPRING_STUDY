@@ -26,4 +26,10 @@ public class ArticleResponseDTO {
     public static class ArticleListDTO {
         private List<ArticleDTO> articles;
     }
+
+    @Getter
+    @Builder
+    public static class DeleteArticleDTO{
+        private Long articleId;
+    }
 }

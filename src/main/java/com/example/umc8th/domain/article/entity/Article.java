@@ -1,12 +1,13 @@
 package com.example.umc8th.domain.article.entity;
 
 import com.example.umc8th.domain.reply.entity.Reply;
-import com.example.umc8th.global.Entity.BaseEntity;
+import com.example.umc8th.global.entity.BaseEntity;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.SQLRestriction;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Getter
@@ -14,9 +15,9 @@ import java.util.List;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 @Entity
-@SQLDelete(sql = "UPDATE article SET deleted = true WHERE id = ?")
-@SQLRestriction("deleted = false")
 @Table(name = "article")
+@SQLDelete(sql = "UPDATE article SET deleted_at = NOW() WHERE id = ?")
+@SQLRestriction("deleted_at IS NULL")
 public class Article extends BaseEntity {
 
     @Id
