@@ -1,6 +1,6 @@
-package umc.week3.code.service.query;
+package umc.week3.code.reply.service.query;
 
-import umc.week3.code.entity.Reply;
+import umc.week3.code.reply.entity.Reply;
 import java.util.List;
 
 public interface ReplyQueryService {

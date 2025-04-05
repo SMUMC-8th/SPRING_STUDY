@@ -1,6 +1,6 @@
-package umc.week3.code.service.query;
+package umc.week3.code.article.service.query;
 
-import umc.week3.code.entity.Article;
+import umc.week3.code.article.entity.Article;
 
 import java.util.List;
 

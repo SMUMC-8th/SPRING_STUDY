@@ -1,11 +1,12 @@
-package umc.week3.code.service.command;
+package umc.week3.code.article.service.command;
 
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import umc.week3.code.dto.ArticleRequestDTO;
-import umc.week3.code.repository.ArticleRepository;
-import umc.week3.code.entity.Article;
+import umc.week3.code.article.converter.ArticleConverter;
+import umc.week3.code.article.dto.ArticleRequestDTO;
+import umc.week3.code.article.repository.ArticleRepository;
+import umc.week3.code.article.entity.Article;
 
 @Service
 @Transactional
@@ -16,11 +17,6 @@ public class ArticleCommandServiceImpl implements ArticleCommandService {
 
     @Override
     public Article createArticle(ArticleRequestDTO.CreateArticleDTO dto) {
-        return articleRepository.save(
-                Article.builder()
-                        .title(dto.getTitle())
-                        .content(dto.getContent())
-                        .build()
-        );
+        return articleRepository.save(ArticleConverter.toEntity(dto));
     }
 }

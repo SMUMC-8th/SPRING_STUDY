@@ -1,12 +1,11 @@
-package umc.week3.code.entity;
+package umc.week3.code.article.entity;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+import umc.week3.code.reply.entity.Reply;
 
 
 import java.time.LocalDateTime;
@@ -16,10 +15,10 @@ import java.util.List;
 @Entity
 @Table(name = "article")
 @Builder
-//@NoArgsConstructor(access = AccessLevel.PROTECTED)
-//@AllArgsConstructor(access = AccessLevel.PRIVATE)
-@NoArgsConstructor
-@AllArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@AllArgsConstructor(access = AccessLevel.PRIVATE)
+//이걸 프라이빗으로 설정안하면 빌더말고 다른 생성자를 만들어서 쓸수도있어서 막은것
+@EntityListeners(AuditingEntityListener.class)
 @Getter
 public class Article {
 
@@ -40,7 +39,8 @@ public class Article {
     @Column(name = "create_at")
     private LocalDateTime createAt;
 
-    @LastModifiedDate    @Column(name = "update_at")
+    @LastModifiedDate
+    @Column(name = "update_at")
     private LocalDateTime updateAt;
 
     //위에 시간 나중에 @EntityListener

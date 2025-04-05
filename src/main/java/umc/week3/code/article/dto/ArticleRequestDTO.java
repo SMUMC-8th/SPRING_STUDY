@@ -1,4 +1,4 @@
-package umc.week3.code.dto;
+package umc.week3.code.article.dto;
 
 import lombok.Getter;
 
