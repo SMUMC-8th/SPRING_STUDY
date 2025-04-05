@@ -1,0 +1,11 @@
+package com.example.umc8th.code.reply.service.query;
+
+import com.example.umc8th.code.reply.entity.Reply;
+import java.util.List;
+
+public interface ReplyQueryService {
+
+    List<Reply> getReplies();
+    List<Reply> getRepliesByArticle(Long articleId);
+    Reply getReply(Long id);
+}
