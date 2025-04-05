@@ -1,13 +1,16 @@
-package umc.umc.global.apiPayload.code;
+package com.example.umc8th.global.apiPayload.code;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import org.springframework.http.HttpStatus;
 
+// 모든 필드값을 인자로 가지는 생성자 추가 (enum에 필요, 생성자를 직접 정의해도 무방)
 @AllArgsConstructor
+// Getter method 생성 (interface 오버라이딩을 위해 사용했습니다.)
 @Getter
-public enum GeneralErrorCode implements BaseErrorCode{
+public enum GeneralErrorCode implements BaseErrorCode {
 
+    // 일반적인 ERROR 응답 (다 만들지 않으셔도 됩니다.)
     BAD_REQUEST_400(HttpStatus.BAD_REQUEST,
             "COMMON400",
             "잘못된 요청입니다"),
@@ -23,11 +26,17 @@ public enum GeneralErrorCode implements BaseErrorCode{
     INTERNAL_SERVER_ERROR_500(
             HttpStatus.INTERNAL_SERVER_ERROR,
             "COMMON500",
-            "서버 내부 오류가 발생했습니다");
+            "서버 내부 오류가 발생했습니다"),
+
+    // 유효성 검사
+    VALIDATION_FAILED(HttpStatus.BAD_REQUEST, "VALID400_0", "잘못된 파라미터 입니다.")
+    ;
+    ;
 
     // 필요한 필드값 선언
-    private final HttpStatus status;
+    private final HttpStatus httpStatus;
     private final String code;
     private final String message;
-
 }
+
+
