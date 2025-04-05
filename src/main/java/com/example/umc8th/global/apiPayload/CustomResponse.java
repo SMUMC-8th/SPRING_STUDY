@@ -13,7 +13,7 @@ import org.springframework.http.HttpStatus;
 @JsonPropertyOrder({"isSuccess", "code", "message", "result"})
 public class CustomResponse<T> {
 
-    @JsonProperty("isSuccess") // 변수 이름이 isSuccess라는 것을 명시하기 위한 Annotation
+    @JsonProperty("isSuccess") // 변수 이름이 isSuccess 라는 것을 명시하기 위한 Annotation
     private boolean httpStatus;
 
     @JsonProperty("code")
@@ -25,7 +25,7 @@ public class CustomResponse<T> {
     @JsonProperty("result")
     private T result;
 
-    public CustomResponse<T> onSuccess(T result) {
+    public static <T> CustomResponse<T> onSuccess(T result) {
         return new CustomResponse<T>(true, HttpStatus.OK, HttpStatus.OK.getReasonPhrase(), result);
     }
 

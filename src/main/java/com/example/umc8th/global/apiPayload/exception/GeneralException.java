@@ -11,6 +11,8 @@ public class GeneralException extends RuntimeException{
 
     // 생성자
     public GeneralException(BaseErrorCode code) {
+        super(code.getMessage());
         this.code = code;
     }
+
 }
