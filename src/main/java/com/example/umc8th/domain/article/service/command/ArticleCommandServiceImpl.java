@@ -1,7 +1,8 @@
 package com.example.umc8th.domain.article.service.command;
 
-import com.example.umc8th.domain.article.dto.request.ArticleRequestDTO;
-import com.example.umc8th.domain.article.dto.response.ArticleResponseDTO;
+import com.example.umc8th.domain.article.converter.ArticleConverter;
+import com.example.umc8th.domain.article.dto.request.ArticleReqDTO;
+import com.example.umc8th.domain.article.dto.response.ArticleResDTO;
 import com.example.umc8th.domain.article.entity.Article;
 import com.example.umc8th.domain.article.repository.ArticleRepository;
 import lombok.RequiredArgsConstructor;
@@ -18,17 +19,11 @@ public class ArticleCommandServiceImpl implements ArticleCommandService{
     private final ArticleRepository articleRepository;
 
     @Override
-    public ArticleResponseDTO createArticle(ArticleRequestDTO.CreateArticleDTO dto) {
-        // 데이터 베이스에 DTO 로 만든 객체 저장하고 저장된 객체 반환
-        Article article =  articleRepository.save(
-                        // Builder 패턴 사용
-                        Article.builder()
-                        .title(dto.getTitle())
-                        .content(dto.getContent())
-                        .likeNum(0)
-                        .build()
-        );
+    public ArticleResDTO.CreateArticleDTO createArticle(ArticleReqDTO.CreateArticleDTO reqDTO) {
+        Article article = ArticleConverter.from(reqDTO);
 
-        return ArticleResponseDTO.ArticleConverter(article);
+        article = articleRepository.save(article);
+
+        return ArticleConverter.toCreateArticleDTO(article);
     }
 }

@@ -1,4 +1,4 @@
-package com.example.umc8th.global.apiPayload.code;
+package com.example.umc8th.global.apiPayload.error;
 
 import org.springframework.http.HttpStatus;
 

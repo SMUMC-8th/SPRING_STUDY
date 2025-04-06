@@ -1,6 +1,6 @@
-package com.example.umc8th.global.apiPayload.exception;
+package com.example.umc8th.global.apiPayload.error.exception;
 
-import com.example.umc8th.global.apiPayload.code.BaseErrorCode;
+import com.example.umc8th.global.apiPayload.error.BaseErrorCode;
 import lombok.Getter;
 
 @Getter
