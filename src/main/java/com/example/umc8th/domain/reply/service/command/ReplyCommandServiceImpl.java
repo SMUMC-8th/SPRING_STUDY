@@ -25,7 +25,7 @@ public class ReplyCommandServiceImpl implements ReplyCommandService {
     @Override
     public ReplyResponseDTO.ReplyDTO createReply(ReplyRequestDTO.CreateReplyDTO dto, Long articleId) {
         Article article = articleRepository.findById(articleId).orElseThrow(() ->
-                new ArticleException(ArticleErrorCode.FORBIDDEN_403));
+                new ArticleException(ArticleErrorCode.NOT_FOUND_404));
         Reply reply = ReplyConverter.toReply(dto,article);
         return ReplyConverter.toReplyDTO(replyRepository.save(reply));
     }

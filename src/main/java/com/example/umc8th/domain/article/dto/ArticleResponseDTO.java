@@ -11,8 +11,8 @@ import java.util.List;
 
 public class ArticleResponseDTO {
 
+    @Getter
     @Builder
-    @Data
     public static class ArticleDTO {
         private Long articleId;
         private String content;
