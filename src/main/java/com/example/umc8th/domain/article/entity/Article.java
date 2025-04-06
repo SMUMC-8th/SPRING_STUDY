@@ -2,13 +2,11 @@ package com.example.umc8th.domain.article.entity;
 
 
 import com.example.umc8th.domain.reply.entity.Reply;
+import com.example.umc8th.global.entity.BaseEntity;
 import jakarta.persistence.*;
 import lombok.*;
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
 // JPA가 해당 클래스가 Entity라는 것을 인식하도록 해주는 Annotation
@@ -24,7 +22,7 @@ import java.util.List;
 // Getter 생성
 @Getter
 @EntityListeners(AuditingEntityListener.class)
-public class Article {
+public class Article extends BaseEntity {
     // 해당 필드(Long id)를 PK(Primary key)로 지정
     @Id
     // PK의 생성 전략 설정
@@ -43,17 +41,17 @@ public class Article {
     @Column(name = "like_num")
     private int likeNum;
 
-    // 해당 Column에 생성시간 자동 mapping
-    @CreatedDate
-    @Column(name = "created_at")
-    private LocalDateTime createdAt;
-
-    // 해당 Column에 수정시간 자동 mapping
-    @LastModifiedDate
-    @Column(name = "updated_at")
-    private LocalDateTime updatedAt;
 
     // 1:N 매핑, fetchType을 LAZY로 변경 (default = EAGER)
     @OneToMany(mappedBy = "article", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     private List<Reply> replies;
+
+    public void update(String title, String content) {
+        this.title = title;
+        this.content = content;
+    }
+
+    public void increaseLike() {
+        this.likeNum++;
+    }
 }

@@ -18,13 +18,7 @@ public class ArticleCommandServiceImpl implements ArticleCommandService{
 
     @Override
     public Article createArticle(ArticleRequestDTO.CreateArticleDTO dto) {
-        // 데이터 베이스에 DTO로 만든 객체 저장하고 저장된 객체 반환
-        return articleRepository.save(
-                // Builder 패턴 사용
-                Article.builder()
-                        .title(dto.getTitle())
-                        .content(dto.getContent())
-                        .build()
-        );
+        return articleRepository.save(dto.toEntity());
     }
+
 }
