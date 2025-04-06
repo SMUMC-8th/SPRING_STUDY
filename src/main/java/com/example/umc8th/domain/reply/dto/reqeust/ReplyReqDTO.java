@@ -3,7 +3,7 @@ package com.example.umc8th.domain.reply.dto.reqeust;
 import jakarta.validation.constraints.NotBlank;
 import lombok.Getter;
 
-public class ReplyRequestDTO {
+public class ReplyReqDTO {
 
     @Getter
     public static class CreateReplyDTO {

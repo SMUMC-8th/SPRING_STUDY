@@ -1,10 +1,12 @@
 package com.example.umc8th.domain.reply.controller;
 
+import com.example.umc8th.domain.reply.dto.response.ReplyResDTO;
 import com.example.umc8th.global.apiPayload.CustomResponse;
-import com.example.umc8th.domain.reply.dto.reqeust.ReplyRequestDTO;
+import com.example.umc8th.domain.reply.dto.reqeust.ReplyReqDTO;
 import com.example.umc8th.domain.reply.entity.Reply;
 import com.example.umc8th.domain.reply.service.command.ReplyCommandService;
 import com.example.umc8th.domain.reply.service.query.ReplyQueryService;
+import com.example.umc8th.global.apiPayload.success.GeneralSuccessCode;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -18,27 +20,27 @@ public class ReplyController {
     private final ReplyCommandService replyCommandService;
 
     @PostMapping("/articles/{articleId}/replies")
-    public CustomResponse<Reply> createReply(
+    public CustomResponse<ReplyResDTO.CreateReplyDTO> createReply(
             @PathVariable("articleId") Long articleId,
-            @RequestBody ReplyRequestDTO.CreateReplyDTO dto) {
+            @RequestBody ReplyReqDTO.CreateReplyDTO reqDTO) {
 
-        Reply reply = replyCommandService.createReply(dto, articleId);
+        ReplyResDTO.CreateReplyDTO resDTO = replyCommandService.createReply(reqDTO, articleId);
 
-        return CustomResponse.onSuccess(reply);
+        return CustomResponse.onSuccess(GeneralSuccessCode.CREATED, resDTO);
     }
 
     @GetMapping("/articles/{articleId}/replies/{replyId}")
-    public CustomResponse<Reply> getReply(@PathVariable("replyId") Long replyId){
-        Reply reply = replyQueryService.getReply(replyId);
+    public CustomResponse<ReplyResDTO.PreviewReplyDTO> getReply(@PathVariable("replyId") Long replyId){
+        ReplyResDTO.PreviewReplyDTO resDTO = replyQueryService.getReply(replyId);
 
-        return CustomResponse.onSuccess(reply);
+        return CustomResponse.onSuccess(GeneralSuccessCode.OK, resDTO);
     }
 
     @GetMapping("/articles/{articleId}/replies")
-    public CustomResponse<List<Reply>> getReplies(@PathVariable("articleId") Long articleId){
-        List<Reply> replies = replyQueryService.getRepliesByArticleId(articleId);
+    public CustomResponse<ReplyResDTO.PreviewListReplyDTO> getReplies(@PathVariable("articleId") Long articleId){
+        ReplyResDTO.PreviewListReplyDTO resDTO = replyQueryService.getRepliesByArticleId(articleId);
 
-        return CustomResponse.onSuccess(replies);
+        return CustomResponse.onSuccess(GeneralSuccessCode.OK, resDTO);
     }
 
 }
