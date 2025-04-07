@@ -1,10 +1,10 @@
-package com.example.umc8th.service;
+package com.example.umc8th.service.impl;
 
 import com.example.umc8th.dto.ArticleRequestDTO;
 import com.example.umc8th.entity.Article;
 import com.example.umc8th.repository.ArticleRepository;
+import com.example.umc8th.service.ArticleCommandService;
 import lombok.RequiredArgsConstructor;
-import org.hibernate.annotations.DialectOverride;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -16,11 +16,6 @@ public class ArticleCommandServiceImpl implements ArticleCommandService {
 
     @Override
     public Article createArticle(ArticleRequestDTO.CreateArticleDTO dto) {
-        return articleRepository.save(
-                Article.builder()
-                        .title(dto.getTitle())
-                        .content(dto.getContent())
-                        .build()
-        );
+        return articleRepository.save(dto.toEntity());
     }
 }
