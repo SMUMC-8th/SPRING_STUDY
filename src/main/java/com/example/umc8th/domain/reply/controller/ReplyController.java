@@ -44,9 +44,21 @@ public class ReplyController {
         return CustomResponse.ok(ReplyConverter.toReplyPreviewDTO(reply));
     }
 
-    @GetMapping("/{replyId}/test")
-    public CustomResponse<Reply> getReplyTest(@PathVariable Long replyId) {
-        Reply reply = replyQueryService.getReply(replyId);
-        return CustomResponse.ok(reply);
+    @PutMapping("/{replyId}")
+    @Operation(summary = "댓글 수정 API")
+    public CustomResponse<ReplyResponseDTO.ReplyUpdateResponseDTO> updateReply(
+            @PathVariable("replyId") Long replyId,
+            @RequestBody ReplyRequestDTO.UpdateReplyDTO dto) {
+        Reply updatedReply = replyCommandService.updateReply(replyId, dto);
+        return CustomResponse.ok(ReplyResponseDTO.ReplyUpdateResponseDTO.from(updatedReply));
     }
+
+    @DeleteMapping("/{replyId}")
+    @Operation(summary = "댓글 삭제 API")
+    public CustomResponse<ReplyResponseDTO.ReplyDeleteResponseDTO> deleteReply(@PathVariable("replyId") Long replyId) {
+        Reply deletedReply = replyCommandService.deleteReply(replyId);
+        return CustomResponse.ok(ReplyResponseDTO.ReplyDeleteResponseDTO.from(deletedReply));
+    }
+
+
 }

@@ -32,6 +32,6 @@ public class ReplyQueryServiceImpl implements ReplyQueryService{
     public List<Reply> getReplies(Long articleId) {
         Article article = articleRepository.findById(articleId).orElseThrow(() ->
                 new ArticleException(ArticleErrorCode.NOT_FOUND));
-        return replyRepository.findAllByArticleIs(article);
+        return replyRepository.findAllByArticleId(article);
     }
 }
