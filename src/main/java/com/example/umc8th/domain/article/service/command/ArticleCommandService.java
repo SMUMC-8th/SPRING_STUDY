@@ -5,4 +5,6 @@ import com.example.umc8th.domain.article.entity.Article;
 
 public interface ArticleCommandService {
     Article createArticle(ArticleRequestDTO.CreateArticleDTO dto);
+    Article updateArticle(Long id, ArticleRequestDTO.UpdateArticleDTO dto);
+    Article deleteArticle(Long id);
 }

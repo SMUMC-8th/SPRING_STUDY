@@ -16,7 +16,7 @@ public class ArticleRequestDTO {
         public Article toEntity() {
             return Article.builder()
                     .title(this.title)
-                    .content(this.getContent())
+                    .content(this.content)
                     .likeNum(0)
                     .build();
         }
@@ -26,6 +26,5 @@ public class ArticleRequestDTO {
     public static class UpdateArticleDTO {
         private String title;
         private String content;
-
     }
 }

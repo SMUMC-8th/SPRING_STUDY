@@ -7,8 +7,7 @@ import com.example.umc8th.domain.article.service.command.ArticleCommandService;
 import com.example.umc8th.domain.article.service.query.ArticleQueryService;
 import com.example.umc8th.global.apiPayload.CustomResponse;
 import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.Parameter;
-import io.swagger.v3.oas.annotations.Parameters;
+import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
@@ -17,8 +16,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-
-import static com.example.umc8th.global.apiPayload.code.GeneralSuccessCode.OK;
 
 // RestController 명시
 @RestController
@@ -57,18 +54,26 @@ public class ArticleController {
 
     @GetMapping("/articles")
     @Operation(summary = "게시글 전체 조회 API", description = "게시글 전체 조회하는 API")
-    @Parameters({
-            @Parameter(name = "cursor", description = "커서 값, 처음이면 0"),
-            @Parameter(name = "query", description = "쿼리 LIKE, ID")
-    })
     public CustomResponse<ArticleResponseDTO.ArticlePreviewListDTO> getArticles() {
         List<Article> articles = articleQueryService.getArticles();
         return CustomResponse.ok(ArticleResponseDTO.ArticlePreviewListDTO.from(articles));
     }
 
-    @GetMapping("/articles/{articleId}/test")
-    public CustomResponse<Article> getArticlesTest(@PathVariable Long articleId) {
-        Article article = articleQueryService.getArticle(articleId);
-        return CustomResponse.ok(article);
+    @PutMapping("/articles/{articleId}")
+    @Operation(summary = "게시글 수정 API")
+    public CustomResponse<ArticleResponseDTO.ArticleUpdateResponseDTO> updateArticle(
+            @PathVariable("articleId") Long articleId,
+            @RequestBody ArticleRequestDTO.UpdateArticleDTO dto) {
+
+        Article updatedArticle = articleCommandService.updateArticle(articleId, dto);
+        return CustomResponse.ok(ArticleResponseDTO.ArticleUpdateResponseDTO.from(updatedArticle));
+    }
+
+    @DeleteMapping("/articles/{articleId}")
+    @Operation(summary = "게시글 삭제 API")
+    public CustomResponse<ArticleResponseDTO.ArticleDeleteResponseDTO> deleteArticle(@PathVariable("articleId") Long articleId) {
+
+        Article deletedArticle = articleCommandService.deleteArticle(articleId);
+        return CustomResponse.ok(ArticleResponseDTO.ArticleDeleteResponseDTO.from(deletedArticle));
     }
 }
