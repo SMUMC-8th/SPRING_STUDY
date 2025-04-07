@@ -7,4 +7,10 @@ public class ArticleReqDTO {
             String content
     ) {
     }
+
+    public record UpdateArticleReqDTO(
+            String title,
+            String content
+    ){
+    }
 }

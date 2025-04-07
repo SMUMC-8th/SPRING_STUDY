@@ -17,6 +17,7 @@ public class ArticleConverter {
                 .title(reqDTO.title())
                 .content(reqDTO.content())
                 .likeNum(0)
+                .deletedAt(null)
                 .build();
     }
 
@@ -25,6 +26,30 @@ public class ArticleConverter {
         return ArticleResDTO.CreateArticleResDTO.builder()
                 .id(article.getId())
                 .createdAt(article.getCreatedAt())
+                .build();
+    }
+
+    // Article -> UpdateArticleResDTO
+    public static ArticleResDTO.UpdateArticleResDTO toUpdateArticleResDTO(Article article) {
+        return ArticleResDTO.UpdateArticleResDTO.builder()
+                .id(article.getId())
+                .updatedAt(article.getUpdatedAt())
+                .build();
+    }
+
+    // Article -> ArticleLikeResDTO
+    public static ArticleResDTO.ArticleLikeResDTO toArticleLikeResDTO(Article article) {
+        return ArticleResDTO.ArticleLikeResDTO.builder()
+                .id(article.getId())
+                .likeNum(article.getLikeNum())
+                .build();
+    }
+
+    // Article -> DeleteArticleResDTO
+    public static ArticleResDTO.DeleteArticleResDTO toDeleteArticleResDTO(Article article) {
+        return ArticleResDTO.DeleteArticleResDTO.builder()
+                .id(article.getId())
+                .deletedAt(article.getDeletedAt())
                 .build();
     }
 

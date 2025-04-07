@@ -17,14 +17,31 @@ public class ReplyConverter {
         return Reply.builder()
                 .article(article)
                 .content(resDTO.content())
+                .deletedAt(null)
                 .build();
     }
 
     // Reply Entity -> CreateReplyResDTO
-    public static ReplyResDTO.CreateReplyResDTO toCreateReplyResponseDto(Reply reply) {
+    public static ReplyResDTO.CreateReplyResDTO toCreateReplyResponseDTO(Reply reply) {
         return ReplyResDTO.CreateReplyResDTO.builder()
                 .id(reply.getId())
                 .createdAt(reply.getCreatedAt())
+                .build();
+    }
+
+    // Reply -> UpdateReplyResDTO
+    public static ReplyResDTO.UpdateReplyResDTO toUpdateReplyResDTO(Reply reply) {
+        return ReplyResDTO.UpdateReplyResDTO.builder()
+                .id(reply.getId())
+                .updatedAt(reply.getUpdatedAt())
+                .build();
+    }
+
+    // Reply -> DeleteReplyResDTO
+    public static ReplyResDTO.DeleteReplyResDTO toDeleteReplyResDTO(Reply reply) {
+        return ReplyResDTO.DeleteReplyResDTO.builder()
+                .id(reply.getId())
+                .deletedAt(reply.getDeletedAt())
                 .build();
     }
 

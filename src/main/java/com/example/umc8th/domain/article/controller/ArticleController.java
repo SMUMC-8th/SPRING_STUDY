@@ -40,4 +40,26 @@ public class ArticleController {
         ArticleResDTO.ArticlePreviewListDTO articles = articleQueryService.getArticleList();
         return CustomResponse.onSuccess(articles);
     }
+
+    @PutMapping("/{articleId}")
+    @Operation(summary = "게시글 수정", description = "게시글을 수정합니다.")
+    public CustomResponse<ArticleResDTO.UpdateArticleResDTO> updateArticle(@PathVariable Long articleId,
+                                                                           @RequestBody ArticleReqDTO.UpdateArticleReqDTO reqDTO) {
+        ArticleResDTO.UpdateArticleResDTO resDTO = articleCommandService.updateArticle(articleId, reqDTO);
+        return CustomResponse.onSuccess(resDTO);
+    }
+
+    @PatchMapping("/{articleId}")
+    @Operation(summary = "게시글 좋아요", description = "게시글 좋아요 1증가 시킵니다.")
+    public CustomResponse<ArticleResDTO.ArticleLikeResDTO> increaseLike(@PathVariable Long articleId) {
+        ArticleResDTO.ArticleLikeResDTO resDTO = articleCommandService.increaseLikeNum(articleId);
+        return CustomResponse.onSuccess(resDTO);
+    }
+
+    @DeleteMapping("/{articleId}")
+    @Operation(summary = "게시글 삭제", description = "게시글을 소프트 딜리트 시킵니다.")
+    public CustomResponse<ArticleResDTO.DeleteArticleResDTO> deleteArticle(@PathVariable Long articleId) {
+        ArticleResDTO.DeleteArticleResDTO resDTO = articleCommandService.deleteArticle(articleId);
+        return CustomResponse.onSuccess(resDTO);
+    }
 }

@@ -4,13 +4,12 @@ import com.example.umc8th.domain.reply.entity.Reply;
 import com.example.umc8th.global.entity.BaseEntity;
 import jakarta.persistence.*;
 import lombok.*;
-import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@EntityListeners(AuditingEntityListener.class)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 @Builder
@@ -33,4 +32,20 @@ public class Article extends BaseEntity {
 
     @Column(name = "like_num")
     private int likeNum;
+
+    @Column(name = "deleted_at")
+    private LocalDateTime deletedAt;
+
+    public void softDelete() {
+        this.deletedAt = LocalDateTime.now();
+    }
+
+    public void update(String title, String content) {
+        this.title = title;
+        this.content = content;
+    }
+
+    public void incrementLikeNum() {
+        this.likeNum += 1;  // likeNum을 1씩 증가
+    }
 }

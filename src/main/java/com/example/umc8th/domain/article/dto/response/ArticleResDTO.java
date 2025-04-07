@@ -30,4 +30,25 @@ public class ArticleResDTO {
             List<ArticlePreviewDTO> articlePreviewDtoList
     ){
     }
+
+    @Builder
+    public record UpdateArticleResDTO(
+            Long id,
+            LocalDateTime updatedAt
+    ){
+    }
+
+    @Builder
+    public record DeleteArticleResDTO(
+            Long id,
+            LocalDateTime deletedAt
+    ){
+    }
+
+    @Builder
+    public record ArticleLikeResDTO(
+            Long id,
+            int likeNum
+    ){
+    }
 }
