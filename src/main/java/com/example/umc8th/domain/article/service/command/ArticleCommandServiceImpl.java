@@ -5,6 +5,8 @@ import com.example.umc8th.domain.article.dto.request.ArticleReqDTO;
 import com.example.umc8th.domain.article.dto.response.ArticleResDTO;
 import com.example.umc8th.domain.article.entity.Article;
 import com.example.umc8th.domain.article.repository.ArticleRepository;
+import com.example.umc8th.global.apiPayload.error.ArticleErrorCode;
+import com.example.umc8th.global.apiPayload.error.exception.GeneralException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -25,5 +27,39 @@ public class ArticleCommandServiceImpl implements ArticleCommandService{
         article = articleRepository.save(article);
 
         return ArticleConverter.toCreateArticleDTO(article);
+    }
+
+    @Override
+    public ArticleResDTO.UpdateArticleDTO updatePatchArticle(ArticleReqDTO.UpdateArticleDTO dto, Long articleId) {
+        Article article = articleRepository.findById(articleId)
+                .orElseThrow(() -> new GeneralException(ArticleErrorCode.ARTICLE_NOT_FOUND));
+
+        if (dto.title() != null) {
+            article.updateTitle(dto.title());
+        }
+        if (dto.content() != null) {
+            article.updateContent(dto.content());
+        }
+
+        return ArticleConverter.toUpdateArticleDTO(article);
+    }
+
+    @Override
+    public ArticleResDTO.UpdateArticleDTO updatePutArticle(ArticleReqDTO.UpdateArticleDTO dto, Long articleId) {
+        Article article = articleRepository.findById(articleId)
+                .orElseThrow(() -> new GeneralException(ArticleErrorCode.ARTICLE_NOT_FOUND));
+
+        article.updateTitle(dto.title());
+        article.updateContent(dto.content());
+
+        return ArticleConverter.toUpdateArticleDTO(article);
+    }
+
+    // Hard Delete
+    @Override
+    public ArticleResDTO.DeleteArticleDTO deleteArticle(Long articleId) {
+        articleRepository.deleteById(articleId);
+
+        return ArticleConverter.toDeleteArticleDTO(articleId);
     }
 }

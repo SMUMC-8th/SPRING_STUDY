@@ -1,5 +1,6 @@
 package com.example.umc8th.domain.article.entity;
 
+import com.example.umc8th.domain.article.dto.response.ArticleResDTO;
 import com.example.umc8th.global.entity.BaseTimeEntity;
 import com.example.umc8th.domain.reply.entity.Reply;
 import jakarta.persistence.*;
@@ -31,4 +32,11 @@ public class Article extends BaseTimeEntity {
 
     @OneToMany(mappedBy = "article")
     private List<Reply> replies = new ArrayList<Reply>();
+
+    public void updateTitle(String title) {
+        this.title = title;
+    }
+    public void updateContent(String content) {
+        this.content = content;
+    }
 }

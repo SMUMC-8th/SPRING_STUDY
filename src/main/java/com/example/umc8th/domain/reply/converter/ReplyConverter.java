@@ -14,7 +14,7 @@ public class ReplyConverter {
     // ReplyReqDTO.CreateReply -> Reply Entity
     public static Reply toReply(ReplyReqDTO.CreateReplyDTO replyDTO, Article article) {
         return Reply.builder()
-                .content(replyDTO.getContent())
+                .content(replyDTO.content())
                 .article(article)
                 .build();
     }
@@ -47,4 +47,20 @@ public class ReplyConverter {
                 .replies(repliesDTO)
                 .build();
     }
+
+    // Reply Entity -> Res.UpdateReplyDTO
+    public static ReplyResDTO.UpdateReplyDTO toUpdateReplyDTO(Reply reply) {
+        return ReplyResDTO.UpdateReplyDTO.builder()
+                .id(reply.getId())
+                .updatedAt(reply.getUpdatedAt())
+                .build();
+    }
+
+    // Reply Entity(replyId) -> Res.DeleteReplyDTO
+    public static ReplyResDTO.DeleteReplyDTO toDeleteReplyDTO(Long replyId) {
+        return ReplyResDTO.DeleteReplyDTO.builder()
+                .id(replyId)
+                .build();
+    }
+
 }

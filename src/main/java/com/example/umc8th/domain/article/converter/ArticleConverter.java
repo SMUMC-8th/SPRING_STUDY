@@ -12,8 +12,8 @@ public class ArticleConverter {
     // CreateArticleDTO -> Article Entity
     public static Article from(ArticleReqDTO.CreateArticleDTO requestDTO) {
         return Article.builder()
-                .title(requestDTO.getTitle())
-                .content(requestDTO.getContent())
+                .title(requestDTO.title())
+                .content(requestDTO.content())
                 .likeNum(0)
                 .build();
     }
@@ -45,6 +45,21 @@ public class ArticleConverter {
 
         return ArticleResDTO.ArticlePreviewListDTO.builder()
                 .articlePreviewListDTO(previewDTOList)
+                .build();
+    }
+
+    // Article Entity -> UpdateArticleDTO
+    public static ArticleResDTO.UpdateArticleDTO toUpdateArticleDTO(Article article) {
+        return ArticleResDTO.UpdateArticleDTO.builder()
+                .id(article.getId())
+                .updatedAt(article.getUpdatedAt())
+                .build();
+    }
+
+    // Article Entity(articleId) -> DeleteArticleDTO
+    public static ArticleResDTO.DeleteArticleDTO toDeleteArticleDTO(Long articleId) {
+        return ArticleResDTO.DeleteArticleDTO.builder()
+                .id(articleId)
                 .build();
     }
 }
