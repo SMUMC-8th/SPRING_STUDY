@@ -35,6 +35,15 @@ public class ReplyController {
         return CustomResponse.onSuccess(replies);
     }
 
+    @GetMapping("/article/{articleId}/page")
+    public CustomResponse<ReplyResDTO.ReplyPreviewListDTO> getRepliesByArticlePaginated(
+            @PathVariable Long articleId,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size) {
+        ReplyResDTO.ReplyPreviewListDTO replies = replyQueryService.getRepliesByArticlePaginated(articleId, page, size);
+        return CustomResponse.onSuccess(replies);
+    }
+
     @PutMapping("/{replyId}")
     @Operation(summary = "댓글 수정", description = "특정 댓글(replyId)을 수정합니다.")
     public CustomResponse<ReplyResDTO.UpdateReplyResDTO> updateReply(@PathVariable Long replyId,
