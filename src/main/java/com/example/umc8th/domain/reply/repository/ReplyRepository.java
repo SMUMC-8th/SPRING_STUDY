@@ -9,4 +9,7 @@ import java.util.List;
 public interface ReplyRepository extends JpaRepository<Reply, Long> {
 
     List<Reply> findByArticle(Article article);
+
+    // 특정 게시글에 댓글이 있는지 확인
+    boolean existsByArticleId(Long articleId);
 }
