@@ -43,5 +43,30 @@ public class ArticleController {
 
         return CustomResponse.onSuccess(GeneralSuccessCode.OK, resDTO);
     }
+
+    @PatchMapping("/articles/{articleId}")
+    public CustomResponse<ArticleResDTO.UpdateArticleDTO> updatePatchArticle(
+            @PathVariable("articleId") Long articleId,
+            @RequestBody ArticleReqDTO.UpdateArticleDTO reqDTO) {
+        ArticleResDTO.UpdateArticleDTO resDTO = articleCommandService.updatePatchArticle(reqDTO, articleId);
+
+        return CustomResponse.onSuccess(GeneralSuccessCode.OK, resDTO);
+    }
+
+    @PutMapping("/articles/{articleId}")
+    public CustomResponse<ArticleResDTO.UpdateArticleDTO> updatePutArticle(
+            @PathVariable("articleId") Long articleId,
+            @RequestBody ArticleReqDTO.UpdateArticleDTO reqDTO) {
+        ArticleResDTO.UpdateArticleDTO resDTO = articleCommandService.updatePutArticle(reqDTO, articleId);
+
+        return CustomResponse.onSuccess(GeneralSuccessCode.OK, resDTO);
+    }
+
+    @DeleteMapping("/articles/{articleId}")
+    public CustomResponse<ArticleResDTO.DeleteArticleDTO> deleteArticle(@PathVariable("articleId") Long articleId) {
+        ArticleResDTO.DeleteArticleDTO resDTO = articleCommandService.deleteArticle(articleId);
+
+        return CustomResponse.onSuccess(GeneralSuccessCode.OK, resDTO);
+    }
 }
 

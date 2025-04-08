@@ -1,5 +1,7 @@
 package com.example.umc8th.domain.reply.controller;
 
+import com.example.umc8th.domain.article.dto.request.ArticleReqDTO;
+import com.example.umc8th.domain.article.dto.response.ArticleResDTO;
 import com.example.umc8th.domain.reply.dto.response.ReplyResDTO;
 import com.example.umc8th.global.apiPayload.CustomResponse;
 import com.example.umc8th.domain.reply.dto.reqeust.ReplyReqDTO;
@@ -39,6 +41,22 @@ public class ReplyController {
     @GetMapping("/articles/{articleId}/replies")
     public CustomResponse<ReplyResDTO.PreviewListReplyDTO> getReplies(@PathVariable("articleId") Long articleId){
         ReplyResDTO.PreviewListReplyDTO resDTO = replyQueryService.getRepliesByArticleId(articleId);
+
+        return CustomResponse.onSuccess(GeneralSuccessCode.OK, resDTO);
+    }
+
+    @PutMapping("/articles/{articleId}/replies/{replyId}")
+    public CustomResponse<ReplyResDTO.UpdateReplyDTO> updateReply(
+            @PathVariable("replyId") Long replyId,
+            @RequestBody ReplyReqDTO.UpdateReplyDTO reqDTO) {
+        ReplyResDTO.UpdateReplyDTO resDTO = replyCommandService.updateReply(reqDTO, replyId);
+
+        return CustomResponse.onSuccess(GeneralSuccessCode.OK, resDTO);
+    }
+
+    @DeleteMapping("/articles/{articleId}/replies/{replyId}")
+    public CustomResponse<ReplyResDTO.DeleteReplyDTO> deleteReply(@PathVariable("replyId") Long replyId) {
+        ReplyResDTO.DeleteReplyDTO resDTO = replyCommandService.deleteReply(replyId);
 
         return CustomResponse.onSuccess(GeneralSuccessCode.OK, resDTO);
     }
