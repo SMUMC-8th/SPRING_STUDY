@@ -1,6 +1,9 @@
 package com.example.umc8th.code.article.entity;
 
+import com.example.umc8th.code.article.dto.ArticleRequestDTO;
+import com.example.umc8th.code.article.enums.Active;
 import jakarta.persistence.*;
+import jakarta.transaction.Transactional;
 import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
@@ -35,6 +38,10 @@ public class Article {
     @Column(name = "like_num")
     private int likeNum;
 
+    @Enumerated(EnumType.STRING)
+    @Column(name = "active")
+    private Active active;
+
     @CreatedDate
     @Column(name = "create_at")
     private LocalDateTime createAt;
@@ -47,4 +54,16 @@ public class Article {
     //엔티티 많아지면 extends하기 - @MappedSuperClass
     @OneToMany(mappedBy = "article", cascade = CascadeType.ALL)
     private List<Reply> replies = new ArrayList<>();
+
+    //수정
+    public void update(ArticleRequestDTO.CreateArticleDTO dto) {
+        this.content = dto.getContent();
+        this.title = dto.getTitle();
+    }
+
+    //삭제
+    public void softDelete(){
+        this.active = Active.INACTIVE;
+    }
+
 }

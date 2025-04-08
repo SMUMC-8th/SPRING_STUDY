@@ -1,6 +1,10 @@
 package com.example.umc8th.code.article.service.command;
 
 import com.example.umc8th.code.article.converter.ArticleConverter;
+import com.example.umc8th.code.article.enums.Active;
+import com.example.umc8th.code.exception.BaseErrorCode;
+import com.example.umc8th.code.exception.GeneralErrorCode;
+import com.example.umc8th.code.exception.GeneralException;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -18,5 +22,26 @@ public class ArticleCommandServiceImpl implements ArticleCommandService {
     @Override
     public Article createArticle(ArticleRequestDTO.CreateArticleDTO dto) {
         return articleRepository.save(ArticleConverter.toEntity(dto));
+    }
+
+    @Override
+    public Article saveAndUpdate(Long id, ArticleRequestDTO.CreateArticleDTO dto) {
+
+        Article article = articleRepository.findById(id).orElseThrow(()->new GeneralException(GeneralErrorCode.NOT_FOUND_404));
+        article.update(dto); //영속 상태의 엔티티 제목과 내용 변경
+        return article;
+    }
+
+    @Override
+    public Article findActiveArticle(Long id) {
+        return articleRepository.findByIdAndActive(id, Active.ACTIVE)
+                .orElseThrow(() -> new GeneralException(GeneralErrorCode.NOT_FOUND_404));
+    }
+
+    @Override
+    public void deleteArticle(Long id) {
+        Article article = articleRepository.findByIdAndActive(id, Active.ACTIVE)
+                .orElseThrow(() -> new GeneralException(GeneralErrorCode.NOT_FOUND_404));
+        article.softDelete();
     }
 }

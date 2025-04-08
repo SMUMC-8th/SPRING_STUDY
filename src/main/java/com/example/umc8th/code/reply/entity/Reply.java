@@ -1,5 +1,7 @@
 package com.example.umc8th.code.reply.entity;
 
+import com.example.umc8th.code.article.dto.ArticleRequestDTO;
+import com.example.umc8th.code.article.enums.Active;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
@@ -26,6 +28,10 @@ public class Reply {
     @Column(name = "content")
     private String content;
 
+    @Enumerated(EnumType.STRING)
+    @Column(name = "active")
+    private Active active;
+
     // 해당 Column에 생성시간 자동 mapping
     @CreatedDate
     @Column(name = "created_at")
@@ -41,4 +47,14 @@ public class Reply {
     // 해당 article을 article_id라는 이름으로 Column 추가 (실제 객체가 아닌 Long id를 저장하기에 이름을 article_id로 지정)
     @JoinColumn(name = "article_id")
     private Article article;
+
+    //수정
+    public void update(String content) {
+        this.content = content;
+    }
+
+    //삭제
+    public void softDelete(){
+        this.active = Active.INACTIVE;
+    }
 }
