@@ -9,6 +9,9 @@ import com.example.umc8th.domain.reply.dto.response.ReplyResDTO;
 import com.example.umc8th.domain.reply.entity.Reply;
 import com.example.umc8th.domain.reply.repository.ReplyRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -33,5 +36,18 @@ public class ReplyQueryServiceImpl implements ReplyQueryService {
 
         // Converter를 통해 리스트 전체를 DTO로 변환 후 반환
         return ReplyConverter.toReplyPreviewListDTO(replies);
+    }
+
+    @Override
+    public ReplyResDTO.ReplyPreviewListDTO getRepliesByArticlePaginated(Long articleId, int page, int size) {
+        // 게시글 확인
+        Article article = articleRepository.findById(articleId)
+                .orElseThrow(() -> new ArticleException(ArticleErrorCode.ARTICLE_NOT_FOUND));
+
+        // 페이지네이션 조회
+        Pageable pageable = PageRequest.of(page, size);
+        Page<Reply> replyPage = replyRepository.findAllByArticleOrderByCreatedAtDesc(article, pageable);
+
+        return ReplyConverter.toReplyPreviewListDTOWithPagination(replyPage);
     }
 }

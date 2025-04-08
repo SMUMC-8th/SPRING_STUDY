@@ -6,6 +6,7 @@ import com.example.umc8th.domain.reply.dto.response.ReplyResDTO;
 import com.example.umc8th.domain.reply.entity.Reply;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
+import org.springframework.data.domain.Page;
 
 import java.util.List;
 
@@ -62,6 +63,18 @@ public class ReplyConverter {
                 .replies(replies.stream()
                         .map(ReplyConverter::toReplyPreviewDTO)
                         .toList())
+                .build();
+    }
+
+    // Page<Reply> -> ReplyPreviewListDTO
+    public static ReplyResDTO.ReplyPreviewListDTO toReplyPreviewListDTOWithPagination(Page<Reply> replyPage) {
+        return ReplyResDTO.ReplyPreviewListDTO.builder()
+                .replies(replyPage.getContent().stream()
+                        .map(ReplyConverter::toReplyPreviewDTO)
+                        .toList())
+                .pageNo(replyPage.getNumber())
+                .size(replyPage.getSize())
+                .totalPages(replyPage.getTotalPages())
                 .build();
     }
 }
