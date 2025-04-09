@@ -20,8 +20,7 @@ public class ArticleQueryServiceImpl implements ArticleQueryService {
 
     @Override
     public ArticleResponseDTO.ArticleDTO getArticle(Long articleId) {
-        Article artic = articleRepository.findById(articleId).orElseThrow(() ->
-                new ArticleException(ArticleErrorCode.NOT_FOUND_404));
+        Article artic = isArticleExist(articleId);
         return ArticleConverter.toArticleDTO(artic);
     }
 
@@ -29,5 +28,11 @@ public class ArticleQueryServiceImpl implements ArticleQueryService {
     public ArticleResponseDTO.ArticleListDTO getArticles() {
         List<Article> articles = articleRepository.findAll();
         return ArticleConverter.toArticleListDTO(articles);
+    }
+
+    @Override
+    public Article isArticleExist(Long articleId) {
+        return articleRepository.findById(articleId).orElseThrow(() ->
+                new ArticleException(ArticleErrorCode.NOT_FOUND_404));
     }
 }

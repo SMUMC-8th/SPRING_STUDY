@@ -7,6 +7,7 @@ import com.example.umc8th.domain.article.entity.Article;
 import com.example.umc8th.domain.article.exception.ArticleException;
 import com.example.umc8th.domain.article.exception.code.ArticleErrorCode;
 import com.example.umc8th.domain.article.repository.ArticleRepository;
+import com.example.umc8th.domain.article.service.query.ArticleQueryService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -16,6 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 public class ArticleCommandServiceImpl implements ArticleCommandService {
     private final ArticleRepository articleRepository;
+    private final ArticleQueryService articleQueryService;
 
     @Override
     public ArticleResponseDTO.ArticleDTO createArticle(ArticleRequestDTO.CreateArticleDTO dto) {
@@ -25,8 +27,7 @@ public class ArticleCommandServiceImpl implements ArticleCommandService {
 
     @Override
     public ArticleResponseDTO.ArticleDTO updateArticle(ArticleRequestDTO.UpdateArticleDTO dto, Long articleId) {
-        Article article = articleRepository.findById(articleId).orElseThrow(() ->
-                new ArticleException(ArticleErrorCode.NOT_FOUND_404));
+        Article article = articleQueryService.isArticleExist(articleId);
         if (!dto.title().isEmpty()) {  // 제목 수정
             article.updateTitle(dto.title());
         }
@@ -38,11 +39,8 @@ public class ArticleCommandServiceImpl implements ArticleCommandService {
 
     @Override
     public ArticleResponseDTO.DeleteArticleDTO deleteArticle(Long articleId) {
-        Article article = articleRepository.findById(articleId).orElseThrow(() ->
-                new ArticleException(ArticleErrorCode.NOT_FOUND_404));
+        Article article = articleQueryService.isArticleExist(articleId);
         articleRepository.delete(article);
         return ArticleConverter.toDeleteArticleDTO(articleId);
     }
-
-
 }
