@@ -8,4 +8,5 @@ public class ReplyRequestDTO {
     public record CreateReplyDTO(String content) {}
 
     public record UpdateReplyDTO(String content) {}
+
 }

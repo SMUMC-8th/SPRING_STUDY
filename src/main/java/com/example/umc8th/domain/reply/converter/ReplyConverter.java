@@ -4,6 +4,7 @@ import com.example.umc8th.domain.article.entity.Article;
 import com.example.umc8th.domain.reply.dto.ReplyRequestDTO;
 import com.example.umc8th.domain.reply.dto.ReplyResponseDTO;
 import com.example.umc8th.domain.reply.entity.Reply;
+import org.springframework.data.domain.Page;
 
 import java.util.List;
 
@@ -41,6 +42,16 @@ public class ReplyConverter {
     public static ReplyResponseDTO.DeleteReplyDTO toDeleteReplyDTO(Long replyId) {
         return ReplyResponseDTO.DeleteReplyDTO.builder()
                 .replyId(replyId)
+                .build();
+    }
+
+    // ReplyListDTO + PageInfo -> PageReplyDTO
+    public static ReplyResponseDTO.PageReplyDTO toPageReplyDTO(List<Reply> replyList, int page, int totalPage) {
+        ReplyResponseDTO.ReplyListDTO replyPage = toReplyListDTO(replyList);
+        return ReplyResponseDTO.PageReplyDTO.builder()
+                .result(replyPage)
+                .totalPage(totalPage)
+                .page(page)
                 .build();
     }
 }

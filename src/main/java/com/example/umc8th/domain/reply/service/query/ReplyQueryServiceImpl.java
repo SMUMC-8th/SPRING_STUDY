@@ -9,6 +9,9 @@ import com.example.umc8th.domain.reply.exception.ReplyErrorCode;
 import com.example.umc8th.domain.reply.exception.ReplyException;
 import com.example.umc8th.domain.reply.repository.ReplyRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -22,18 +25,21 @@ public class ReplyQueryServiceImpl implements ReplyQueryService {
     private final ReplyRepository replyRepository;
 
     @Override
-    public ReplyResponseDTO.ReplyListDTO getReplyList(Long articleId) {
-        Article article = articleQueryService.isArticleExist(articleId);
-        List<Reply> replies = replyRepository.findAllByArticle(article);
-        return ReplyConverter.toReplyListDTO(replies);
-    }
-
-    @Override
     public Reply isReplyExistInArticle(Long articleId, Long replyId) {
         Article article = articleQueryService.isArticleExist(articleId);
         Reply reply = replyRepository.findReplyByArticleAndId(article, replyId).orElseThrow(() ->
                 new ReplyException(ReplyErrorCode.NOT_FOUND_404));
         reply.updateArticle(article);
         return reply;
+    }
+
+    @Override
+    public ReplyResponseDTO.PageReplyDTO getReplyList(Long articleId, int page, int size) {
+        Pageable pageable = PageRequest.of(page, size);
+        Page<Reply> replyPage = replyRepository.findAllByArticleIdOrderByCreatedAtDesc(articleId, pageable);
+        return ReplyConverter.toPageReplyDTO(
+                replyPage.getContent(),
+                replyPage.getNumber()+1,
+                replyPage.getTotalPages());
     }
 }
