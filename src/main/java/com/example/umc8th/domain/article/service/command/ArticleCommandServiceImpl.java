@@ -27,11 +27,11 @@ public class ArticleCommandServiceImpl implements ArticleCommandService {
     public ArticleResponseDTO.ArticleDTO updateArticle(ArticleRequestDTO.UpdateArticleDTO dto, Long articleId) {
         Article article = articleRepository.findById(articleId).orElseThrow(() ->
                 new ArticleException(ArticleErrorCode.NOT_FOUND_404));
-        if (!dto.getTitle().isEmpty()) {  // 제목 수정
-            article.updateTitle(dto.getTitle());
+        if (!dto.title().isEmpty()) {  // 제목 수정
+            article.updateTitle(dto.title());
         }
-        if (!dto.getContent().isEmpty()) {    // 내용 수정
-            article.updateContent(dto.getContent());
+        if (!dto.content().isEmpty()) {    // 내용 수정
+            article.updateContent(dto.content());
         }
         return ArticleConverter.toArticleDTO(article);
     }

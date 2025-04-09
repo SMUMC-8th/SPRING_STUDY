@@ -11,8 +11,8 @@ public class ArticleConverter {
     // CreateArticleDTO -> Article
     public static Article toArticle(ArticleRequestDTO.CreateArticleDTO dto) {
         return Article.builder()
-                .title(dto.getTitle())
-                .content(dto.getContent())
+                .title(dto.title())
+                .content(dto.content())
                 .build();
     }
 

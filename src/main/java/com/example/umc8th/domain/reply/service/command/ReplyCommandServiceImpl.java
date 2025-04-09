@@ -39,7 +39,7 @@ public class ReplyCommandServiceImpl implements ReplyCommandService {
         if (!reply.getArticle().getId().equals(article.getId())) {
             throw new ReplyException(ReplyErrorCode.FORBIDDEN_403);
         }
-        reply.updateContent(dto.getContent());
+        reply.updateContent(dto.content());
         return ReplyConverter.toReplyDTO(reply);
     }
 

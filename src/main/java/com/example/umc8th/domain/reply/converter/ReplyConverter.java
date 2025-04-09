@@ -12,7 +12,7 @@ public class ReplyConverter {
     // CreateReplyDTO -> Reply
     public static Reply toReply(ReplyRequestDTO.CreateReplyDTO dto, Article article) {
         return Reply.builder()
-                .content(dto.getContent())
+                .content(dto.content())
                 .article(article)
                 .build();
     }

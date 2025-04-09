@@ -5,31 +5,25 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.Getter;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
 
 public class ArticleResponseDTO {
 
-    @Getter
     @Builder
-    public static class ArticleDTO {
-        private Long articleId;
-        private String content;
-        private String title;
-        private LocalDateTime createdAt;
-        private LocalDateTime updatedAt;
-    }
+    public record ArticleDTO(
+            Long articleId,
+            String title,
+            String content,
+            LocalDateTime createdAt,
+            LocalDateTime updatedAt
+    ) {}
 
-    @Getter
     @Builder
-    public static class ArticleListDTO {
-        private List<ArticleDTO> articles;
-    }
+    public record ArticleListDTO(List<ArticleDTO> articles) {}
 
-    @Getter
     @Builder
-    public static class DeleteArticleDTO{
-        private Long articleId;
-    }
+    public record DeleteArticleDTO(Long articleId) {}
 }
