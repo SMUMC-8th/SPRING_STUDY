@@ -8,4 +8,6 @@ import java.util.List;
 
 public interface ReplyRepository extends JpaRepository<Reply, Long> {
     List<Reply> findAllByArticleIs(Article article);
+
+    List<Reply> findAllByArticleIsAndDeletedAtIsNull(Article article);
 }
