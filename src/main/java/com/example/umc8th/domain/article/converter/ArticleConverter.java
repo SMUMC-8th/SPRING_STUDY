@@ -4,7 +4,6 @@ import com.example.umc8th.domain.article.dto.ArticleRequestDTO;
 import com.example.umc8th.domain.article.dto.ArticleResponseDTO;
 import com.example.umc8th.domain.article.entity.Article;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
 public class ArticleConverter {
@@ -53,7 +52,7 @@ public class ArticleConverter {
             int size
     ) {
         return ArticleResponseDTO.PageArticleDTO.builder()
-                .result(ArticleConverter.toArticleListDTO(articles))
+                .result(toArticleListDTO(articles))
                 .cursor(cursor)
                 .hasNext(hasNext)
                 .size(size)

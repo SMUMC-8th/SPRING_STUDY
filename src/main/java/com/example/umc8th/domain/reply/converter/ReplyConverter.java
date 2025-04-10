@@ -4,7 +4,6 @@ import com.example.umc8th.domain.article.entity.Article;
 import com.example.umc8th.domain.reply.dto.ReplyRequestDTO;
 import com.example.umc8th.domain.reply.dto.ReplyResponseDTO;
 import com.example.umc8th.domain.reply.entity.Reply;
-import org.springframework.data.domain.Page;
 
 import java.util.List;
 

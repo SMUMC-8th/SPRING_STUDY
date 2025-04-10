@@ -1,9 +1,6 @@
 package com.example.umc8th.domain.reply.dto;
 
-import com.example.umc8th.domain.reply.entity.Reply;
 import lombok.Builder;
-import lombok.Getter;
-import org.springframework.data.domain.Page;
 
 import java.time.LocalDateTime;
 import java.util.List;

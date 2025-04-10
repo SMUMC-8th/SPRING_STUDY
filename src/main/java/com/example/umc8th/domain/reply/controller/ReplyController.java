@@ -2,14 +2,12 @@ package com.example.umc8th.domain.reply.controller;
 
 import com.example.umc8th.domain.reply.dto.ReplyRequestDTO;
 import com.example.umc8th.domain.reply.dto.ReplyResponseDTO;
-import com.example.umc8th.domain.reply.entity.Reply;
 import com.example.umc8th.domain.reply.service.command.ReplyCommandService;
 import com.example.umc8th.domain.reply.service.query.ReplyQueryService;
 import com.example.umc8th.global.apiPayload.GlobalResponse;
 import com.example.umc8th.global.apiPayload.code.GeneralSuccessCode;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
 
 @RequiredArgsConstructor
