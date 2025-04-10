@@ -11,14 +11,11 @@ import java.time.LocalDateTime;
 
 public interface ArticleRepository extends JpaRepository<Article, Long> {
 
-    @Query("select a from Article a " +
-            "where (a.likeNum < :like) or (a.likeNum = :like and a.id < :id)" +
-            "order by a.likeNum desc, a.id desc")
-    Slice<Article> findAllNextPageOfLike (
-            @Param(value = "like") int like,
-            @Param(value = "id") Long id,
-            Pageable pageable
-    );
+    @Query(value = "SELECT * FROM article " +
+            "WHERE CONCAT(LPAD(like_num, 5, '0'), LPAD(id, 10, '0')) < :cursor " +
+            "ORDER BY like_num DESC, id DESC",
+            nativeQuery = true)
+    Slice<Article> findAllNextPageOfLike (@Param(value = "cursor") String cursor, Pageable pageable);
 
     @Query("select a from Article a " +
             "where (a.id < :id) " +
@@ -35,5 +32,5 @@ public interface ArticleRepository extends JpaRepository<Article, Long> {
 
     Slice<Article> findAllByOrderByIdDesc(Pageable pageable);
 
-    Slice<Article> findAllByOrderByLikeNumDesc(Pageable pageable);
+    Slice<Article> findAllByOrderByLikeNumDescIdDesc(Pageable pageable);
 }

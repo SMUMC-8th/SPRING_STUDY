@@ -36,19 +36,11 @@ public class ArticleController {
     @GetMapping("/articles")
     public GlobalResponse<ArticleResponseDTO.PageArticleDTO> getArticles(
             @RequestParam String sort,
-            @RequestParam int pageSize,
-            @RequestParam Long id,
-            @RequestParam int likeNum,
-            @RequestParam LocalDateTime createdAt
-            ) {
-        ArticleResponseDTO.PageArticleDTO articles = articleQueryService.getPageArticles(
-                pageSize,
-                sort,
-                id,
-                createdAt,
-                likeNum
-        );
-        return GlobalResponse.ok(articles);
+            @RequestParam int offset,
+            @RequestParam String cursor
+    ) {
+        ArticleResponseDTO.PageArticleDTO article = articleQueryService.getPageArticles(offset, sort, cursor);
+        return GlobalResponse.ok(article);
     }
 
     @PutMapping("/articles/{articleId}")

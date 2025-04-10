@@ -33,11 +33,8 @@ public class ArticleResponseDTO {
     @Builder
     public record PageArticleDTO(
             ArticleListDTO result,
-            ResCursor cursor,
+            String cursor,
             boolean hasNext,
             int size
     ) {}
-
-    @Builder
-    public record ResCursor(int likeNum, LocalDateTime createdAt, Long id) {}
 }

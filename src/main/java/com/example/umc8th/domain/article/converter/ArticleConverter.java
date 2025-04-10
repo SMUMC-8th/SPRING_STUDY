@@ -45,25 +45,16 @@ public class ArticleConverter {
                 .build();
     }
 
-    // PageInfo -> ResCursor
-    public static ArticleResponseDTO.ResCursor toResCursor(Long id, int likeNum, LocalDateTime createdAt) {
-        return ArticleResponseDTO.ResCursor.builder()
-                .id(id)
-                .createdAt(createdAt)
-                .likeNum(likeNum)
-                .build();
-    }
-
     // List<Article> + PageInfo + Cursor -> PageArticleDTO
     public static ArticleResponseDTO.PageArticleDTO toPageArticleDTO(
             List<Article> articles,
-            ArticleResponseDTO.ResCursor resCursor,
+            String cursor,
             boolean hasNext,
             int size
     ) {
         return ArticleResponseDTO.PageArticleDTO.builder()
                 .result(ArticleConverter.toArticleListDTO(articles))
-                .cursor(resCursor)
+                .cursor(cursor)
                 .hasNext(hasNext)
                 .size(size)
                 .build();

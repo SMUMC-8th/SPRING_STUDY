@@ -34,39 +34,42 @@ public class ArticleQueryServiceImpl implements ArticleQueryService {
     }
 
     @Override
-    public ArticleResponseDTO.PageArticleDTO getPageArticles(
-            int size,
-            String sort,
-            Long id,
-            LocalDateTime createdAt,
-            int likeNum
-    ) {
+    public ArticleResponseDTO.PageArticleDTO getPageArticles(int size, String sort, String rqCursor) {
         // 초기 설정
         Pageable pageable = PageRequest.of(0, size);
         Slice<Article> pageArticle = articleRepository.findAllByOrderByIdDesc(pageable);
         if (sort.equals("likeNum")) {
-            pageArticle = articleRepository.findAllByOrderByLikeNumDesc(pageable);
+            pageArticle = articleRepository.findAllByOrderByLikeNumDescIdDesc(pageable);
         }
         // 정렬 기준으로 다시 페이지 로딩
-        if (sort.equals("id") && id != -1) {
-            pageArticle = articleRepository.findAllNextPageOfId(id, pageable);
-        }
-        if (sort.equals("createdAt") && createdAt != null) {
-            pageArticle = articleRepository.findAllNextPageOfCreatedAt(createdAt, pageable);
-        }
-        if (sort.equals("likeNum") && likeNum != -1) {
-            pageArticle = articleRepository.findAllNextPageOfLike(likeNum, id, pageable);
+        if (!rqCursor.equals("-1")) {
+            if (sort.equals("id")) {
+                Long cursor = Long.parseLong(rqCursor);
+                pageArticle = articleRepository.findAllNextPageOfId(cursor, pageable);
+            }
+            if (sort.equals("createdAt")) {
+                LocalDateTime cursor = LocalDateTime.parse(rqCursor);
+                pageArticle = articleRepository.findAllNextPageOfCreatedAt(cursor, pageable);
+            }
+            if (sort.equals("likeNum")) {
+                pageArticle = articleRepository.findAllNextPageOfLike(rqCursor, pageable);
+            }
         }
         // 커서값을 마지막 페이지로
         Article last = pageArticle.getContent().get(pageArticle.getNumberOfElements()-1);
-        ArticleResponseDTO.ResCursor resCursor = ArticleConverter.toResCursor(
-                last.getId(),
-                last.getLikeNum(),
-                last.getCreatedAt()
-        );
+        String cursor = "";
+        if (sort.equals("id")){
+            cursor = String.valueOf(last.getId());
+        }
+        if (sort.equals("createdAt")) {
+            cursor = String.valueOf(last.getCreatedAt());
+        }
+        if (sort.equals("likeNum")) {
+            cursor = String.format("%05d%010d", last.getLikeNum(), last.getId());
+        }
         return ArticleConverter.toPageArticleDTO(
                 pageArticle.getContent(),
-                resCursor,
+                cursor,
                 pageArticle.hasNext(),
                 pageArticle.getSize()
         );
