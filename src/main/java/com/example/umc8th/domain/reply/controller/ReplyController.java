@@ -10,6 +10,7 @@ import com.example.umc8th.global.apiPayload.CustomResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -32,8 +33,10 @@ public class ReplyController {
 
     @GetMapping("/articles/{articleId}")
     @Operation(summary = "댓글 전체 조회 API", description = "댓글 전체 조회하는 API")
-    public CustomResponse<ReplyResponseDTO.ReplyPreviewListDTO> getReplies(@PathVariable Long articleId) {
-        List<Reply> replies = replyQueryService.getReplies(articleId);
+    public CustomResponse<ReplyResponseDTO.ReplyPreviewListDTO> getReplies(@PathVariable Long articleId,
+                                                                           @RequestParam("page") Integer page,
+                                                                           @RequestParam(value = "offset", defaultValue = "10") Integer offset) {
+        Page<Reply> replies = replyQueryService.getReplies(articleId, page, offset);
         return CustomResponse.ok(ReplyConverter.toReplyPreviewListDTO(replies));
     }
 

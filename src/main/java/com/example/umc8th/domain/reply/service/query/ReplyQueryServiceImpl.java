@@ -9,6 +9,9 @@ import com.example.umc8th.domain.reply.exception.ReplyErrorCode;
 import com.example.umc8th.domain.reply.exception.ReplyException;
 import com.example.umc8th.domain.reply.repository.ReplyRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -29,9 +32,10 @@ public class ReplyQueryServiceImpl implements ReplyQueryService{
     }
 
     @Override
-    public List<Reply> getReplies(Long articleId) {
+    public Page<Reply> getReplies(Long articleId, Integer page, Integer offset) {
         Article article = articleRepository.findById(articleId).orElseThrow(() ->
                 new ArticleException(ArticleErrorCode.NOT_FOUND));
-        return replyRepository.findAllByArticleIs(article);
+        Pageable pageable = PageRequest.of(page - 1, offset);
+        return replyRepository.findAllByArticleIsOrderByCreatedAtDesc(article, pageable);
     }
 }

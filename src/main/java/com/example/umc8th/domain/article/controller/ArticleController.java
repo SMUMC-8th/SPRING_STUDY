@@ -14,6 +14,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import org.springframework.data.domain.Slice;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -56,8 +57,10 @@ public class ArticleController {
             @Parameter(name = "cursor", description = "커서 값, 처음이면 0"),
             @Parameter(name = "query", description = "쿼리 LIKE, ID")
     })
-    public CustomResponse<ArticleResponseDTO.ArticlePreviewListDTO> getArticles() {
-        List<Article> articles = articleQueryService.getArticles();
+    public CustomResponse<ArticleResponseDTO.ArticlePreviewListDTO> getArticles(@RequestParam(value = "query", defaultValue = "LIKE")String query,
+                                                                                @RequestParam("cursor") Long cursor,
+                                                                                @RequestParam(value = "offset", defaultValue = "10") Integer offset) {
+        Slice<Article> articles = articleQueryService.getArticles(query, cursor, offset);
         return CustomResponse.ok(ArticleResponseDTO.ArticlePreviewListDTO.from(articles));
     }
 

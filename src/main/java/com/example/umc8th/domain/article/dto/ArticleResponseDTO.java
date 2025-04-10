@@ -56,9 +56,13 @@ public class ArticleResponseDTO {
     @Builder
     public static class ArticlePreviewListDTO {
         private List<ArticlePreviewDTO> articles;
-        public static ArticlePreviewListDTO from(List<Article> articles) {
+        private boolean hasNext;
+        private Long cursor;
+        public static ArticlePreviewListDTO from(Slice<Article> articles) {
             return ArticlePreviewListDTO.builder()
-                    .articles(articles.stream().map(ArticlePreviewDTO::from).toList())
+                    .articles(articles.getContent().isEmpty() ? new ArrayList<>(): articles.getContent().stream().map(ArticlePreviewDTO::from).toList())
+                    .hasNext(articles.hasNext())
+                    .cursor(articles.getContent().isEmpty() ? 0 : articles.getContent().get(articles.getContent().size() - 1).getId())
                     .build();
         }
     }

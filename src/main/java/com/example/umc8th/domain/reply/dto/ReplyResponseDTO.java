@@ -34,5 +34,9 @@ public class ReplyResponseDTO {
     @NoArgsConstructor(access = AccessLevel.PROTECTED)
     public static class ReplyPreviewListDTO {
         private List<ReplyPreviewDTO> replies;
+        private int size;
+        private int pageNo;
+        private int totalPage;
+
     }
 }
