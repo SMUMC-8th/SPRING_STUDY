@@ -4,8 +4,6 @@ import com.example.umc8th.domain.article.converter.ArticleConverter;
 import com.example.umc8th.domain.article.dto.ArticleRequestDTO;
 import com.example.umc8th.domain.article.dto.ArticleResponseDTO;
 import com.example.umc8th.domain.article.entity.Article;
-import com.example.umc8th.domain.article.exception.ArticleException;
-import com.example.umc8th.domain.article.exception.code.ArticleErrorCode;
 import com.example.umc8th.domain.article.repository.ArticleRepository;
 import com.example.umc8th.domain.article.service.query.ArticleQueryService;
 import lombok.RequiredArgsConstructor;

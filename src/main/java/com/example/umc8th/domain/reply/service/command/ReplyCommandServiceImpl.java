@@ -1,16 +1,11 @@
 package com.example.umc8th.domain.reply.service.command;
 
 import com.example.umc8th.domain.article.entity.Article;
-import com.example.umc8th.domain.article.exception.ArticleException;
-import com.example.umc8th.domain.article.exception.code.ArticleErrorCode;
-import com.example.umc8th.domain.article.repository.ArticleRepository;
 import com.example.umc8th.domain.article.service.query.ArticleQueryService;
 import com.example.umc8th.domain.reply.converter.ReplyConverter;
 import com.example.umc8th.domain.reply.dto.ReplyRequestDTO;
 import com.example.umc8th.domain.reply.dto.ReplyResponseDTO;
 import com.example.umc8th.domain.reply.entity.Reply;
-import com.example.umc8th.domain.reply.exception.ReplyErrorCode;
-import com.example.umc8th.domain.reply.exception.ReplyException;
 import com.example.umc8th.domain.reply.repository.ReplyRepository;
 import com.example.umc8th.domain.reply.service.query.ReplyQueryService;
 import lombok.RequiredArgsConstructor;

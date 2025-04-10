@@ -1,7 +1,5 @@
 package com.example.umc8th.domain.article.dto;
 
-import java.time.LocalDateTime;
-
 public class ArticleRequestDTO {
 
     public record CreateArticleDTO(String title, String content) {}
