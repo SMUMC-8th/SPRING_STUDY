@@ -35,7 +35,6 @@ public class ArticleQueryServiceImpl implements ArticleQueryService {
 
     @Override
     public ArticleResponseDTO.PageArticleDTO getPageArticles(int size, String sort, String rqCursor) {
-        // 초기 설정
         Pageable pageable = PageRequest.of(0, size);
         Slice<Article> pageArticle = articleRepository.findAllByOrderByIdDesc(pageable);
         if (sort.equals("likeNum")) {
@@ -55,6 +54,35 @@ public class ArticleQueryServiceImpl implements ArticleQueryService {
                 pageArticle = articleRepository.findAllNextPageOfLike(rqCursor, pageable);
             }
         }
+        return getPageArticleList(pageArticle, sort);
+    }
+
+    @Override
+    public ArticleResponseDTO.PageArticleDTO serchPageArticles(String query, int size, String sort, String rqCursor) {
+        Pageable pageable = PageRequest.of(0, size);
+        Slice<Article> pageArticle = articleRepository.findAllByTitleContainingOrderByIdDesc(query, pageable);
+        if (sort.equals("likeNum")) {
+            pageArticle = articleRepository.findAllByTitleContainingOrderByLikeNumDescIdDesc(query, pageable);
+        }
+        // 정렬 기준으로 다시 페이지 로딩
+        if (!rqCursor.equals("-1")) {
+            if (sort.equals("id")) {
+                Long cursor = Long.parseLong(rqCursor);
+                pageArticle = articleRepository.findAllNextPageOfIdByTitleContaining(cursor, query, pageable);
+            }
+            if (sort.equals("createdAt")) {
+                LocalDateTime cursor = LocalDateTime.parse(rqCursor);
+                pageArticle = articleRepository.findAllNextPageOfCreatedAtByTitleContaining(cursor, query, pageable);
+            }
+            if (sort.equals("likeNum")) {
+                pageArticle = articleRepository.findAllNextPageOfLikeByTitleContaining(rqCursor, query, pageable);
+            }
+        }
+        return getPageArticleList(pageArticle, sort);
+    }
+
+    private ArticleResponseDTO.PageArticleDTO getPageArticleList(Slice<Article> pageArticle, String sort) {
+
         // 커서값을 마지막 페이지로
         Article last = pageArticle.getContent().get(pageArticle.getNumberOfElements()-1);
         String cursor = "";

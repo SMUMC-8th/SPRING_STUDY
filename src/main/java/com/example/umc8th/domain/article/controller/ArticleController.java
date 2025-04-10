@@ -43,6 +43,17 @@ public class ArticleController {
         return GlobalResponse.ok(article);
     }
 
+    @GetMapping("/serch")
+    public GlobalResponse<ArticleResponseDTO.PageArticleDTO> getSerchArticles(
+            @RequestParam String query,
+            @RequestParam String sort,
+            @RequestParam int offset,
+            @RequestParam String cursor
+    ) {
+        ArticleResponseDTO.PageArticleDTO article = articleQueryService.serchPageArticles(query, offset, sort, cursor);
+        return GlobalResponse.ok(article);
+    }
+
     @PutMapping("/articles/{articleId}")
     public GlobalResponse<ArticleResponseDTO.ArticleDTO> updateArticle(
             @RequestBody ArticleRequestDTO.UpdateArticleDTO dto,

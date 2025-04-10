@@ -7,4 +7,5 @@ public interface ArticleQueryService {
    ArticleResponseDTO.ArticleDTO getArticle(Long articleId);
    Article isArticleExist(Long articleId);
    ArticleResponseDTO.PageArticleDTO getPageArticles(int size, String sort, String cursor);
+   ArticleResponseDTO.PageArticleDTO serchPageArticles(String query, int size, String sort, String cursor);
 }
