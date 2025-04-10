@@ -4,6 +4,7 @@ import com.example.umc8th.domain.article.dto.ArticleRequestDTO;
 import com.example.umc8th.domain.article.dto.ArticleResponseDTO;
 import com.example.umc8th.domain.article.entity.Article;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 public class ArticleConverter {
@@ -24,6 +25,7 @@ public class ArticleConverter {
                 .createdAt(article.getCreatedAt())
                 .updatedAt(article.getUpdatedAt())
                 .articleId(article.getId())
+                .likeNum(article.getLikeNum())
                 .build();
     }
 
@@ -40,6 +42,30 @@ public class ArticleConverter {
     public static ArticleResponseDTO.DeleteArticleDTO toDeleteArticleDTO(Long articleId) {
         return ArticleResponseDTO.DeleteArticleDTO.builder()
                 .articleId(articleId)
+                .build();
+    }
+
+    // PageInfo -> ResCursor
+    public static ArticleResponseDTO.ResCursor toResCursor(Long id, int likeNum, LocalDateTime createdAt) {
+        return ArticleResponseDTO.ResCursor.builder()
+                .id(id)
+                .createdAt(createdAt)
+                .likeNum(likeNum)
+                .build();
+    }
+
+    // List<Article> + PageInfo + Cursor -> PageArticleDTO
+    public static ArticleResponseDTO.PageArticleDTO toPageArticleDTO(
+            List<Article> articles,
+            ArticleResponseDTO.ResCursor resCursor,
+            boolean hasNext,
+            int size
+    ) {
+        return ArticleResponseDTO.PageArticleDTO.builder()
+                .result(ArticleConverter.toArticleListDTO(articles))
+                .cursor(resCursor)
+                .hasNext(hasNext)
+                .size(size)
                 .build();
     }
 }

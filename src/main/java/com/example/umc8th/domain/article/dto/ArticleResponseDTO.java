@@ -1,9 +1,11 @@
 package com.example.umc8th.domain.article.dto;
 
 
+import com.example.umc8th.domain.article.entity.Article;
 import lombok.Builder;
 import lombok.Data;
 import lombok.Getter;
+import org.springframework.data.domain.Slice;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -15,6 +17,7 @@ public class ArticleResponseDTO {
     @Builder
     public record ArticleDTO(
             Long articleId,
+            int likeNum,
             String title,
             String content,
             LocalDateTime createdAt,
@@ -26,4 +29,15 @@ public class ArticleResponseDTO {
 
     @Builder
     public record DeleteArticleDTO(Long articleId) {}
+
+    @Builder
+    public record PageArticleDTO(
+            ArticleListDTO result,
+            ResCursor cursor,
+            boolean hasNext,
+            int size
+    ) {}
+
+    @Builder
+    public record ResCursor(int likeNum, LocalDateTime createdAt, Long id) {}
 }

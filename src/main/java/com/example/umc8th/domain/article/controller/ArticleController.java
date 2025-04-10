@@ -9,9 +9,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Arrays;
-import java.util.List;
-import java.util.stream.Collectors;
+import java.time.LocalDateTime;
 
 @RestController
 @RequiredArgsConstructor
@@ -36,8 +34,20 @@ public class ArticleController {
     }
 
     @GetMapping("/articles")
-    public GlobalResponse<ArticleResponseDTO.ArticleListDTO> getArticles() {
-        ArticleResponseDTO.ArticleListDTO articles = articleQueryService.getArticles();
+    public GlobalResponse<ArticleResponseDTO.PageArticleDTO> getArticles(
+            @RequestParam String sort,
+            @RequestParam int pageSize,
+            @RequestParam Long id,
+            @RequestParam int likeNum,
+            @RequestParam LocalDateTime createdAt
+            ) {
+        ArticleResponseDTO.PageArticleDTO articles = articleQueryService.getPageArticles(
+                pageSize,
+                sort,
+                id,
+                createdAt,
+                likeNum
+        );
         return GlobalResponse.ok(articles);
     }
 
