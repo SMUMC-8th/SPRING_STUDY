@@ -1,7 +1,6 @@
 package com.example.umc8th.code.reply.service.command;
 
 import com.example.umc8th.code.article.entity.Article;
-import com.example.umc8th.code.article.enums.Active;
 import com.example.umc8th.code.article.repository.ArticleRepository;
 import com.example.umc8th.code.exception.GeneralErrorCode;
 import com.example.umc8th.code.exception.GeneralException;
@@ -13,6 +12,7 @@ import org.springframework.stereotype.Service;
 import com.example.umc8th.code.reply.dto.ReplyRequestDTO;
 import com.example.umc8th.code.reply.entity.Reply;
 import com.example.umc8th.code.reply.repository.ReplyRepository;
+
 
 @Service
 @Transactional
@@ -49,6 +49,7 @@ public class ReplyCommandServiceImpl implements ReplyCommandService {
         Reply reply = replyQueryService.findActiveReply(articleId, replyId);
         reply.softDelete();
     }
+
 }
 
 

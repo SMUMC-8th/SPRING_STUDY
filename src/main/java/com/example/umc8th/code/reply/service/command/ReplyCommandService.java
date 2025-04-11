@@ -4,6 +4,7 @@ import com.example.umc8th.code.article.dto.ArticleRequestDTO;
 import com.example.umc8th.code.article.entity.Article;
 import com.example.umc8th.code.reply.dto.ReplyRequestDTO;
 import com.example.umc8th.code.reply.entity.Reply;
+import org.springframework.data.domain.Page;
 
 public interface ReplyCommandService {
     Reply createReply(ReplyRequestDTO.CreateReplyDTO dto, Long articleId);

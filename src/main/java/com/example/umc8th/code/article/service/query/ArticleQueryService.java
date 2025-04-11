@@ -7,4 +7,6 @@ import java.util.List;
 public interface ArticleQueryService {
     List<Article> getArticles();
     Article getArticle(Long id);
+
+    List<Article> getArticlesByCursor(Long lastArticleId, int size);
 }
