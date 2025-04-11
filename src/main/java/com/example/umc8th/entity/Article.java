@@ -1,5 +1,6 @@
 package com.example.umc8th.entity;
 
+import com.example.umc8th.global.entity.BaseEntity;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
@@ -7,6 +8,7 @@ import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 @Table(name = "article")
@@ -15,7 +17,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 @EntityListeners(AuditingEntityListener.class)
 @Getter
-public class Article {
+public class Article extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -29,13 +31,11 @@ public class Article {
     @Column(name = "likeNum")
     private int likeNum;
 
-    @CreatedDate
-    @Column(name="createdAt")
-    private LocalDateTime createdAt;
+    @OneToMany(mappedBy = "article")
+    private List<Reply> replies;
 
-    @LastModifiedDate
-    @Column(name="updatedAt")
-    private LocalDateTime updatedAt;
-
-
+    public void update(String title, String content){
+        this.title = title;
+        this.content = content;
+    }
 }

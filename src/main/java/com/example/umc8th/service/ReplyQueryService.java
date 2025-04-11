@@ -8,5 +8,5 @@ import java.util.List;
 
 public interface ReplyQueryService {
     Reply getReply(Long id);
-    List<Reply> getReplies();
+    List<Reply> getReplies(Long articleId);
 }

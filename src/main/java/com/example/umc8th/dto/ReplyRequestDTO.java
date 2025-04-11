@@ -6,6 +6,10 @@ public class ReplyRequestDTO {
     @Getter
     public static class CreateReplyDTO {
         private String title;
+        private Long articleId;
+    }
+    @Getter
+    public static class UpdateReplyDTO {
         private String content;
     }
 }
