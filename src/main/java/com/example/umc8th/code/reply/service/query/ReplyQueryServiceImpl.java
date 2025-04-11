@@ -23,6 +23,7 @@ public class ReplyQueryServiceImpl implements ReplyQueryService {
     private final ArticleRepository articleRepository;
 
 
+
     @Override
     public List<Reply> getReplies() {
         return replyRepository.findAll();
@@ -41,5 +42,20 @@ public class ReplyQueryServiceImpl implements ReplyQueryService {
                 .orElseThrow(() -> new GeneralException(GeneralErrorCode.NOT_FOUND_404));
 
         return replyRepository.findAllByArticle(article);
+    }
+
+    // 기존 댓글을 찾기
+    @Override
+    public Reply findActiveReply(Long articleId, Long replyId) {
+        Reply reply = replyRepository.findById(replyId)
+                .orElseThrow(() -> new GeneralException(GeneralErrorCode.NOT_FOUND_404));
+
+        // 기존 댓글이 속한 게시글이 요청한 articleId와 일치하고, ACTIVE 상태인지 확인
+        Article article = reply.getArticle();
+        if (!article.getId().equals(articleId) || article.getActive() != Active.ACTIVE) {
+            throw new GeneralException(GeneralErrorCode.NOT_FOUND_404);
+        }
+
+        return reply;
     }
 }

@@ -6,6 +6,7 @@ import com.example.umc8th.code.article.repository.ArticleRepository;
 import com.example.umc8th.code.exception.GeneralErrorCode;
 import com.example.umc8th.code.exception.GeneralException;
 import com.example.umc8th.code.reply.converter.ReplyConverter;
+import com.example.umc8th.code.reply.service.query.ReplyQueryServiceImpl;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -20,6 +21,7 @@ public class ReplyCommandServiceImpl implements ReplyCommandService {
 
     private final ReplyRepository replyRepository;
     private final ArticleRepository articleRepository;
+    private final ReplyQueryServiceImpl replyQueryService;
 
     //아티클이 있으면 댓글 생성
     @Override
@@ -30,26 +32,12 @@ public class ReplyCommandServiceImpl implements ReplyCommandService {
                 ReplyConverter.toEntity(dto, article));
     }
 
-    // 기존 댓글을 찾기
-    @Override
-    public Reply findActiveReply(Long articleId, Long replyId) {
-        Reply reply = replyRepository.findById(replyId)
-                .orElseThrow(() -> new GeneralException(GeneralErrorCode.NOT_FOUND_404));
-
-        // 기존 댓글이 속한 게시글이 요청한 articleId와 일치하고, ACTIVE 상태인지 확인
-        Article article = reply.getArticle();
-        if (!article.getId().equals(articleId) || article.getActive() != Active.ACTIVE) {
-            throw new GeneralException(GeneralErrorCode.NOT_FOUND_404);
-        }
-
-        return reply;
-    }
 
     //기존 댓글이 있으면 수정
     @Override
     public Reply saveAndUpdate(Long articleId, ReplyRequestDTO.UpdateReplyDTO dto) {
 
-        Reply reply = findActiveReply(articleId, dto.getReplyId());
+        Reply reply = replyQueryService.findActiveReply(articleId, dto.getReplyId());
 
         reply.update(dto.getContent());
         return reply;
@@ -58,7 +46,7 @@ public class ReplyCommandServiceImpl implements ReplyCommandService {
     //기존 댓글이 있으면 삭제
     @Override
     public void deleteReply(Long articleId, Long replyId) {
-        Reply reply = findActiveReply(articleId, replyId);
+        Reply reply = replyQueryService.findActiveReply(articleId, replyId);
         reply.softDelete();
     }
 }

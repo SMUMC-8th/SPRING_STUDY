@@ -38,8 +38,7 @@ public class ReplyController {
     }
 
     @PutMapping("/{replyId}")
-    public CustomResponse<Reply> updateReplyPut(@PathVariable Long articleId, @PathVariable Long replyId,
-                                             @RequestBody ReplyRequestDTO.UpdateReplyDTO dto) {
+    public CustomResponse<Reply> updateReplyPut(@PathVariable Long articleId, @RequestBody ReplyRequestDTO.UpdateReplyDTO dto) {
         Reply updatedReply = replyCommandService.saveAndUpdate(articleId, dto);
         return CustomResponse.onSuccess(updatedReply);
     }
