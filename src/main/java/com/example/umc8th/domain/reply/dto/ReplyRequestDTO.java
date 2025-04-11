@@ -9,4 +9,9 @@ public class ReplyRequestDTO {
         private String content;
         private Long articleId;
     }
+
+    @Getter
+    public static class UpdateReplyDTO {
+        private String content;
+    }
 }

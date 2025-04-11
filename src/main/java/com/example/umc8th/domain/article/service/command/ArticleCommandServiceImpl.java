@@ -2,10 +2,13 @@ package com.example.umc8th.domain.article.service.command;
 
 import com.example.umc8th.domain.article.dto.ArticleRequestDTO;
 import com.example.umc8th.domain.article.entity.Article;
+import com.example.umc8th.domain.article.exception.ArticleException;
 import com.example.umc8th.domain.article.repository.ArticleRepository;
 import org.springframework.transaction.annotation.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+
+import static com.example.umc8th.domain.article.exception.ArticleErrorCode.NOT_FOUND;
 
 // Service로 사용하겠다고 명시 (빈 주입)
 @Service
@@ -18,13 +21,25 @@ public class ArticleCommandServiceImpl implements ArticleCommandService{
 
     @Override
     public Article createArticle(ArticleRequestDTO.CreateArticleDTO dto) {
-        // 데이터 베이스에 DTO로 만든 객체 저장하고 저장된 객체 반환
-        return articleRepository.save(
-                // Builder 패턴 사용
-                Article.builder()
-                        .title(dto.getTitle())
-                        .content(dto.getContent())
-                        .build()
-        );
+        return articleRepository.save(dto.toEntity());
     }
+
+    @Override
+    public Article updateArticle(Long id, ArticleRequestDTO.UpdateArticleDTO dto) {
+        Article article = articleRepository.findById(id)
+                .orElseThrow(() -> new ArticleException(NOT_FOUND));
+        article.update(dto.getTitle(), dto.getContent());
+        return article;
+    }
+
+    @Override
+    public Article deleteArticle(Long id) {
+        Article article = articleRepository.findById(id)
+                .orElseThrow(() -> new ArticleException(NOT_FOUND));
+
+        articleRepository.delete(article);
+
+        return article;
+    }
+
 }
