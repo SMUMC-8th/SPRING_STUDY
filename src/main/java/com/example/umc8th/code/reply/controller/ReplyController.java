@@ -22,22 +22,41 @@ public class ReplyController {
 
     //// 댓글 생성
     @PostMapping
-    public CustomResponse<ReplyResponseDTO> createResponse(@PathVariable Long articleId,@RequestBody ReplyRequestDTO.CreateReplyDTO dto) {
+    public CustomResponse<ReplyResponseDTO> createResponse(@PathVariable Long articleId,
+                                                           @RequestBody ReplyRequestDTO.CreateReplyDTO dto) {
         Reply reply = replyCommandService.createReply(dto, articleId);
 
         ReplyResponseDTO replyDTO = new ReplyResponseDTO(reply);
         return CustomResponse.onSuccess(replyDTO);
     }
 
-    //// 댓글 조회
-    @GetMapping("/{replyId}")
-    public CustomResponse<ReplyResponseDTO> getResponse(@PathVariable Long articleId, @PathVariable Long replyId) {
-        Reply reply = replyQueryService.getReply(replyId);
-        ReplyResponseDTO replyDTO = new ReplyResponseDTO(reply);
-        return CustomResponse.onSuccess(replyDTO);
+    @PatchMapping("/{replyId}")
+    public CustomResponse<Reply> updateReplyPatch(@PathVariable Long articleId, @RequestBody ReplyRequestDTO.UpdateReplyDTO dto) {
+        Reply updatedReply = replyCommandService.saveAndUpdate(articleId, dto);
+        return CustomResponse.onSuccess(updatedReply);
     }
 
-    //// 댓글 전체 조회
+    @PutMapping("/{replyId}")
+    public CustomResponse<Reply> updateReplyPut(@PathVariable Long articleId, @RequestBody ReplyRequestDTO.UpdateReplyDTO dto) {
+        Reply updatedReply = replyCommandService.saveAndUpdate(articleId, dto);
+        return CustomResponse.onSuccess(updatedReply);
+    }
+
+    @DeleteMapping("/{replyId}")
+    public CustomResponse<String> deleteReply(@PathVariable Long articleId, @PathVariable Long replyId){
+        replyCommandService.deleteReply(articleId, replyId);
+        return CustomResponse.onSuccess("댓글 삭제 되었음");
+    }
+
+    //// 댓글 하나 조회는 이상한 것 같음.. 아티클에 댓글 있으면 전부 보여줘
+//    @GetMapping("/{replyId}")
+//    public CustomResponse<ReplyResponseDTO> getResponse(@PathVariable Long articleId, @PathVariable Long replyId) {
+//        Reply reply = replyQueryService.getReply(replyId);
+//        ReplyResponseDTO replyDTO = new ReplyResponseDTO(reply);
+//        return CustomResponse.onSuccess(replyDTO);
+//    }
+
+    //// 아티클에 따른 댓글 전체 조회
     @GetMapping
     public CustomResponse<List<ReplyResponseDTO>> getAllReplies(@PathVariable Long articleId) {
         List<Reply> replies = replyQueryService.getRepliesByArticle(articleId);
@@ -47,7 +66,6 @@ public class ReplyController {
 //            replyDTOs.add(new ReplyResponseDTO(reply));
 //        }
         //아직 stream에 익숙치 않아서..
-
         List<ReplyResponseDTO> replyDTOs = replies.stream().map(ReplyResponseDTO::new).toList();
         return CustomResponse.onSuccess(replyDTOs);
     }

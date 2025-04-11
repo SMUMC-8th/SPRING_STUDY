@@ -7,5 +7,7 @@ public interface ReplyQueryService {
 
     List<Reply> getReplies();
     List<Reply> getRepliesByArticle(Long articleId);
-    Reply getReply(Long id);
+//    Reply getReply(Long id);
+    Reply findActiveReply(Long articleId, Long replyId);
+
 }
