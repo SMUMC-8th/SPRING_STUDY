@@ -1,8 +1,8 @@
-package com.example.umc8th.service.impl;
+package com.example.umc8th.service.query.impl;
 
 import com.example.umc8th.entity.Article;
 import com.example.umc8th.repository.ArticleRepository;
-import com.example.umc8th.service.ArticleQueryService;
+import com.example.umc8th.service.query.ArticleQueryService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
