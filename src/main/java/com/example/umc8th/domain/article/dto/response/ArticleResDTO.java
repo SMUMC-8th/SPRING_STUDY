@@ -27,7 +27,9 @@ public class ArticleResDTO {
 
     @Builder
     public record ArticlePreviewListDTO(
-            List<ArticlePreviewDTO> articlePreviewDtoList
+            List<ArticlePreviewDTO> articlePreviewDtoList,
+            boolean hasNext,
+            Long nextCursor
     ){
     }
 

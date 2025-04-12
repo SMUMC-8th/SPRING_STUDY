@@ -6,4 +6,5 @@ public interface ArticleQueryService {
 
     ArticleResDTO.ArticlePreviewDTO getArticle(Long articleId);
     ArticleResDTO.ArticlePreviewListDTO getArticleList();
+    ArticleResDTO.ArticlePreviewListDTO getArticlesByCursor(Long cursor, int size, String sortBy);
 }

@@ -73,4 +73,17 @@ public class ArticleConverter {
                         .toList())
                 .build();
     }
+
+    // List<Article> -> ArticlePreviewListDTO(cursor)
+    public static ArticleResDTO.ArticlePreviewListDTO toArticlePreviewListDTOWithCursor(List<Article> articles,
+                                                                                        boolean hasNext,
+                                                                                        Long nextCursor) {
+        return ArticleResDTO.ArticlePreviewListDTO.builder()
+                .articlePreviewDtoList(articles.stream()
+                        .map(ArticleConverter::toArticlePreviewDTO)
+                        .toList())
+                .hasNext(hasNext)
+                .nextCursor(nextCursor)
+                .build();
+    }
 }

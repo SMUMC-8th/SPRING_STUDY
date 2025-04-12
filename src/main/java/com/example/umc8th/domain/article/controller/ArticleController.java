@@ -6,6 +6,7 @@ import com.example.umc8th.domain.article.service.command.ArticleCommandService;
 import com.example.umc8th.domain.article.service.query.ArticleQueryService;
 import com.example.umc8th.global.apiPayload.CustomResponse;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -38,6 +39,16 @@ public class ArticleController {
     @Operation(summary = "전체 게시글 리스트 조회", description = "전체 게시글을 조회합니다.")
     public CustomResponse<ArticleResDTO.ArticlePreviewListDTO> getArticleList() {
         ArticleResDTO.ArticlePreviewListDTO articles = articleQueryService.getArticleList();
+        return CustomResponse.onSuccess(articles);
+    }
+
+    @GetMapping("/cursor")
+    @Operation(summary = "커서 기반 게시글 조회", description = "커서 기반 페이지네이션으로 게시글을 조회합니다.")
+    public CustomResponse<ArticleResDTO.ArticlePreviewListDTO> getArticlesByCursor(
+            @Parameter(description = "다음 페이지 조회에 사용할 커서 값") @RequestParam(value = "cursor", required = false) Long cursor,
+            @Parameter(description = "한 페이지에 조회할 게시글 개수") @RequestParam(value = "offset", defaultValue = "10") int size,
+            @Parameter(description = "정렬 기준 (예: id, date, like)") @RequestParam(value = "sort", defaultValue = "id") String sortBy) {
+        ArticleResDTO.ArticlePreviewListDTO articles = articleQueryService.getArticlesByCursor(cursor, size, sortBy);
         return CustomResponse.onSuccess(articles);
     }
 
