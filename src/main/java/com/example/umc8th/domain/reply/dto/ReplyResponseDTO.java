@@ -70,4 +70,12 @@ public class ReplyResponseDTO {
                     .build();
         }
     }
+
+    @Builder
+    @Getter
+    @AllArgsConstructor(access = AccessLevel.PRIVATE)
+    @NoArgsConstructor(access = AccessLevel.PROTECTED)
+    public static class ReplyPreviewPageDTO {
+        private List<ReplyPreviewDTO> replies;
+    }
 }
