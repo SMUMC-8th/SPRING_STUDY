@@ -27,14 +27,29 @@ public class ArticleController {
 
     @GetMapping("/articles/{articleId}")
     public GlobalResponse<ArticleResponseDTO.ArticleDTO> getArticle(@PathVariable("articleId") Long articleId) {
-        ArticleResponseDTO.ArticleDTO article = articleQueryService.getArticle(articleId);
+        ArticleResponseDTO.ArticleDTO article = articleQueryService.getArticleDTO(articleId);
         return GlobalResponse.ok(article);
     }
 
     @GetMapping("/articles")
-    public GlobalResponse<ArticleResponseDTO.ArticleListDTO> getArticles() {
-        ArticleResponseDTO.ArticleListDTO articles = articleQueryService.getArticles();
-        return GlobalResponse.ok(articles);
+    public GlobalResponse<ArticleResponseDTO.PageArticleDTO> getArticles(
+            @RequestParam String sort,
+            @RequestParam int offset,
+            @RequestParam String cursor
+    ) {
+        ArticleResponseDTO.PageArticleDTO article = articleQueryService.getPageArticles(offset, sort, cursor);
+        return GlobalResponse.ok(article);
+    }
+
+    @GetMapping("/serch")
+    public GlobalResponse<ArticleResponseDTO.PageArticleDTO> getSerchArticles(
+            @RequestParam String query,
+            @RequestParam String sort,
+            @RequestParam int offset,
+            @RequestParam String cursor
+    ) {
+        ArticleResponseDTO.PageArticleDTO article = articleQueryService.serchPageArticles(query, offset, sort, cursor);
+        return GlobalResponse.ok(article);
     }
 
     @PutMapping("/articles/{articleId}")

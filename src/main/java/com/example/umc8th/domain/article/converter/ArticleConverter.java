@@ -11,8 +11,8 @@ public class ArticleConverter {
     // CreateArticleDTO -> Article
     public static Article toArticle(ArticleRequestDTO.CreateArticleDTO dto) {
         return Article.builder()
-                .title(dto.getTitle())
-                .content(dto.getContent())
+                .title(dto.title())
+                .content(dto.content())
                 .build();
     }
 
@@ -24,6 +24,7 @@ public class ArticleConverter {
                 .createdAt(article.getCreatedAt())
                 .updatedAt(article.getUpdatedAt())
                 .articleId(article.getId())
+                .likeNum(article.getLikeNum())
                 .build();
     }
 
@@ -40,6 +41,21 @@ public class ArticleConverter {
     public static ArticleResponseDTO.DeleteArticleDTO toDeleteArticleDTO(Long articleId) {
         return ArticleResponseDTO.DeleteArticleDTO.builder()
                 .articleId(articleId)
+                .build();
+    }
+
+    // List<Article> + PageInfo + Cursor -> PageArticleDTO
+    public static ArticleResponseDTO.PageArticleDTO toPageArticleDTO(
+            List<Article> articles,
+            String cursor,
+            boolean hasNext,
+            int size
+    ) {
+        return ArticleResponseDTO.PageArticleDTO.builder()
+                .result(toArticleListDTO(articles))
+                .cursor(cursor)
+                .hasNext(hasNext)
+                .size(size)
                 .build();
     }
 }

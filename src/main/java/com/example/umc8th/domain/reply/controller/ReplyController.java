@@ -28,8 +28,12 @@ public class ReplyController {
     }
 
     @GetMapping("articles/{articleId}/replies")
-    public GlobalResponse<ReplyResponseDTO.ReplyListDTO> getReplyList(@PathVariable Long articleId) {
-        ReplyResponseDTO.ReplyListDTO replies = replyQueryService.getReplyList(articleId);
+    public GlobalResponse<ReplyResponseDTO.PageReplyDTO> getReplyList(
+            @PathVariable Long articleId,
+            @RequestParam int page,
+            @RequestParam int size
+    ) {
+        ReplyResponseDTO.PageReplyDTO replies = replyQueryService.getReplyList(articleId, page-1, size);
         return GlobalResponse.ok(replies);
     }
 

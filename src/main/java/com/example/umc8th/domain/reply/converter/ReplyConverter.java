@@ -12,7 +12,7 @@ public class ReplyConverter {
     // CreateReplyDTO -> Reply
     public static Reply toReply(ReplyRequestDTO.CreateReplyDTO dto, Article article) {
         return Reply.builder()
-                .content(dto.getContent())
+                .content(dto.content())
                 .article(article)
                 .build();
     }
@@ -41,6 +41,16 @@ public class ReplyConverter {
     public static ReplyResponseDTO.DeleteReplyDTO toDeleteReplyDTO(Long replyId) {
         return ReplyResponseDTO.DeleteReplyDTO.builder()
                 .replyId(replyId)
+                .build();
+    }
+
+    // ReplyListDTO + PageInfo -> PageReplyDTO
+    public static ReplyResponseDTO.PageReplyDTO toPageReplyDTO(List<Reply> replyList, int page, int totalPage) {
+        ReplyResponseDTO.ReplyListDTO replyPage = toReplyListDTO(replyList);
+        return ReplyResponseDTO.PageReplyDTO.builder()
+                .result(replyPage)
+                .totalPage(totalPage)
+                .page(page)
                 .build();
     }
 }

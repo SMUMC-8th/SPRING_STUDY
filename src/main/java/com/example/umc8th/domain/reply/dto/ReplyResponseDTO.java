@@ -1,32 +1,31 @@
 package com.example.umc8th.domain.reply.dto;
 
 import lombok.Builder;
-import lombok.Getter;
 
 import java.time.LocalDateTime;
 import java.util.List;
 
 public class ReplyResponseDTO {
 
-    @Getter
     @Builder
-    public static class ReplyDTO {
-        private String content;
-        private LocalDateTime createdAt;
-        private LocalDateTime updatedAt;
-        private Long articleId;
-        private Long replyId;
-    }
+    public record ReplyDTO(
+            String content,
+            LocalDateTime createdAt,
+            LocalDateTime updatedAt,
+            Long articleId,
+            Long replyId
+    ) {}
 
-    @Getter
     @Builder
-    public static class ReplyListDTO {
-        private List<ReplyDTO> replies;
-    }
+    public record ReplyListDTO(List<ReplyDTO> replies) {}
 
-    @Getter
     @Builder
-    public static class DeleteReplyDTO {
-        private Long replyId;
-    }
+    public record DeleteReplyDTO(Long replyId) {}
+
+    @Builder
+    public record PageReplyDTO(
+            ReplyListDTO result,
+            int page,
+            int totalPage
+    ) {}
 }
