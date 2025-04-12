@@ -8,5 +8,5 @@ import java.util.List;
 public interface ReplyRepository extends JpaRepository<Reply, Long> {
 
     public List<Reply> findByArticleId(Long articleId);
-
+    public boolean existsByArticleId(Long articleId);
 }
