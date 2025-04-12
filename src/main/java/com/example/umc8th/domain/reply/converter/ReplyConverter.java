@@ -72,7 +72,7 @@ public class ReplyConverter {
                 .replies(replyPage.getContent().stream()
                         .map(ReplyConverter::toReplyPreviewDTO)
                         .toList())
-                .pageNo(replyPage.getNumber())
+                .pageNo(replyPage.getNumber() + 1)
                 .size(replyPage.getSize())
                 .totalPages(replyPage.getTotalPages())
                 .build();
