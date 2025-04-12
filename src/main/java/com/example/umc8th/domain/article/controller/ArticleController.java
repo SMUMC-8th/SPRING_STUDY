@@ -44,6 +44,15 @@ public class ArticleController {
         return CustomResponse.onSuccess(GeneralSuccessCode.OK, resDTO);
     }
 
+    @GetMapping("/articles/cursor")
+    public CustomResponse<ArticleResDTO.ArticlePreviewListDTO> getArticlesByCursor(
+            @RequestParam(required = false) Long cursor,
+            @RequestParam(defaultValue = "10") int size)
+    {
+        ArticleResDTO.ArticlePreviewListDTO resDTO = articleQueryService.getArticlesByCursorPagination(cursor, size);
+        return CustomResponse.onSuccess(GeneralSuccessCode.OK, resDTO);
+    }
+
     @PatchMapping("/articles/{articleId}")
     public CustomResponse<ArticleResDTO.UpdateArticleDTO> updatePatchArticle(
             @PathVariable("articleId") Long articleId,
