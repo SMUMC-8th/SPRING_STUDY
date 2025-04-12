@@ -7,6 +7,7 @@ import com.example.umc8th.domain.article.exception.ArticleErrorCode;
 import com.example.umc8th.domain.article.exception.ArticleException;
 import com.example.umc8th.domain.article.repository.ArticleRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
@@ -60,6 +61,21 @@ public class ArticleQueryServiceImpl implements ArticleQueryService {
                 articles.hasNext(),
                 nextCursor
         );
+    }
+
+    @Override
+    public ArticleResDTO.ArticlePreviewListDTO searchArticlesByTitle(String keyword, int page, int size) {
+        Pageable pageable = PageRequest.of(page, size);
+        Page<Article> articlePage = articleRepository.findAllByTitleContainingOrderByCreatedAtDesc(keyword, pageable);
+
+        List<ArticleResDTO.ArticlePreviewDTO> articleDtoList = articlePage.getContent()
+                .stream()
+                .map(ArticleConverter::toArticlePreviewDTO)
+                .toList();
+
+        return ArticleResDTO.ArticlePreviewListDTO.builder()
+                .articlePreviewDtoList(articleDtoList)
+                .build();
     }
 
     // ID 기준 커서 페이지네이션

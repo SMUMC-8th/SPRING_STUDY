@@ -52,6 +52,16 @@ public class ArticleController {
         return CustomResponse.onSuccess(articles);
     }
 
+    @GetMapping("/search")
+    @Operation(summary = "게시글 제목 검색", description = "제목에 특정 키워드를 포함하는 게시글을 검색합니다.")
+    public CustomResponse<ArticleResDTO.ArticlePreviewListDTO> searchArticlesByTitle(
+            @RequestParam String keyword,
+            @Parameter(description = "이동할 페이지") @RequestParam(defaultValue = "0") int page,
+            @Parameter(description = "한 페이지에 조회할 게시글 개수") @RequestParam(defaultValue = "10") int size) {
+        ArticleResDTO.ArticlePreviewListDTO articles = articleQueryService.searchArticlesByTitle(keyword, page, size);
+        return CustomResponse.onSuccess(articles);
+    }
+
     @PutMapping("/{articleId}")
     @Operation(summary = "게시글 수정", description = "게시글을 수정합니다.")
     public CustomResponse<ArticleResDTO.UpdateArticleResDTO> updateArticle(@PathVariable Long articleId,
