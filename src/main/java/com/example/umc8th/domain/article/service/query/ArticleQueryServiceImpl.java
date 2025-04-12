@@ -23,25 +23,30 @@ public class ArticleQueryServiceImpl implements ArticleQueryService {
 
     @Override
     public ArticleResponseDTO.ArticleDTO getArticleDTO(Long articleId) {
+
         Article artic = getArticle(articleId);
         return ArticleConverter.toArticleDTO(artic);
     }
 
     @Override
     public Article getArticle(Long articleId) {
+
         return articleRepository.findById(articleId).orElseThrow(() ->
                 new ArticleException(ArticleErrorCode.NOT_FOUND_404));
     }
 
     @Override
     public ArticleResponseDTO.PageArticleDTO getPageArticles(int size, String sort, String rqCursor) {
+
         Pageable pageable = PageRequest.of(0, size);
-        Slice<Article> pageArticle = articleRepository.findAllByOrderByIdDesc(pageable);
-        if (sort.equals("likeNum")) {
-            pageArticle = articleRepository.findAllByOrderByLikeNumDescIdDesc(pageable);
-        }
-        // 정렬 기준으로 다시 페이지 로딩
-        if (!rqCursor.equals("-1")) {
+        Slice<Article> pageArticle = null;
+        // 처음 조회하면 ID, 좋아요 순으로 불러오기
+        if (rqCursor.equals("-1")) {
+            pageArticle = articleRepository.findAllByOrderByIdDesc(pageable);
+            if (sort.equals("likeNum")) {
+                pageArticle = articleRepository.findAllByOrderByLikeNumDescIdDesc(pageable);
+            }
+        } else {    // 커서가 존재하면 그에 맞게 불러오기
             if (sort.equals("id")) {
                 Long cursor = Long.parseLong(rqCursor);
                 pageArticle = articleRepository.findAllNextPageOfId(cursor, pageable);
@@ -54,18 +59,23 @@ public class ArticleQueryServiceImpl implements ArticleQueryService {
                 pageArticle = articleRepository.findAllNextPageOfLike(rqCursor, pageable);
             }
         }
+        // pageArticle = null을 대비한 예외처리
+        if (pageArticle == null) throw new ArticleException(ArticleErrorCode.BAD_REQUEST_400);
         return getPageArticleList(pageArticle, sort);
     }
 
     @Override
     public ArticleResponseDTO.PageArticleDTO serchPageArticles(String query, int size, String sort, String rqCursor) {
+
         Pageable pageable = PageRequest.of(0, size);
-        Slice<Article> pageArticle = articleRepository.findAllByTitleContainingOrderByIdDesc(query, pageable);
-        if (sort.equals("likeNum")) {
-            pageArticle = articleRepository.findAllByTitleContainingOrderByLikeNumDescIdDesc(query, pageable);
-        }
-        // 정렬 기준으로 다시 페이지 로딩
-        if (!rqCursor.equals("-1")) {
+        Slice<Article> pageArticle = null;
+        // 처음 조회하면 ID, 좋아요 순으로 제목에 키워드 포함된 Article 불러오기
+        if (rqCursor.equals("-1")) {
+            pageArticle = articleRepository.findAllByTitleContainingOrderByIdDesc(query, pageable);
+            if (sort.equals("likeNum")) {
+                pageArticle = articleRepository.findAllByTitleContainingOrderByLikeNumDescIdDesc(query, pageable);
+            }
+        } else {    // 커서가 존재하면 그에 맞게 제목에 키워드 포함된 Article 불러오기
             if (sort.equals("id")) {
                 Long cursor = Long.parseLong(rqCursor);
                 pageArticle = articleRepository.findAllNextPageOfIdByTitleContaining(cursor, query, pageable);
@@ -78,6 +88,8 @@ public class ArticleQueryServiceImpl implements ArticleQueryService {
                 pageArticle = articleRepository.findAllNextPageOfLikeByTitleContaining(rqCursor, query, pageable);
             }
         }
+        // pageArticle = null을 대비한 예외처리
+        if (pageArticle == null) throw new ArticleException(ArticleErrorCode.BAD_REQUEST_400);
         return getPageArticleList(pageArticle, sort);
     }
 
