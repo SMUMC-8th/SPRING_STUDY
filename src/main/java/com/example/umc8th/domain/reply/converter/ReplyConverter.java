@@ -4,6 +4,7 @@ import com.example.umc8th.domain.article.entity.Article;
 import com.example.umc8th.domain.reply.dto.reqeust.ReplyReqDTO;
 import com.example.umc8th.domain.reply.dto.response.ReplyResDTO;
 import com.example.umc8th.domain.reply.entity.Reply;
+import org.springframework.data.domain.Page;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -45,6 +46,19 @@ public class ReplyConverter {
 
         return ReplyResDTO.PreviewListReplyDTO.builder()
                 .replies(repliesDTO)
+                .build();
+    }
+
+    // Page<Reply> -> Res.PreviewListDTO
+    public static ReplyResDTO.PreviewListReplyDTO toPreviewListReplyOffsetPaginationDTO(Page<Reply> replies) {
+        List<ReplyResDTO.PreviewReplyDTO> repliesDTO = replies.getContent().stream()
+                .map(ReplyConverter::toPreviewReplyDTO).toList();
+
+        return ReplyResDTO.PreviewListReplyDTO.builder()
+                .replies(repliesDTO)
+                .currentPage(replies.getNumber())
+                .pageSize(replies.getSize())
+                .totalPages(replies.getTotalPages())
                 .build();
     }
 

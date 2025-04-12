@@ -26,7 +26,11 @@ public class ReplyResDTO {
 
     @Builder
     public record PreviewListReplyDTO(
-            List<PreviewReplyDTO> replies
+            List<PreviewReplyDTO> replies,
+            int currentPage,
+            int pageSize,
+            int totalPages
+            // boolean isFirstPage, isLastPage
     ) {}
 
     @Builder
