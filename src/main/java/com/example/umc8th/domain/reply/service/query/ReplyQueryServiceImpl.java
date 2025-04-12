@@ -1,6 +1,9 @@
 package com.example.umc8th.domain.reply.service.query;
 
 import com.example.umc8th.domain.article.entity.Article;
+import com.example.umc8th.domain.article.exception.ArticleException;
+import com.example.umc8th.domain.article.exception.code.ArticleErrorCode;
+import com.example.umc8th.domain.article.repository.ArticleRepository;
 import com.example.umc8th.domain.article.service.query.ArticleQueryService;
 import com.example.umc8th.domain.reply.converter.ReplyConverter;
 import com.example.umc8th.domain.reply.dto.ReplyResponseDTO;
@@ -19,12 +22,13 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
 public class ReplyQueryServiceImpl implements ReplyQueryService {
-    private final ArticleQueryService articleQueryService;
+    private final ArticleRepository articleRepository;
     private final ReplyRepository replyRepository;
 
     @Override
-    public Reply isReplyExistInArticle(Long articleId, Long replyId) {
-        Article article = articleQueryService.isArticleExist(articleId);
+    public Reply getReplyInArticle(Long articleId, Long replyId) {
+        Article article = articleRepository.findById(articleId).orElseThrow(() ->
+                new ArticleException(ArticleErrorCode.NOT_FOUND_404));
         Reply reply = replyRepository.findReplyByArticleAndId(article, replyId).orElseThrow(() ->
                 new ReplyException(ReplyErrorCode.NOT_FOUND_404));
         reply.updateArticle(article);

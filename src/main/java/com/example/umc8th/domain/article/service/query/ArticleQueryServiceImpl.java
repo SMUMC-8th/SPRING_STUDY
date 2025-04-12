@@ -22,13 +22,13 @@ public class ArticleQueryServiceImpl implements ArticleQueryService {
     private final ArticleRepository articleRepository;
 
     @Override
-    public ArticleResponseDTO.ArticleDTO getArticle(Long articleId) {
-        Article artic = isArticleExist(articleId);
+    public ArticleResponseDTO.ArticleDTO getArticleDTO(Long articleId) {
+        Article artic = getArticle(articleId);
         return ArticleConverter.toArticleDTO(artic);
     }
 
     @Override
-    public Article isArticleExist(Long articleId) {
+    public Article getArticle(Long articleId) {
         return articleRepository.findById(articleId).orElseThrow(() ->
                 new ArticleException(ArticleErrorCode.NOT_FOUND_404));
     }

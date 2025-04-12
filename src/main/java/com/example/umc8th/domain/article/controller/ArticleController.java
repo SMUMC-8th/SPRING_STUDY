@@ -27,7 +27,7 @@ public class ArticleController {
 
     @GetMapping("/articles/{articleId}")
     public GlobalResponse<ArticleResponseDTO.ArticleDTO> getArticle(@PathVariable("articleId") Long articleId) {
-        ArticleResponseDTO.ArticleDTO article = articleQueryService.getArticle(articleId);
+        ArticleResponseDTO.ArticleDTO article = articleQueryService.getArticleDTO(articleId);
         return GlobalResponse.ok(article);
     }
 

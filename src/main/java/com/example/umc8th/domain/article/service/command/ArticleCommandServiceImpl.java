@@ -25,7 +25,7 @@ public class ArticleCommandServiceImpl implements ArticleCommandService {
 
     @Override
     public ArticleResponseDTO.ArticleDTO updateArticle(ArticleRequestDTO.UpdateArticleDTO dto, Long articleId) {
-        Article article = articleQueryService.isArticleExist(articleId);
+        Article article = articleQueryService.getArticle(articleId);
         if (!dto.title().isEmpty()) {  // 제목 수정
             article.updateTitle(dto.title());
         }
@@ -37,7 +37,7 @@ public class ArticleCommandServiceImpl implements ArticleCommandService {
 
     @Override
     public ArticleResponseDTO.DeleteArticleDTO deleteArticle(Long articleId) {
-        Article article = articleQueryService.isArticleExist(articleId);
+        Article article = articleQueryService.getArticle(articleId);
         articleRepository.delete(article);
         return ArticleConverter.toDeleteArticleDTO(articleId);
     }
