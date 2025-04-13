@@ -9,7 +9,8 @@ import org.springframework.http.HttpStatus;
 @AllArgsConstructor
 public enum ArticleErrorCode implements BaseErrorCode {
 
-    ARTICLE_NOT_FOUND(HttpStatus.NOT_FOUND, "ARTICLE404_0", "해당 게시글을 찾을 수 없습니다.")
+    ARTICLE_NOT_FOUND(HttpStatus.NOT_FOUND, "ARTICLE404_0", "해당 게시글을 찾을 수 없습니다."),
+    INVALID_CURSOR_FORMAT(HttpStatus.BAD_REQUEST, "ARTICLE400_0", "커서 형식이 올바르지 않습니다."),
     ;
 
     private final HttpStatus httpStatus;
