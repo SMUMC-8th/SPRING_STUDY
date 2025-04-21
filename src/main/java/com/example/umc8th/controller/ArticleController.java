@@ -9,6 +9,8 @@ import com.example.umc8th.global.apiPayload.CustomResponse;
 import com.example.umc8th.service.command.ArticleCommandService;
 import com.example.umc8th.service.query.ArticleQueryService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Slice;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -32,11 +34,10 @@ public class ArticleController {
     }
 
     @GetMapping("/articles")
-    public CustomResponse<ArticleResponseDTO.ArticlePreviewListDTO> getArticles() {
-        List<Article> articles = articleQueryService.getArticles();
+    public CustomResponse<ArticleResponseDTO.ArticlePreviewListDTO> getArticles(@RequestParam Integer cursor, @RequestParam Integer offset) {
+        Slice<Article> articles = articleQueryService.getArticlesByCursor(cursor, offset);
         return CustomResponse.ok(ArticleResponseDTO.ArticlePreviewListDTO.from(articles));
     }
-
 
     @PutMapping("/articles/{articleId}")
     public CustomResponse<ArticleResponseDTO.ArticlePreviewDTO> putArticles(@PathVariable("articleId") Long articleId, @RequestBody ArticleRequestDTO.UpdateArticleDTO dto){
@@ -52,9 +53,9 @@ public class ArticleController {
 
 
     @DeleteMapping("/articles/{articleId}")
-    public CustomResponse<ReplyResponseDTO.DeleteReplyDTO> deleteArticles(@PathVariable("articleId") Long articleId){
+    public CustomResponse<ArticleResponseDTO.ArticleDeleteDTO> deleteArticles(@PathVariable("articleId") Long articleId){
         Long deleted = articleCommandService.deleteArticle(articleId);
-        return CustomResponse.ok(ReplyConverter.toDeleteReplyDTO(deleted));
+        return CustomResponse.ok(ArticleResponseDTO.ArticleDeleteDTO.from(deleted));
     }
 }
 

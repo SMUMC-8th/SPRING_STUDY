@@ -56,7 +56,7 @@ public class ArticleResponseDTO {
     @Builder
     public static class ArticlePreviewListDTO {
         private List<ArticlePreviewDTO> articles;
-        public static ArticlePreviewListDTO from(List<Article> articles) {
+        public static ArticlePreviewListDTO from(Slice<Article> articles) {
             return ArticlePreviewListDTO.builder()
                     .articles(articles.stream().map(ArticlePreviewDTO::from).toList())
                     .build();
@@ -69,9 +69,10 @@ public class ArticleResponseDTO {
     @Builder
     public static class ArticleDeleteDTO {
         private Long id;
-        private static ArticleDeleteDTO from(Long id) {
-            return ArticleDeleteDTO.builder().id(id)
-            .build();
+        public static ArticleDeleteDTO from(Long id) {
+            return ArticleDeleteDTO.builder().
+                    id(id)
+                    .build();
         }
     }
 }

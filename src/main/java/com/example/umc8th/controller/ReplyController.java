@@ -8,6 +8,7 @@ import com.example.umc8th.global.apiPayload.CustomResponse;
 import com.example.umc8th.service.command.ReplyCommandService;
 import com.example.umc8th.service.query.ReplyQueryService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -31,8 +32,8 @@ public class ReplyController {
     }
 
     @GetMapping("/articles/{articleId}/replies")
-    public CustomResponse<ReplyResponseDTO.ReplyPreviewListDTO> getReplies(@PathVariable("articleId") Long articleId){
-        List<Reply> replies = replyQueryService.getReplies(articleId);
+    public CustomResponse<ReplyResponseDTO.ReplyPreviewListDTO> getReplies(@PathVariable("articleId") Long articleId, @RequestParam Integer size, @RequestParam Integer offset){
+        Page<Reply> replies = replyQueryService.getRepliesByOffset(articleId, offset, size);
         return CustomResponse.ok(ReplyConverter.toReplyPreviewListDTO(replies));
     }
 
