@@ -35,6 +35,7 @@ public class SecurityConfig {
                 )
                 // CSRF 비활성화
                 .csrf(AbstractHttpConfigurer::disable)
+                .cors(AbstractHttpConfigurer::disable)
                 // Http Basic 인증 방식 비활성화
                 .httpBasic(AbstractHttpConfigurer::disable)
                 // formLogin 설정
