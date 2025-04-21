@@ -10,6 +10,7 @@ import com.example.umc8th.global.apiPayload.CustomResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -42,6 +43,14 @@ public class ReplyController {
     public CustomResponse<ReplyResponseDTO.ReplyPreviewDTO> getReply(@PathVariable("replyId") Long replyId) {
         Reply reply = replyQueryService.getReply(replyId);
         return CustomResponse.ok(ReplyConverter.toReplyPreviewDTO(reply));
+    }
+
+    @GetMapping("/articles/{articleId}/replies")
+    @Operation(summary = "댓글 조회 API(페이지기반)")
+    public CustomResponse<ReplyResponseDTO.ReplyPreviewPageDTO> getRepliesPageable(@PathVariable("articleId") Long articleId,
+                                                                               @RequestParam(required = false, defaultValue = "0", value = "page") int pageNo) {
+        Page<Reply> replies = replyQueryService.getRepliesPageable(articleId, pageNo, 2);
+        return CustomResponse.ok(ReplyConverter.toReplyPreviewPageDTO(replies));
     }
 
     @PutMapping("/{replyId}")

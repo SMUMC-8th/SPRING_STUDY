@@ -92,4 +92,12 @@ public class ArticleResponseDTO {
                     .build();
         }
     }
+
+    @Builder
+    public record PageArticleDTO(
+            ArticlePreviewListDTO result,
+            String cursor,
+            boolean hasNext,
+            int size
+    ) {}
 }
