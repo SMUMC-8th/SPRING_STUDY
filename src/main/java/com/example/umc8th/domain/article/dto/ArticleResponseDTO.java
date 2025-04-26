@@ -2,8 +2,10 @@ package com.example.umc8th.domain.article.dto;
 
 import com.example.umc8th.domain.article.entity.Article;
 import lombok.*;
+import org.springframework.data.domain.Slice;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 public class ArticleResponseDTO {
@@ -54,50 +56,14 @@ public class ArticleResponseDTO {
     @Builder
     public static class ArticlePreviewListDTO {
         private List<ArticlePreviewDTO> articles;
-        public static ArticlePreviewListDTO from(List<Article> articles) {
+        private boolean hasNext;
+        private Long cursor;
+        public static ArticlePreviewListDTO from(Slice<Article> articles) {
             return ArticlePreviewListDTO.builder()
-                    .articles(articles.stream().map(ArticlePreviewDTO::from).toList())
+                    .articles(articles.getContent().isEmpty() ? new ArrayList<>(): articles.getContent().stream().map(ArticlePreviewDTO::from).toList())
+                    .hasNext(articles.hasNext())
+                    .cursor(articles.getContent().isEmpty() ? 0 : articles.getContent().get(articles.getContent().size() - 1).getId())
                     .build();
         }
     }
-
-    @Getter
-    @AllArgsConstructor(access = AccessLevel.PRIVATE)
-    @NoArgsConstructor(access = AccessLevel.PROTECTED)
-    @Builder
-    public static class ArticleUpdateResponseDTO {
-        private Long id;
-        private LocalDateTime updatedAt;
-
-        public static ArticleUpdateResponseDTO from(Article article) {
-            return ArticleUpdateResponseDTO.builder()
-                    .id(article.getId())
-                    .updatedAt(article.getUpdatedAt())
-                    .build();
-        }
-    }
-
-    @Getter
-    @AllArgsConstructor(access = AccessLevel.PRIVATE)
-    @NoArgsConstructor(access = AccessLevel.PROTECTED)
-    @Builder
-    public static class ArticleDeleteResponseDTO {
-        private Long id;
-        private LocalDateTime updatedAt;
-
-        public static ArticleDeleteResponseDTO from(Article article) {
-            return ArticleDeleteResponseDTO.builder()
-                    .id(article.getId())
-                    .updatedAt(article.getUpdatedAt())
-                    .build();
-        }
-    }
-
-    @Builder
-    public record PageArticleDTO(
-            ArticlePreviewListDTO result,
-            String cursor,
-            boolean hasNext,
-            int size
-    ) {}
 }

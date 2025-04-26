@@ -31,22 +31,25 @@ public class ReplyCommandServiceImpl implements ReplyCommandService {
 
     @Override
     public Reply updateReply(Long id, ReplyRequestDTO.UpdateReplyDTO dto) {
-        Reply reply = replyRepository.findById(id)
-                .orElseThrow(() -> new ReplyException(ReplyErrorCode.NOT_FOUND));
-
+        Reply reply = replyRepository.findById(id).orElseThrow(() ->
+                new ReplyException(ReplyErrorCode.NOT_FOUND));
         reply.update(dto.getContent());
-
         return reply;
     }
 
     @Override
-    public Reply deleteReply(Long id) {
-        Reply reply = replyRepository.findById(id)
-                .orElseThrow(() -> new ReplyException(ReplyErrorCode.NOT_FOUND));
+    public Long deleteReply(Long id) {
+        Reply reply = replyRepository.findById(id).orElseThrow(() ->
+                new ReplyException(ReplyErrorCode.NOT_FOUND));
+        reply.softDelete();
+        return id;
+    }
 
-        replyRepository.delete(reply);
-
-        return reply;
+    @Override
+    public void cancelDelete(Long id) {
+        Reply reply = replyRepository.findById(id).orElseThrow(() ->
+                new ReplyException(ReplyErrorCode.NOT_FOUND));
+        reply.cancelDelete();
     }
 
 }

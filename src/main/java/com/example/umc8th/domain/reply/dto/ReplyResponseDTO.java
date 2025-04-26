@@ -37,45 +37,9 @@ public class ReplyResponseDTO {
     @NoArgsConstructor(access = AccessLevel.PROTECTED)
     public static class ReplyPreviewListDTO {
         private List<ReplyPreviewDTO> replies;
-    }
+        private int size;
+        private int pageNo;
+        private int totalPage;
 
-    @Getter
-    @AllArgsConstructor(access = AccessLevel.PRIVATE)
-    @NoArgsConstructor(access = AccessLevel.PROTECTED)
-    @Builder
-    public static class ReplyUpdateResponseDTO {
-        private Long id;
-        private LocalDateTime updatedAt;
-
-        public static ReplyResponseDTO.ReplyUpdateResponseDTO from(Reply reply) {
-            return ReplyResponseDTO.ReplyUpdateResponseDTO.builder()
-                    .id(reply.getId())
-                    .updatedAt(reply.getUpdatedAt())
-                    .build();
-        }
-    }
-
-    @Getter
-    @AllArgsConstructor(access = AccessLevel.PRIVATE)
-    @NoArgsConstructor(access = AccessLevel.PROTECTED)
-    @Builder
-    public static class ReplyDeleteResponseDTO {
-        private Long id;
-        private LocalDateTime updatedAt;
-
-        public static ReplyResponseDTO.ReplyDeleteResponseDTO from(Reply reply) {
-            return ReplyResponseDTO.ReplyDeleteResponseDTO.builder()
-                    .id(reply.getId())
-                    .updatedAt(reply.getUpdatedAt())
-                    .build();
-        }
-    }
-
-    @Builder
-    @Getter
-    @AllArgsConstructor(access = AccessLevel.PRIVATE)
-    @NoArgsConstructor(access = AccessLevel.PROTECTED)
-    public static class ReplyPreviewPageDTO {
-        private List<ReplyPreviewDTO> replies;
     }
 }

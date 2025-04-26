@@ -27,23 +27,19 @@ public class ReplyConverter {
     public static ReplyResponseDTO.ReplyPreviewDTO toReplyPreviewDTO(Reply reply) {
         return ReplyResponseDTO.ReplyPreviewDTO.builder()
                 .id(reply.getId())
-                .content(reply.getContent())
+                .content(reply.getDeletedAt() == null ? "Deleted Reply" : reply.getContent())
                 .createdAt(reply.getCreatedAt())
                 .updatedAt(reply.getUpdatedAt())
                 .articleId(reply.getArticle().getId())
                 .build();
     }
 
-    public static ReplyResponseDTO.ReplyPreviewListDTO toReplyPreviewListDTO(List<Reply> replies) {
+    public static ReplyResponseDTO.ReplyPreviewListDTO toReplyPreviewListDTO(Page<Reply> replies) {
         return ReplyResponseDTO.ReplyPreviewListDTO.builder()
-                .replies(replies.stream().map(ReplyConverter::toReplyPreviewDTO).toList())
+                .replies(replies.getContent().stream().map(ReplyConverter::toReplyPreviewDTO).toList())
+                .pageNo(replies.getNumber() + 1)
+                .size(replies.getSize())
+                .totalPage(replies.getTotalPages())
                 .build();
     }
-
-    public static ReplyResponseDTO.ReplyPreviewPageDTO toReplyPreviewPageDTO(Page<Reply> replies) {
-        return ReplyResponseDTO.ReplyPreviewPageDTO.builder()
-                .build();
-    }
-
-
 }
