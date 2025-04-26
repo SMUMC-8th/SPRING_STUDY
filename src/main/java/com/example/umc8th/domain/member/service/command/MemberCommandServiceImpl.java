@@ -3,7 +3,6 @@ package com.example.umc8th.domain.member.service.command;
 import com.example.umc8th.domain.member.converter.MemberConverter;
 import com.example.umc8th.domain.member.dto.MemberRequestDTO;
 import com.example.umc8th.domain.member.dto.MemberResponseDTO;
-import com.example.umc8th.domain.member.entity.Member;
 import com.example.umc8th.domain.member.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
