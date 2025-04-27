@@ -36,6 +36,9 @@ public class ReplyConverter {
     public static ReplyResponseDTO.ReplyPreviewListDTO toReplyPreviewListDTO(Page<Reply> replies) {
         return ReplyResponseDTO.ReplyPreviewListDTO.builder()
                 .replies(replies.stream().map(ReplyConverter::toReplyPreviewDTO).toList())
+                .pageNo(replies.getNumber()+1)
+                .size(replies.getSize())
+                .totalPage(replies.getTotalPages())
                 .build();
     }
 
