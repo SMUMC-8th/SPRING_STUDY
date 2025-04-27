@@ -30,9 +30,9 @@ public class ReplyQueryServiceImpl implements ReplyQueryService {
         return replyRepository.findAll();
     }
 
-    public Page<Reply> getRepliesByOffset(Long articleId, Integer offset, Integer size){
+    public Page<Reply> getRepliesByOffset(Long articleId, Integer page, Integer size){
         Article article = articleRepository.findById(articleId).get();
-        Pageable pageable = PageRequest.of(offset, size);
+        Pageable pageable = PageRequest.of(page-1, size);
         Page<Reply> reply = replyRepository.findAllByArticleIsOrderByCreatedAtDesc(article, pageable);
         return reply;
     }

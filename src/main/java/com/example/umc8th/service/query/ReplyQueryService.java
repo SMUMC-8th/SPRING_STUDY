@@ -10,5 +10,5 @@ import java.util.List;
 public interface ReplyQueryService {
     Reply getReply(Long id);
     List<Reply> getReplies(Long articleId);
-    Page<Reply> getRepliesByOffset(Long articleId, Integer offset, Integer size);
+    Page<Reply> getRepliesByOffset(Long articleId, Integer page, Integer size);
 }

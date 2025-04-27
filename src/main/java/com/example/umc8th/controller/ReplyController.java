@@ -31,9 +31,9 @@ public class ReplyController {
         return CustomResponse.ok(ReplyConverter.toReplyPreviewDTO(reply));
     }
 
-    @GetMapping("/articles/{articleId}/replies")
-    public CustomResponse<ReplyResponseDTO.ReplyPreviewListDTO> getReplies(@PathVariable("articleId") Long articleId, @RequestParam Integer size, @RequestParam Integer offset){
-        Page<Reply> replies = replyQueryService.getRepliesByOffset(articleId, offset, size);
+    @GetMapping("replies/articles/{articleId}")
+    public CustomResponse<ReplyResponseDTO.ReplyPreviewListDTO> getReplies(@PathVariable("articleId") Long articleId, @RequestParam Integer page, @RequestParam Integer size){
+        Page<Reply> replies = replyQueryService.getRepliesByOffset(articleId, page, size);
         return CustomResponse.ok(ReplyConverter.toReplyPreviewListDTO(replies));
     }
 

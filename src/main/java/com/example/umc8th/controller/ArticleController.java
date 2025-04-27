@@ -34,8 +34,8 @@ public class ArticleController {
     }
 
     @GetMapping("/articles")
-    public CustomResponse<ArticleResponseDTO.ArticlePreviewListDTO> getArticles(@RequestParam Integer cursor, @RequestParam Integer offset) {
-        Slice<Article> articles = articleQueryService.getArticlesByCursor(cursor, offset);
+    public CustomResponse<ArticleResponseDTO.ArticlePreviewListDTO> getArticles(@RequestParam Integer cursor, @RequestParam Integer size) {
+        Slice<Article> articles = articleQueryService.getArticlesByCursor(cursor, size);
         return CustomResponse.ok(ArticleResponseDTO.ArticlePreviewListDTO.from(articles));
     }
 
