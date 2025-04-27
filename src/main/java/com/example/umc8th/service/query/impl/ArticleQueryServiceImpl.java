@@ -31,8 +31,8 @@ public class ArticleQueryServiceImpl implements ArticleQueryService {
         return articleRepository.findById(id).get();
     }
     @Override
-    public Page<Article> getArticlesByCursor(Integer cursor, Integer offset){
-        Pageable pageable = PageRequest.of(cursor, offset);
+    public Page<Article> getArticlesByCursor(Integer cursor, Integer size){
+        Pageable pageable = PageRequest.of(0, size);
         Page<Article> article = articleRepository.findAll(pageable);
         return article;
     }
