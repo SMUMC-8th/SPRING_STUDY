@@ -39,6 +39,18 @@ public class ArticleConverter {
     }
 
     // ArticlePreviewDTO -> ArticlePreviewListDTO
+    public static ArticleResDTO.ArticlePreviewListDTO toArticlePreviewListCursorPaginationDTO(List<Article> articles, boolean hasNext, Long nextCursor) {
+        List<ArticleResDTO.ArticlePreviewDTO> previewDTOList = articles.stream()
+                .map(ArticleConverter::toArticlePreviewDTO).collect(Collectors.toList());
+
+        return ArticleResDTO.ArticlePreviewListDTO.builder()
+                .articlePreviewListDTO(previewDTOList)
+                .hasNext(hasNext)
+                .nextCursor(nextCursor)
+                .build();
+    }
+
+    // ArticlePreviewDTO -> ArticlePreviewListDTO
     public static ArticleResDTO.ArticlePreviewListDTO toArticlePreviewListDTO(List<Article> articles) {
         List<ArticleResDTO.ArticlePreviewDTO> previewDTOList = articles.stream()
                 .map(ArticleConverter::toArticlePreviewDTO).collect(Collectors.toList());

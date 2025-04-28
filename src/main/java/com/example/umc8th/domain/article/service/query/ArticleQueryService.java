@@ -8,4 +8,5 @@ import java.util.List;
 public interface ArticleQueryService {
     ArticleResDTO.ArticlePreviewDTO getArticle(Long id);
     ArticleResDTO.ArticlePreviewListDTO getArticles();
+    ArticleResDTO.ArticlePreviewListDTO getArticlesByCursorPagination(Long cursor, int size);
 }
