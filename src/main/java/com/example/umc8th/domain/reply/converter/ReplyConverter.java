@@ -27,7 +27,7 @@ public class ReplyConverter {
     public static ReplyResponseDTO.ReplyPreviewDTO toReplyPreviewDTO(Reply reply) {
         return ReplyResponseDTO.ReplyPreviewDTO.builder()
                 .id(reply.getId())
-                .content(reply.getDeletedAt() == null ? "Deleted Reply" : reply.getContent())
+                .content(reply.getDeletedAt() == null ? reply.getContent() : "Deleted Reply")
                 .createdAt(reply.getCreatedAt())
                 .updatedAt(reply.getUpdatedAt())
                 .articleId(reply.getArticle().getId())

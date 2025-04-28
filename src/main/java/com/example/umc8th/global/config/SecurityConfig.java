@@ -21,9 +21,9 @@ public class SecurityConfig {
     // 아래 3개는 Swagger에 대한 URL
     private String[] allowUrl = {
             "/auth/sign-up",
-//            "/swagger-ui/**",
-//            "/swagger-resources/**",
-//            "/v3/api-docs/**",
+            "/swagger-ui/**",
+            "/swagger-resources/**",
+            "/v3/api-docs/**",
     };
 
     @Bean
@@ -43,7 +43,7 @@ public class SecurityConfig {
                         // Form login에서 사용하는 SecurityContextRepository 설정
                         .securityContextRepository(securityContextRepository())
                         // 로그인 성공 시 URL, 보통은 SuccessfulHandler를 많이 사용하지만 간단하게 보기 위해 이 방식 사용
-                        .defaultSuccessUrl("/swagger-ui/index.html")
+                        .defaultSuccessUrl("/swagger-ui/index.html", true)
                 )
                 // 세션 관리 방식 설정, IF_REQUIRED는 필요 시에만 세션을 생성
                 .sessionManagement(sessionManagement -> sessionManagement
