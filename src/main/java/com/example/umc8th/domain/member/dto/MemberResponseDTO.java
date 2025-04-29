@@ -16,4 +16,20 @@ public class MemberResponseDTO {
                     .build();
         }
     }
+
+    @Getter
+    @Builder
+    public static class LoginResponseDTO {
+        private Long id;
+        private String accessToken;
+        private String refreshToken;
+
+        public static LoginResponseDTO from(Long id, String accessToken, String refreshToken) {
+            return LoginResponseDTO.builder()
+                    .id(id)
+                    .accessToken(accessToken)
+                    .refreshToken(refreshToken)
+                    .build();
+        }
+    }
 }

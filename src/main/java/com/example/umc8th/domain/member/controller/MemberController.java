@@ -23,4 +23,10 @@ public class MemberController {
         Member member = memberCommandService.signUp(dto);
         return CustomResponse.ok(MemberResponseDTO.SignUpResponseDTO.from(member));
     }
+
+    @PostMapping("/login")
+    public CustomResponse<MemberResponseDTO.LoginResponseDTO> login(@RequestBody MemberRequestDTO.LoginRequestDTO dto) {
+        MemberResponseDTO.LoginResponseDTO response = memberCommandService.login(dto);
+        return CustomResponse.ok(response);
+    }
 }
