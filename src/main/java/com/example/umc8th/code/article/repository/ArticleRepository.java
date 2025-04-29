@@ -16,4 +16,6 @@ public interface ArticleRepository extends JpaRepository<Article, Long> {
 
 //게시글 cursor기반 페이지네이션
     List<Article> findByIdLessThanOrderByIdDesc(Long lastArticleId, Pageable pageable);    // 처음 조회할 땐 lastArticleId 없이 조회
+
+    List<Article> findAllByOrderByIdDesc(Pageable pageable);
 }

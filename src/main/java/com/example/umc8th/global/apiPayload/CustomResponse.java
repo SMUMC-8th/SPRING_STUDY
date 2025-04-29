@@ -1,4 +1,4 @@
-package umc.umc.global.apiPayload;
+package com.example.umc8th.global.apiPayload;
 
 
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -6,6 +6,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
+
 
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 @JsonPropertyOrder({"isSuccess", "code", "message", "result"})
@@ -26,5 +27,13 @@ public class CustomResponse<T> {
 
     public static <T> CustomResponse<T> onSuccess(T result) {
         return new CustomResponse(true, HttpStatus.OK.name(), HttpStatus.OK.getReasonPhrase(), result);
+    }
+
+    public static <T> CustomResponse<T> onFailure(String code, String message) {
+        return onFailure(code, message, null);
+    }
+
+    public static <T> CustomResponse<T> onFailure(String code, String message, T result) {
+        return new CustomResponse<>(false, code, message, result);
     }
 }

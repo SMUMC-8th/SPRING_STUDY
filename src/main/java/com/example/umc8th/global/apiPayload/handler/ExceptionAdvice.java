@@ -1,7 +1,8 @@
 package com.example.umc8th.global.apiPayload.handler;
 
+import com.example.umc8th.global.apiPayload.CustomResponse;
 import com.example.umc8th.global.apiPayload.code.BaseErrorCode;
-import com.example.umc8th.exception.CustomResponse;
+
 import com.example.umc8th.global.apiPayload.code.GeneralErrorCode;
 import com.example.umc8th.global.apiPayload.code.GeneralException;
 import jakarta.validation.ConstraintViolationException;

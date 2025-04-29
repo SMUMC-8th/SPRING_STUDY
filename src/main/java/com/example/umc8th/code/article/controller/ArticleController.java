@@ -66,12 +66,12 @@ public class ArticleController {
         return CustomResponse.onSuccess(responseDTO);
     }
 
-    @Operation(summary = "게시글 전체 조회")
-    @GetMapping("/articles")
-    public CustomResponse<List<Article>> getArticles() {
-        List<Article> articles = articleQueryService.getArticles();
-        return CustomResponse.onSuccess(articles);
-    }
+//    @Operation(summary = "게시글 전체 조회")
+//    @GetMapping("/articles")
+//    public CustomResponse<List<Article>> getArticles() {
+//        List<Article> articles = articleQueryService.getArticles();
+//        return CustomResponse.onSuccess(articles);
+//    } - 커서 사용
 
     @Operation(summary = "게시글 cursor 기반 페이지네이션")
     @GetMapping("/articles/cursor")

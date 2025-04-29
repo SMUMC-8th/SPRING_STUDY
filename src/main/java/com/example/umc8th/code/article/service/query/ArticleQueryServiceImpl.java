@@ -35,10 +35,15 @@ public class ArticleQueryServiceImpl implements ArticleQueryService {
 
     @Override
     public List<Article> getArticlesByCursor(Long lastArticleId, int size) {
-        if (lastArticleId == null) {
-            throw new GeneralException(GeneralErrorCode.NOT_FOUND_404);
-        }
+
         Pageable pageable = PageRequest.of(0, size);
+
+        if (lastArticleId == null) {
+            //커서값이 없을때 데이터 불러오는거로 바꾸기
+            // 처음 요청: 가장 최신글부터 size개 가져오기
+            return articleRepository.findAllByOrderByIdDesc(pageable);
+        }
+        // 이후 요청: lastArticleId보다 작은 ID를 가진 글들 가져오기
         return articleRepository.findByIdLessThanOrderByIdDesc(lastArticleId, pageable);
     }
 }
