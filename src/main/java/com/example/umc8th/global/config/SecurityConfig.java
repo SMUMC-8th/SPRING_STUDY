@@ -28,6 +28,9 @@ public class SecurityConfig {
     @Bean
     SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
+                .cors(cors -> cors
+                        .configurationSource(CorsConfig.apiConfigurationSource()))
+
                 // 어떤 URL에 Security를 걸 것인지 permitAll을 허용, hasRole은 특정 role이 있어야 허용, authenticated는 인증 필요
                 .authorizeHttpRequests(request -> request
                         .requestMatchers(allowUrl).permitAll()
