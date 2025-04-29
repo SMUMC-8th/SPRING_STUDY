@@ -1,6 +1,7 @@
 package com.example.umc8th.code.article.controller;
 
 import com.example.umc8th.code.article.dto.ArticleResponseDTO;
+import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -12,7 +13,6 @@ import com.example.umc8th.code.article.entity.Article;
 
 import java.util.List;
 
-// RestController 명시
 @RestController
 @Tag(name = "Article API")
 @RequiredArgsConstructor
@@ -32,7 +32,7 @@ public class ArticleController {
         return CustomResponse.onSuccess(responseDTO);
     }
 
-    /// 게시물 수정 - 전체 업데이트 (PUT)
+    @Operation(summary = "게시물 수정", description = "전체 업데이트")
     @PutMapping("/articles/{articleId}")
     public CustomResponse<ArticleResponseDTO> updateArticlePut(@PathVariable("articleId") Long articleId, @RequestBody ArticleRequestDTO.CreateArticleDTO dto){
         Article updatedArticle = articleCommandService.saveAndUpdate(articleId, dto);
@@ -40,8 +40,7 @@ public class ArticleController {
         return CustomResponse.onSuccess(responseDTO);
     }
 
-
-    /// 게시물 수정 - 부분 업데이트 (PATCH)
+    @Operation(summary = "게시물 수정", description = "부분 업데이트")
     @PatchMapping("/articles/{articleId}")
     public CustomResponse<ArticleResponseDTO> updateArticlePatch(@PathVariable("articleId") Long articleId, @RequestBody ArticleRequestDTO.CreateArticleDTO dto){
         Article updatedArticle = articleCommandService.saveAndUpdate(articleId, dto);
@@ -49,7 +48,7 @@ public class ArticleController {
         return CustomResponse.onSuccess(responseDTO);
     }
 
-    /// 게시물 삭제
+    @Operation(summary = "게시물 삭제")
     @DeleteMapping("/articles/{articleId}")
     public CustomResponse<String> deleteArticle(@PathVariable("articleId") Long articleId){
         articleCommandService.deleteArticle(articleId);
@@ -57,7 +56,7 @@ public class ArticleController {
     }
 
 
-    //// 게시글 하나 조회
+    @Operation(summary = "게시글 하나 조회")
     @GetMapping("/articles/{articleId}")
     // @PathVariable을 이용하여 {}로 설정한 변수의 값을 가져온 이후 Long articleId에 담기. 참고로 GET method는 RequestBody 사용이 불가능합니다.
     public CustomResponse<ArticleResponseDTO> getArticle(@PathVariable("articleId") Long articleId) {
@@ -67,10 +66,23 @@ public class ArticleController {
         return CustomResponse.onSuccess(responseDTO);
     }
 
-    //// 게시글 전체 조회
+    @Operation(summary = "게시글 전체 조회")
     @GetMapping("/articles")
     public CustomResponse<List<Article>> getArticles() {
         List<Article> articles = articleQueryService.getArticles();
         return CustomResponse.onSuccess(articles);
+    }
+
+    @Operation(summary = "게시글 cursor 기반 페이지네이션")
+    @GetMapping("/articles/cursor")
+    public CustomResponse<List<ArticleResponseDTO>> getArticlesByCursor(@RequestParam(required = false) Long lastArticleId,
+                                                             @RequestParam(defaultValue = "10") int size) {
+        List<Article> articles = articleQueryService.getArticlesByCursor(lastArticleId, size);
+        List<ArticleResponseDTO> dtos = articles.stream().map(ArticleResponseDTO::new).toList();
+        return CustomResponse.onSuccess(dtos);
+        //stream은 리스트를 순서대로 반복
+        //map은 각 article 객체를 ArticleResponseDTO로 변환하고
+        //.map(article -> new ArticleResponseDTO(article))
+        //toList()로 스트림으로 처리한 결과를 리스트로 만듦
     }
 }

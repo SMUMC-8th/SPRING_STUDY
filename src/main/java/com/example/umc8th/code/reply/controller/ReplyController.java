@@ -1,6 +1,8 @@
 package com.example.umc8th.code.reply.controller;
 
+import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
 import com.example.umc8th.code.reply.dto.ReplyRequestDTO;
 import com.example.umc8th.code.reply.entity.Reply;
@@ -20,7 +22,7 @@ public class ReplyController {
     private final ReplyCommandService replyCommandService;
     private final ReplyQueryService replyQueryService;
 
-    //// 댓글 생성
+    @Operation(summary = "댓글 생성")
     @PostMapping
     public CustomResponse<ReplyResponseDTO> createResponse(@PathVariable Long articleId,
                                                            @RequestBody ReplyRequestDTO.CreateReplyDTO dto) {
@@ -30,33 +32,29 @@ public class ReplyController {
         return CustomResponse.onSuccess(replyDTO);
     }
 
+    @Operation(summary = "댓글 수정")
     @PatchMapping("/{replyId}")
     public CustomResponse<Reply> updateReplyPatch(@PathVariable Long articleId, @RequestBody ReplyRequestDTO.UpdateReplyDTO dto) {
         Reply updatedReply = replyCommandService.saveAndUpdate(articleId, dto);
         return CustomResponse.onSuccess(updatedReply);
     }
 
+    @Operation(summary = "댓글 수정")
     @PutMapping("/{replyId}")
     public CustomResponse<Reply> updateReplyPut(@PathVariable Long articleId, @RequestBody ReplyRequestDTO.UpdateReplyDTO dto) {
         Reply updatedReply = replyCommandService.saveAndUpdate(articleId, dto);
         return CustomResponse.onSuccess(updatedReply);
     }
 
+    @Operation(summary = "댓글 삭제")
     @DeleteMapping("/{replyId}")
     public CustomResponse<String> deleteReply(@PathVariable Long articleId, @PathVariable Long replyId){
         replyCommandService.deleteReply(articleId, replyId);
         return CustomResponse.onSuccess("댓글 삭제 되었음");
     }
 
-    //// 댓글 하나 조회는 이상한 것 같음.. 아티클에 댓글 있으면 전부 보여줘
-//    @GetMapping("/{replyId}")
-//    public CustomResponse<ReplyResponseDTO> getResponse(@PathVariable Long articleId, @PathVariable Long replyId) {
-//        Reply reply = replyQueryService.getReply(replyId);
-//        ReplyResponseDTO replyDTO = new ReplyResponseDTO(reply);
-//        return CustomResponse.onSuccess(replyDTO);
-//    }
 
-    //// 아티클에 따른 댓글 전체 조회
+    @Operation(summary = "댓글 전체 조회", description = "특정 게시글의 모든 댓글을 조회합니다.")
     @GetMapping
     public CustomResponse<List<ReplyResponseDTO>> getAllReplies(@PathVariable Long articleId) {
         List<Reply> replies = replyQueryService.getRepliesByArticle(articleId);
@@ -70,4 +68,13 @@ public class ReplyController {
         return CustomResponse.onSuccess(replyDTOs);
     }
 
+    @Operation(summary = "댓글 페이지네이션", description = "댓글 offset기반 페이지네이션 - 생성날짜순서로")
+    @GetMapping("/offset")
+    public CustomResponse<Page<ReplyResponseDTO>> getRepliesByArticleId(@PathVariable("articleId") Long articleId,
+                                                             @RequestParam(defaultValue="0") int page,
+                                                             @RequestParam(defaultValue = "10") int size){
+        Page<Reply> replies = replyQueryService.findRepliesByArticleId(articleId, page, size);
+        Page<ReplyResponseDTO> replyDTOs = replies.map(ReplyResponseDTO::new);
+        return CustomResponse.onSuccess(replyDTOs);
+    }
 }

@@ -5,6 +5,10 @@ import com.example.umc8th.code.article.enums.Active;
 import com.example.umc8th.code.article.repository.ArticleRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import com.example.umc8th.code.reply.entity.Reply;
 import com.example.umc8th.code.exception.GeneralErrorCode;
@@ -57,5 +61,12 @@ public class ReplyQueryServiceImpl implements ReplyQueryService {
         }
 
         return reply;
+    }
+
+
+    @Override
+    public Page<Reply> findRepliesByArticleId(Long articleId, int page, int size) {
+        Pageable pageable = PageRequest.of(page, size, Sort.by(Sort.Direction.ASC, "createdAt"));
+        return replyRepository.findByArticleId(articleId, pageable);
     }
 }
