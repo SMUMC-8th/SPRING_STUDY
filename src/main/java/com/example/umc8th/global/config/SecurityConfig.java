@@ -20,9 +20,9 @@ public class SecurityConfig {
 
     private String[] allowUrl = {
             "/auth/sign-up",
-//            "/swagger-ui/**",
-//            "/swagger-resources/**",
-//            "/v3/api-docs/**",
+            "/swagger-ui/**",
+            "/swagger-resources/**",
+            "/v3/api-docs/**",
     };
 
     @Bean
