@@ -33,6 +33,7 @@ public class SecurityConfig {
                         .requestMatchers(allowUrl).permitAll()
                         .anyRequest().authenticated()
                 )
+                .cors(cors -> cors.configurationSource(CorsConfig.apiConfigurationSource()))
                 .csrf(AbstractHttpConfigurer::disable)
                 .httpBasic(AbstractHttpConfigurer::disable)
                 .formLogin(formLogin -> formLogin
