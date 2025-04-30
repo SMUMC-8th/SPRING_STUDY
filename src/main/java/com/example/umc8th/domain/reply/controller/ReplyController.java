@@ -28,6 +28,7 @@ public class ReplyController {
     }
 
     @GetMapping("articles/{articleId}/replies")
+    @CrossOrigin(origins = "*", allowedHeaders = "*")
     public GlobalResponse<ReplyResponseDTO.PageReplyDTO> getReplyList(
             @PathVariable Long articleId,
             @RequestParam int page,

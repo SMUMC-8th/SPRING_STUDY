@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequiredArgsConstructor
 @Tag(name = "게시물 API")
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 public class ArticleController {
 
     private final ArticleQueryService articleQueryService;
