@@ -1,4 +1,4 @@
-package com.example.umc8th.global.auth.service;
+package com.example.umc8th.global.auth.service.query;
 
 import com.example.umc8th.domain.member.entity.Member;
 import com.example.umc8th.domain.member.repository.MemberRepository;
