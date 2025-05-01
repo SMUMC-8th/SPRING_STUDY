@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/auth")
 @RequiredArgsConstructor
-@Tag(name = "유저API")
+@Tag(name = "유저 API")
 public class MemberController {
 
     private final MemberCommandService memberCommandService;
@@ -24,5 +24,12 @@ public class MemberController {
             @RequestBody MemberRequestDTO.SignUpRequestDTO dto
     ){
         return GlobalResponse.ok(memberCommandService.signUp(dto));
+    }
+
+    @PostMapping("/login")
+    public GlobalResponse<MemberResponseDTO.LoginResponseDTO> login(
+            @RequestBody MemberRequestDTO.LoginRequestDTO dto
+    ){
+        return GlobalResponse.ok(memberCommandService.login(dto));
     }
 }
