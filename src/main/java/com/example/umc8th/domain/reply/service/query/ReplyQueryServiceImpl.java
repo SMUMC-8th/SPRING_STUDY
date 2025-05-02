@@ -19,8 +19,8 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 @Service
-@Transactional(readOnly = true)
 @RequiredArgsConstructor
+@Transactional(readOnly = true)
 public class ReplyQueryServiceImpl implements ReplyQueryService{
 
     private final ArticleRepository articleRepository;
@@ -33,20 +33,10 @@ public class ReplyQueryServiceImpl implements ReplyQueryService{
     }
 
     @Override
-    public List<Reply> getReplies(Long articleId) {
+    public Page<Reply> getReplies(Long articleId, Integer page, Integer offset) {
         Article article = articleRepository.findById(articleId).orElseThrow(() ->
                 new ArticleException(ArticleErrorCode.NOT_FOUND));
-        return replyRepository.findAllByArticleId(article);
-    }
-
-    @Override
-    public Boolean existsReply(Long articleId) {
-        return replyRepository.existsById(articleId);
-    }
-
-    @Override
-    public Page<Reply> getRepliesPageable(Long articleId,  int page, int size) {
-        Pageable pageable = PageRequest.of(page, size, Sort.by(Sort.Direction.DESC, "createdAt"));
-        return replyRepository.findAllByArticleId(articleId, pageable);
+        Pageable pageable = PageRequest.of(page - 1, offset);
+        return replyRepository.findAllByArticleIdIsOrderByCreatedAtDesc(articleId, pageable);
     }
 }

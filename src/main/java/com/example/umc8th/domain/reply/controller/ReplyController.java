@@ -13,8 +13,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/replies")
@@ -33,8 +31,10 @@ public class ReplyController {
 
     @GetMapping("/articles/{articleId}")
     @Operation(summary = "댓글 전체 조회 API", description = "댓글 전체 조회하는 API")
-    public CustomResponse<ReplyResponseDTO.ReplyPreviewListDTO> getReplies(@PathVariable Long articleId) {
-        List<Reply> replies = replyQueryService.getReplies(articleId);
+    public CustomResponse<ReplyResponseDTO.ReplyPreviewListDTO> getReplies(@PathVariable Long articleId,
+                                                                           @RequestParam("page") Integer page,
+                                                                           @RequestParam(value = "offset", defaultValue = "10") Integer offset) {
+        Page<Reply> replies = replyQueryService.getReplies(articleId, page, offset);
         return CustomResponse.ok(ReplyConverter.toReplyPreviewListDTO(replies));
     }
 
@@ -45,29 +45,23 @@ public class ReplyController {
         return CustomResponse.ok(ReplyConverter.toReplyPreviewDTO(reply));
     }
 
-    @GetMapping("/articles/{articleId}/replies")
-    @Operation(summary = "댓글 조회 API(페이지기반)")
-    public CustomResponse<ReplyResponseDTO.ReplyPreviewPageDTO> getRepliesPageable(@PathVariable("articleId") Long articleId,
-                                                                               @RequestParam(required = false, defaultValue = "0", value = "page") int pageNo) {
-        Page<Reply> replies = replyQueryService.getRepliesPageable(articleId, pageNo, 2);
-        return CustomResponse.ok(ReplyConverter.toReplyPreviewPageDTO(replies));
+    @GetMapping("/{replyId}/test")
+    public CustomResponse<Reply> getReplyTest(@PathVariable Long replyId) {
+        Reply reply = replyQueryService.getReply(replyId);
+        return CustomResponse.ok(reply);
     }
 
     @PutMapping("/{replyId}")
-    @Operation(summary = "댓글 수정 API")
-    public CustomResponse<ReplyResponseDTO.ReplyUpdateResponseDTO> updateReply(
-            @PathVariable("replyId") Long replyId,
-            @RequestBody ReplyRequestDTO.UpdateReplyDTO dto) {
-        Reply updatedReply = replyCommandService.updateReply(replyId, dto);
-        return CustomResponse.ok(ReplyResponseDTO.ReplyUpdateResponseDTO.from(updatedReply));
+    @Operation(summary = "댓글 수정 API", description = "댓글 수정하는 API")
+    public CustomResponse<ReplyResponseDTO.ReplyPreviewDTO> updateReply(@PathVariable("replyId") Long replyId,
+                                                                        @RequestBody ReplyRequestDTO.UpdateReplyDTO dto) {
+        Reply reply = replyCommandService.updateReply(replyId, dto);
+        return CustomResponse.ok(ReplyConverter.toReplyPreviewDTO(reply));
     }
 
-    @DeleteMapping("/{replyId}")
-    @Operation(summary = "댓글 삭제 API")
-    public CustomResponse<ReplyResponseDTO.ReplyDeleteResponseDTO> deleteReply(@PathVariable("replyId") Long replyId) {
-        Reply deletedReply = replyCommandService.deleteReply(replyId);
-        return CustomResponse.ok(ReplyResponseDTO.ReplyDeleteResponseDTO.from(deletedReply));
+    @PatchMapping("/{replyId}")
+    @Operation(summary = "댓글 삭제 API", description = "댓글 삭제하는 API")
+    public CustomResponse<Long> deleteReply(@PathVariable("replyId") Long id) {
+        return CustomResponse.ok(replyCommandService.deleteReply(id));
     }
-
-
 }
