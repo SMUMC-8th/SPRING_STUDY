@@ -7,4 +7,10 @@ public class MemberRequestDTO {
             String password
     ) {
     }
+
+    public record login(
+            String username,
+            String password
+    ){
+    }
 }
