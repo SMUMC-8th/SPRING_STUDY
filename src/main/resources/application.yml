@@ -10,3 +10,9 @@ spring:
     properties:
       hibernate:
         format_sql: true
+
+jwt:
+  secret: ${JWT_SECRET}
+  time:
+    access-expiration: 3600000      # 1 hour (ms)
+    refresh-expiration: 2592000000  # 30 days (ms)

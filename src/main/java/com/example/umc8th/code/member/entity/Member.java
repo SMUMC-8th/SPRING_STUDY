@@ -1,4 +1,4 @@
-package com.example.umc8th.code.member;
+package com.example.umc8th.code.member.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
