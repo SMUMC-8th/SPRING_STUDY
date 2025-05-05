@@ -17,6 +17,8 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
+// 이 컨트롤러에만 cors 적용할 경우, 아래 주석 해제
+//@CrossOrigin(origins = "*", methods = {RequestMethod.GET, RequestMethod.POST, RequestMethod.PUT, RequestMethod.DELETE})
 public class ArticleController {
     private final ArticleQueryService articleQueryService;
     private final ArticleCommandService articleCommandService;
