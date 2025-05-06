@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 public class MemberController {
 
-
     private final MemberCommandService memberCommandService;
 
     @PostMapping("/sign-up")

@@ -1,30 +1,36 @@
 package com.example.umc8th.global.config;
 
+import com.example.umc8th.global.auth.CustomUserDetailsService;
+import jakarta.servlet.Filter;
+import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
-import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.context.HttpSessionSecurityContextRepository;
 import org.springframework.security.web.context.SecurityContextRepository;
-import org.springframework.web.cors.CorsConfiguration;
-import org.springframework.web.cors.CorsConfigurationSource;
-import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
-
-import java.security.Security;
-import java.util.List;
 
 @Configuration
+@RequiredArgsConstructor
+@EnableWebSecurity(debug = true)
 public class SecurityConfig {
 
     // private final SecurityContextRepository securityContextRepository = new HttpSessionSecurityContextRepository();
 
+    private final JwtUtil jwtUtil;
+    private final CustomUserDetailsService customUserDetailsService;
+    private final CustomEntryPoint customEntryPoint;
+    private final CustomAccessDeniedHandler customAccessDeniedHandler;
+
     private String[] allowUrl = {
             "/auth/sign-up",
+            "/auth/login",
             "/swagger-ui/**",
             "/swagger-resources/**",
             "/v3/api-docs/**",
@@ -42,20 +48,30 @@ public class SecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable)
                 // http basic 인증 방식 비활성화
                 .httpBasic(AbstractHttpConfigurer::disable)
-                // formLogin 설정
-                .formLogin(formLogin -> formLogin
-                                .securityContextRepository(securityContextRepository())
-                                .defaultSuccessUrl("/swagger-ui/index.html")
-                )
-                .sessionManagement(sessionManagement -> sessionManagement
-                        .sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED)
-                )
-                .securityContext(context -> context
-                        .securityContextRepository(securityContextRepository())
+                .addFilterBefore(jwtFilter(), UsernamePasswordAuthenticationFilter.class)
+                .exceptionHandling(exception -> exception
+                        .authenticationEntryPoint(customEntryPoint)
+                        .accessDeniedHandler(customAccessDeniedHandler)
                 );
+                // formLogin 설정
+//                .formLogin(formLogin -> formLogin
+//                                .securityContextRepository(securityContextRepository())
+//                                .defaultSuccessUrl("/swagger-ui/index.html")
+//                )
+//                .sessionManagement(sessionManagement -> sessionManagement
+//                        .sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED)
+//                )
+//                .securityContext(context -> context
+//                        .securityContextRepository(securityContextRepository())
+//                );
 
         return http.build();
 
+    }
+
+    @Bean
+    Filter jwtFilter() {
+        return new JwtFilter(jwtUtil, customUserDetailsService);
     }
 
     @Bean

@@ -41,7 +41,7 @@ public class CustomResponse<T> {
                 .build();
     }
 
-    public static CustomResponse<?> onFail(BaseErrorCode errorCode) {
+    public static CustomResponse<?> onFailure(BaseErrorCode errorCode) {
         return CustomResponse.builder()
                 .isSuccess(false)
                 .status(errorCode.getStatus())
@@ -49,4 +49,15 @@ public class CustomResponse<T> {
                 .message(errorCode.getMessage())
                 .build();
     }
+
+    public static <T> CustomResponse<T> onFailure(String code, String message, T result) {
+        return CustomResponse.<T>builder()
+                .isSuccess(false)
+                .status(HttpStatus.UNAUTHORIZED) // 또는 매개변수로 받아도 됨
+                .code(code)
+                .message(message)
+                .result(result)
+                .build();
+    }
+
 }
