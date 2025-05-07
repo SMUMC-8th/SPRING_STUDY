@@ -32,9 +32,13 @@ public class JwtFilter extends OncePerRequestFilter {
         try {
             // 헤더에서 토큰 추출
             String token = request.getHeader("Authorization");
-            token = token != null ? token.replace("Bearer ", "") : null;
+            if (token == null || !token.startsWith("Bearer ")) {
+                filterChain.doFilter(request, response);
+                return ;
+            }
+            token = token.replace("Bearer ", "");
             // 토큰 검증
-            if (token != null && jwtUtil.isValid(token)) {
+            if (jwtUtil.isValid(token)) {
                 // 토큰에서 사용자 정보 가져오기
                 String username = jwtUtil.getUsername(token);
                 UserDetails userDetails = customUserDetailsService.loadUserByUsername(username);
