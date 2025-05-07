@@ -6,4 +6,7 @@ public class MemberResponseDTO {
 
     @Builder
     public record SignUpResponseDTO(Long id) {}
+
+    @Builder
+    public record LoginResponseDTO(Long id, String accessToken, String refreshToken) {}
 }
