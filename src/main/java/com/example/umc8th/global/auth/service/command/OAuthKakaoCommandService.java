@@ -5,8 +5,6 @@ import com.example.umc8th.domain.member.dto.MemberResponseDTO;
 import com.example.umc8th.domain.member.entity.Member;
 import com.example.umc8th.domain.member.enums.SocialLogin;
 import com.example.umc8th.domain.member.enums.UserRole;
-import com.example.umc8th.domain.member.exception.MemberException;
-import com.example.umc8th.domain.member.exception.code.MemberErrorCode;
 import com.example.umc8th.domain.member.repository.MemberRepository;
 import com.example.umc8th.global.auth.dto.response.OAuthKakaoResDTO;
 import com.example.umc8th.global.auth.exception.AuthException;
