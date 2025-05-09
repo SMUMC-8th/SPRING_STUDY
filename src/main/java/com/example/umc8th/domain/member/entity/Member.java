@@ -1,5 +1,7 @@
 package com.example.umc8th.domain.member.entity;
 
+import com.example.umc8th.domain.member.enums.SocialLogin;
+import com.example.umc8th.domain.member.enums.UserRole;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -18,6 +20,14 @@ public class Member {
     @Column(name = "user_name", unique = true, nullable = false)
     private String username;
 
-    @Column(name = "password", nullable = false)
+    @Column(name = "password")
     private String password;
+
+    @Column(name = "role")
+    @Enumerated(EnumType.STRING)
+    private UserRole role;
+
+    @Column(name = "social_login")
+    @Enumerated(EnumType.STRING)
+    private SocialLogin socialLogin;
 }

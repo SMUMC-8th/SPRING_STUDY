@@ -17,6 +17,6 @@ public class JwtTokenCommandService implements TokenCommandService {
     public MemberResponseDTO.LoginResponseDTO createLoginToken(Member member) {
         String accessToken = jwtUtil.createAccessToken(member);
         String refreshToken = jwtUtil.createRefreshToken(member);
-        return MemberConverter.toLoginResponseDTO(member.getId(), accessToken, refreshToken);
+        return MemberConverter.toLoginResponseDTO(accessToken, refreshToken);
     }
 }
