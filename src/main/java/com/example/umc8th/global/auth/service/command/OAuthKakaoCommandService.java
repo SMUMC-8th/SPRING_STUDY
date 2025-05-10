@@ -39,11 +39,18 @@ public class OAuthKakaoCommandService implements OAuth2CommandService{
 
         OAuthKakaoResDTO.KakaoToken kakaoToken = getKakaoToken(code);
         OAuthKakaoResDTO.KakaoUser kakaoUser = getKakaoUser(kakaoToken.access_token());
+
         String email = kakaoUser.kakao_account().email();
-        Member member = findMember(email);
+        Member member = memberRepository.findByUsername(email).orElse(null);
         if (member == null) {
-            member = createMember(kakaoUser);
+            member = MemberConverter.toMember(
+                    kakaoUser.kakao_account().email(),
+                    SocialLogin.KAKAO,
+                    UserRole.ROLE_USER
+            );
+            memberRepository.save(member);
         }
+
         return MemberConverter.toLoginResponseDTO(
                 jwtUtil.createAccessToken(member),
                 jwtUtil.createRefreshToken(member)
@@ -101,20 +108,4 @@ public class OAuthKakaoCommandService implements OAuth2CommandService{
         }
     }
 
-    // 회원가입 여부 확인
-    private Member findMember(String username) {
-
-        return memberRepository.findByUsername(username).orElse(null);
-    }
-
-    // 소셜 회원가입
-    private Member createMember(OAuthKakaoResDTO.KakaoUser kakaoUser) {
-
-        Member member = MemberConverter.toMember(
-                kakaoUser.kakao_account().email(),
-                SocialLogin.KAKAO,
-                UserRole.ROLE_USER
-        );
-        return memberRepository.save(member);
-    }
 }
