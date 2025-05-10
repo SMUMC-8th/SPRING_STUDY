@@ -21,6 +21,7 @@ public class ExceptionAdvice {
         GlobalResponse<String> response = GlobalResponse.onFailure(code.getCode(), code.getMessage());
         return ResponseEntity.status(code.getStatus()).body(response);
     }
+
     @ExceptionHandler(Exception.class)
     public ResponseEntity<?> Exception(Exception e) {
         log.warn("Internal Server exception: {}", e.getMessage());

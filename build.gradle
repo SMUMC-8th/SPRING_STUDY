@@ -51,9 +51,9 @@ dependencies {
     // OAuth2 login
     implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
 
-    // FeignClient
-    implementation 'org.springframework.cloud:spring-cloud-starter-openfeign'
-    implementation 'org.springframework.cloud:spring-cloud-starter-loadbalancer'
+    // WebClient
+    implementation 'org.springframework.boot:spring-boot-starter-webflux'
+    testImplementation 'io.projectreactor:reactor-test'
 }
 dependencyManagement {
     imports {

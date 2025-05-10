@@ -12,6 +12,9 @@ public enum AuthErrorCode implements BaseErrorCode {
     OAUTH_TOKEN_FAIL(HttpStatus.INTERNAL_SERVER_ERROR,
             "OAUTH500",
             "토큰을 발급받을 수 없습니다."),
+    TIME_OUT(HttpStatus.INTERNAL_SERVER_ERROR,
+            "OAUTH500",
+            "OAuth2 플랫폼에서 요청을 처리하지 못했습니다."),
     OAUTH_USER_INFO_FAIL(HttpStatus.INTERNAL_SERVER_ERROR,
             "OAUTH400",
             "사용자 정보를 가져오는데 실패했습니다.");

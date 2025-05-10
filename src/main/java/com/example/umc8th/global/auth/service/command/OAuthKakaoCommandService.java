@@ -6,15 +6,19 @@ import com.example.umc8th.domain.member.entity.Member;
 import com.example.umc8th.domain.member.enums.SocialLogin;
 import com.example.umc8th.domain.member.enums.UserRole;
 import com.example.umc8th.domain.member.repository.MemberRepository;
-import com.example.umc8th.global.auth.client.KakaoAuthClient;
-import com.example.umc8th.global.auth.client.KakaoUserClient;
 import com.example.umc8th.global.auth.dto.response.OAuthKakaoResDTO;
 import com.example.umc8th.global.auth.exception.AuthException;
 import com.example.umc8th.global.auth.exception.code.AuthErrorCode;
 import com.example.umc8th.global.util.JwtUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.reactive.function.client.WebClient;
+
+import javax.security.sasl.AuthenticationException;
+import java.time.Duration;
+import java.util.concurrent.TimeoutException;
 
 @Service
 @RequiredArgsConstructor
@@ -31,8 +35,6 @@ public class OAuthKakaoCommandService implements OAuth2CommandService{
 
     private final MemberRepository memberRepository;
     private final JwtUtil jwtUtil;
-    private final KakaoAuthClient kakaoAuthClient;
-    private final KakaoUserClient kakaoUserClient;
 
     @Override
     public MemberResponseDTO.LoginResponseDTO login(String code) {
@@ -54,14 +56,26 @@ public class OAuthKakaoCommandService implements OAuth2CommandService{
     private OAuthKakaoResDTO.KakaoToken getKakaoToken(String code) {
 
         try {
-            return kakaoAuthClient.getKakaoToken(
-                    "authorization_code",
-                    clientId,
-                    redirectURI,
-                    code,
-                    clientSecret
-            );
+            WebClient client = WebClient.builder()
+                    .baseUrl("https://kauth.kakao.com/oauth/token")
+                    .defaultHeader("Content-Type", "application/x-www-form-urlencoded")
+                    .build();
+            return client.post()
+                    .bodyValue(
+                            "grant_type=authorization_code" +
+                                    "&client_id=" + clientId +
+                                    "&redirect_uri=" + redirectURI +
+                                    "&code=" + code +
+                                    "&client_secret=" + clientSecret
+                    )
+                    .retrieve()
+                    .bodyToMono(OAuthKakaoResDTO.KakaoToken.class)
+                    .timeout(Duration.ofSeconds(5))
+                    .block();
         } catch (Exception e) {
+            if (e.getCause() instanceof TimeoutException) {
+                throw new AuthException(AuthErrorCode.TIME_OUT);
+            }
             throw new AuthException(AuthErrorCode.OAUTH_TOKEN_FAIL);
         }
     }
@@ -71,8 +85,20 @@ public class OAuthKakaoCommandService implements OAuth2CommandService{
 
         try {
             String token = "Bearer " + accessToken;
-            return kakaoUserClient.getKakaoUser(token);
+            WebClient client = WebClient.builder()
+                    .baseUrl("https://kapi.kakao.com/v2/user/me")
+                    .defaultHeader("Content-Type", "application/x-www-form-urlencoded")
+                    .build();
+            return client.get()
+                    .header("Authorization", token)
+                    .retrieve()
+                    .bodyToMono(OAuthKakaoResDTO.KakaoUser.class)
+                    .timeout(Duration.ofSeconds(5))
+                    .block();
         } catch (Exception e) {
+            if (e.getCause() instanceof TimeoutException) {
+                throw new AuthException(AuthErrorCode.TIME_OUT);
+            }
             throw new AuthException(AuthErrorCode.OAUTH_USER_INFO_FAIL);
         }
     }
