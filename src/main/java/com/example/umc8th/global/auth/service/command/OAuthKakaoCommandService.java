@@ -12,11 +12,9 @@ import com.example.umc8th.global.auth.exception.code.AuthErrorCode;
 import com.example.umc8th.global.util.JwtUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 
-import javax.security.sasl.AuthenticationException;
 import java.time.Duration;
 import java.util.concurrent.TimeoutException;
 
