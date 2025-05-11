@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.*;
 public class MemberController {
 
     private final MemberCommandService memberCommandService;
-    private final OAuth2Service oAuth2Service;
 
     @PostMapping("/sign-up")
     public CustomResponse<MemberResponseDTO.SignUp> signUp(@RequestBody MemberRequestDTO.SignUp reqDTO) {
@@ -28,11 +27,5 @@ public class MemberController {
     public CustomResponse<JwtDTO> login(@RequestBody MemberRequestDTO.login reqDTO) {
         JwtDTO resDTO = memberCommandService.login(reqDTO);
         return CustomResponse.onSuccess(resDTO);
-    }
-
-    @GetMapping("/login/oauth2/code/kakao")
-    public CustomResponse<JwtDTO> loginWithKakao(@RequestParam("code") String code) {
-        JwtDTO jwtDTO = oAuth2Service.loginWithKakao(code);
-        return CustomResponse.onSuccess(jwtDTO);
     }
 }
