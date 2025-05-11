@@ -35,7 +35,7 @@ public class MemberCommandServiceImpl implements MemberCommandService{
 
     @Override
     public JwtDTO login(MemberRequestDTO.login reqDTO) {
-        Member member = memberRepository.findByUsername(reqDTO.username())
+        Member member = memberRepository.findByEmail(reqDTO.email())
                 .orElseThrow(() -> new MemberException(MemberErrorCode.MEMBER_NOT_FOUND));
 
         if (!passwordEncoder.matches(reqDTO.password(), member.getPassword())) {

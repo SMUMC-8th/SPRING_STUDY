@@ -7,6 +7,7 @@ public class MemberResponseDTO {
     @Builder
     public record SignUp(
             Long id,
+            String email,
             String username
     ) {
     }
