@@ -8,4 +8,10 @@ public class MemberRequestDTO {
         private String username;
         private String password;
     }
+
+    @Getter
+    public static class LoginRequestDTO {
+        private String username;
+        private String password;
+    }
 }
