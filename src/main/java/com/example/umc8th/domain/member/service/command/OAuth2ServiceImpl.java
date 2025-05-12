@@ -10,10 +10,12 @@ import com.example.umc8th.global.jwt.util.JwtUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.stereotype.Service;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.reactive.function.client.WebClient;
+import reactor.core.publisher.Mono;
 
 @Service
 @RequiredArgsConstructor
@@ -78,21 +80,46 @@ public class OAuth2ServiceImpl implements OAuth2Service {
     }
 
     private OAuth2DTO.OAuth2TokenDTO getAccessToken(String code) {
-        MultiValueMap<String, String> formData = new LinkedMultiValueMap<>();
-        formData.add("grant_type", "authorization_code");
-        formData.add("client_id", clientId);
-        formData.add("redirect_uri", redirectURI);
-        formData.add("code", code);
-        formData.add("client_secret", clientSecret);
+        try {
+            MultiValueMap<String, String> formData = new LinkedMultiValueMap<>();
+            formData.add("grant_type", "authorization_code");
+            formData.add("client_id", clientId);
+            formData.add("redirect_uri", redirectURI);
+            formData.add("code", code);
+            formData.add("client_secret", clientSecret);
 
-        return webClient.post()
-                .uri(tokenURI)
-                .header(HttpHeaders.CONTENT_TYPE, "application/x-www-form-urlencoded")
-                .bodyValue(formData)
-                .retrieve()
-                .bodyToMono(OAuth2DTO.OAuth2TokenDTO.class)
-                .onErrorMap(e -> new MemberException(MemberErrorCode.OAUTH_TOKEN_FAIL))
-                .block();
+            System.out.println("=== AccessToken 요청 정보 ===");
+            System.out.println("토큰 URI: " + tokenURI);
+            System.out.println("클라이언트 ID: " + clientId);
+            System.out.println("리다이렉트 URI: " + redirectURI);
+            System.out.println("인증 코드: " + code);
+
+            return webClient.post()
+                    .uri(tokenURI)
+                    .header(HttpHeaders.CONTENT_TYPE, "application/x-www-form-urlencoded")
+                    .bodyValue(formData)
+                    .retrieve()
+                    .onStatus(HttpStatusCode::isError, response -> {
+                        System.err.println("토큰 요청 오류: " + response.statusCode());
+                        return response.bodyToMono(String.class)
+                                .flatMap(errorBody -> {
+                                    System.err.println("오류 응답: " + errorBody);
+                                    return Mono.error(new RuntimeException("토큰 요청 실패: " + errorBody));
+                                });
+                    })
+                    .bodyToMono(OAuth2DTO.OAuth2TokenDTO.class)
+                    .doOnSuccess(token -> System.out.println("토큰 발급 성공: " + token.access_token()))
+                    .doOnError(e -> {
+                        System.err.println("토큰 요청 오류: " + e.getMessage());
+                        e.printStackTrace();
+                    })
+                    .onErrorMap(e -> new MemberException(MemberErrorCode.OAUTH_TOKEN_FAIL))
+                    .block();
+        } catch (Exception e) {
+            System.err.println("예외 발생: " + e.getMessage());
+            e.printStackTrace();
+            throw new MemberException(MemberErrorCode.OAUTH_TOKEN_FAIL);
+        }
     }
 
     private OAuth2DTO.KakaoProfile getUserInfo(String accessToken) {
