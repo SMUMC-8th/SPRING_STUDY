@@ -1,28 +1,40 @@
 package com.example.umc8th.global.config;
 
+import com.example.umc8th.global.auth.CustomUserDetailsService;
+import jakarta.servlet.Filter;
+import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.context.HttpSessionSecurityContextRepository;
 import org.springframework.security.web.context.SecurityContextRepository;
 
 @Configuration
+@RequiredArgsConstructor
+@EnableWebSecurity(debug = false)
 public class SecurityConfig {
+    private final JwtUtil jwtUtil;
+    private final CustomUserDetailsService customUserDetailsService;
+    private final CustomEntryPoint customEntryPoint;
+    private final CustomAccessDeniedHandler customAccessDeniedHandler;
+    private final ErrorResponder errorResponder;
 
-    // Bean에 넣지 않고 해당 config에만 사용할 거면 이런식으로도 가능합니다.
-//    private final SecurityContextRepository securityContextRepository = new HttpSessionSecurityContextRepository();
 
     // 아래 3개는 Swagger에 대한 URL
     private String[] allowUrl = {
             "/auth/sign-up",
-//            "/swagger-ui/**",
-//            "/swagger-resources/**",
-//            "/v3/api-docs/**",
+            "/auth/login",
+            "/swagger-ui/**",
+            "/swagger-resources/**",
+            "/v3/api-docs/**",
     };
 
     @Bean
@@ -38,7 +50,13 @@ public class SecurityConfig {
 
                 // Http Basic 인증 방식 비활성화
                 .httpBasic(AbstractHttpConfigurer::disable)
-                // formLogin 설정
+
+                .exceptionHandling(e -> e
+                        .authenticationEntryPoint(customEntryPoint)
+                        .accessDeniedHandler(customAccessDeniedHandler)
+                )
+                .addFilterBefore(jwtFilter(), UsernamePasswordAuthenticationFilter.class)
+/*                // formLogin 설정
                 .formLogin(formLogin -> formLogin
                         // Form login에서 사용하는 SecurityContextRepository 설정
                         .securityContextRepository(securityContextRepository())
@@ -52,10 +70,15 @@ public class SecurityConfig {
                 // SecurityContext에서 사용할 SecurityContextRepository 설정
                 .securityContext(context -> context
                         .securityContextRepository(securityContextRepository())
-                )
+                )*/
         ;
 
         return http.build();
+    }
+
+    @Bean
+    Filter jwtFilter() {
+        return new JwtFilter(jwtUtil, customUserDetailsService, errorResponder);
     }
 
     @Bean

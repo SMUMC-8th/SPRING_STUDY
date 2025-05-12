@@ -21,4 +21,16 @@ public class Member {
     @Column(name = "password", nullable = false)
     private String password;
 
+    @Column(name = "access_token", length = 1000)
+    private String accessToken;
+
+    @Column(name = "refresh_token", length = 1000)
+    private String refreshToken;
+
+    public void updateTokens(String accessToken, String refreshToken) {
+        this.accessToken = accessToken;
+        this.refreshToken = refreshToken;
+    }
+
+
 }
