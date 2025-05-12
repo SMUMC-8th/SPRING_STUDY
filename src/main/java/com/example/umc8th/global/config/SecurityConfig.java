@@ -2,17 +2,16 @@ package com.example.umc8th.global.config;
 
 import com.example.umc8th.global.auth.CustomUserDetailsService;
 
-import com.example.umc8th.global.jwt.JwtFilter;
-import com.example.umc8th.global.jwt.JwtUtil;
-import com.example.umc8th.global.jwt.exception.CustomAccessDeniedHandler;
-import com.example.umc8th.global.jwt.exception.CustomEntryPoint;
+import com.example.umc8th.global.auth.filter.JwtFilter;
+import com.example.umc8th.global.auth.handler.CustomAccessDeniedHandler;
+import com.example.umc8th.global.auth.handler.CustomEntryPoint;
+import com.example.umc8th.global.auth.util.JwtUtil;
 import jakarta.servlet.Filter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.http.SessionCreationPolicy;
 
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;

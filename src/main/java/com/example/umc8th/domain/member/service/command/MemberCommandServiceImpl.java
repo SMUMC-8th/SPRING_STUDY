@@ -6,7 +6,6 @@ import com.example.umc8th.domain.member.entity.Member;
 import com.example.umc8th.domain.member.exception.MemberErrorCode;
 import com.example.umc8th.domain.member.exception.MemberException;
 import com.example.umc8th.domain.member.repository.MemberRepository;
-import com.example.umc8th.global.jwt.TokenCommandService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -16,7 +15,7 @@ import org.springframework.stereotype.Service;
 public class MemberCommandServiceImpl implements MemberCommandService{
 
     private final MemberRepository memberRepository;
-    private final TokenCommandService tokenCommandService;
+    private final TokenCommandServiceImpl tokenCommandService;
     private final PasswordEncoder passwordEncoder;
 
     @Override

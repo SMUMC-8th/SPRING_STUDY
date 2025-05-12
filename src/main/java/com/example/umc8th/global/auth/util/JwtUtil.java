@@ -1,4 +1,4 @@
-package com.example.umc8th.global.jwt;
+package com.example.umc8th.global.auth.util;
 
 import com.example.umc8th.domain.member.entity.Member;
 import io.jsonwebtoken.Claims;
@@ -74,4 +74,3 @@ public class JwtUtil {
                 .parseSignedClaims(token);
     }
 }
-
