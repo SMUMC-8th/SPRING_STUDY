@@ -3,14 +3,12 @@ package com.example.umc8th.domain.member.controller;
 import com.example.umc8th.domain.member.dto.request.MemberRequestDTO;
 import com.example.umc8th.domain.member.dto.response.MemberResponseDTO;
 import com.example.umc8th.domain.member.service.command.MemberCommandService;
+import com.example.umc8th.domain.member.service.command.OAuth2Service;
 import com.example.umc8th.global.apiPayload.CustomResponse;
 import com.example.umc8th.global.jwt.dto.JwtDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/auth")

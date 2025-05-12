@@ -14,6 +14,7 @@ public class MemberConverter {
     public static MemberResponseDTO.SignUp toSignUpResponseDTO(Member member) {
         return MemberResponseDTO.SignUp.builder()
                 .id(member.getId())
+                .email(member.getEmail())
                 .username(member.getUsername())
                 .build();
     }
@@ -21,6 +22,7 @@ public class MemberConverter {
     // SignUpRequestDTO -> Member
     public static Member toMember(MemberRequestDTO.SignUp reqDTO, PasswordEncoder passwordEncoder) {
         return Member.builder()
+                .email(reqDTO.email())
                 .username(reqDTO.username())
                 .password(passwordEncoder.encode(reqDTO.password()))
                 .build();
