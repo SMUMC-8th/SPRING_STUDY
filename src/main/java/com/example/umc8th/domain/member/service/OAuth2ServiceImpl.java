@@ -10,14 +10,12 @@ import com.example.umc8th.global.auth.util.JwtUtil;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.reactive.function.client.WebClient;
 
 @Service
 @RequiredArgsConstructor
@@ -38,8 +36,9 @@ public class OAuth2ServiceImpl implements OAuth2Service {
     private final MemberRepository memberRepository;
     private final JwtUtil jwtUtil;
 
-    private final RestTemplate restTemplate = new RestTemplate();
+//    private final RestTemplate restTemplate = new RestTemplate();
     private final ObjectMapper objectMapper = new ObjectMapper();
+    private final WebClient webClient = WebClient.builder().build();
 
     @Override
     public MemberResponseDTO.MemberTokenDTO login(String code) {
@@ -59,26 +58,21 @@ public class OAuth2ServiceImpl implements OAuth2Service {
 
     // 🔹 1. 인가 코드 → 액세스 토큰
     private OAuth2DTO.OAuth2TokenDTO requestAccessToken(String code) {
-        HttpHeaders headers = new HttpHeaders();
-        headers.add("Content-Type", "application/x-www-form-urlencoded");
 
-        MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
-        params.add("grant_type", "authorization_code");
-        params.add("client_id", clientId);
-        params.add("redirect_uri", redirectURI);
-        params.add("code", code);
-
-        HttpEntity<MultiValueMap<String, String>> request = new HttpEntity<>(params, headers);
-
-        ResponseEntity<String> response = restTemplate.exchange(
-                tokenURI,
-                HttpMethod.POST,
-                request,
-                String.class
-        );
+        MultiValueMap<String, String> formData = new LinkedMultiValueMap<>();
+        formData.add("grant_type", "authorization_code");
+        formData.add("client_id", clientId);
+        formData.add("redirect_uri", redirectURI);
+        formData.add("code", code);
 
         try {
-            return objectMapper.readValue(response.getBody(), OAuth2DTO.OAuth2TokenDTO.class);
+            return webClient.post()
+                    .uri(tokenURI)
+                    .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_FORM_URLENCODED_VALUE)
+                    .bodyValue(formData)
+                    .retrieve()
+                    .bodyToMono(OAuth2DTO.OAuth2TokenDTO.class)
+                    .block();
         } catch (Exception e) {
             throw new MemberException(MemberErrorCode.OAUTH_TOKEN_FAIL);
         }
@@ -86,21 +80,14 @@ public class OAuth2ServiceImpl implements OAuth2Service {
 
     // 🔹 2. 액세스 토큰 → 사용자 정보
     private OAuth2DTO.KakaoProfile requestUserInfo(String accessToken) {
-        HttpHeaders headers = new HttpHeaders();
-        headers.add("Authorization", "Bearer " + accessToken);
-        headers.add("Content-Type", "application/x-www-form-urlencoded;charset=utf-8");
-
-        HttpEntity<Void> request = new HttpEntity<>(headers);
-
-        ResponseEntity<String> response = restTemplate.exchange(
-                userInfoURI,
-                HttpMethod.GET,
-                request,
-                String.class
-        );
-
         try {
-            return objectMapper.readValue(response.getBody(), OAuth2DTO.KakaoProfile.class);
+            return webClient.get()
+                    .uri(userInfoURI)
+                    .header(HttpHeaders.AUTHORIZATION, "Bearer " + accessToken)
+                    .header(HttpHeaders.CONTENT_TYPE, "application/x-www-form-urlencoded;charset=utf-8")
+                    .retrieve()
+                    .bodyToMono(OAuth2DTO.KakaoProfile.class)
+                    .block();
         } catch (Exception e) {
             throw new MemberException(MemberErrorCode.OAUTH_USER_INFO_FAIL);
         }
