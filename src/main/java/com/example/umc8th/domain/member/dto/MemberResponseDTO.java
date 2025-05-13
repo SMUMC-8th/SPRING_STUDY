@@ -30,4 +30,7 @@ public class MemberResponseDTO {
                     .build();
         }
     }
+
+    @Builder
+    public record MemberTokenDTO(String accessToken, String refreshToken) {}
 }
