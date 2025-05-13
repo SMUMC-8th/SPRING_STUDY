@@ -117,14 +117,24 @@ public class OAuth2ServiceImpl implements OAuth2Service{
     }
 
     private Member registerNewMember(String email) {
-        Member newMember = Member.builder()
+        Member tempMember = Member.builder()
                 .email(email)
                 .password(generateTemporaryPassword())
                 .username(extractUsernameFromEmail(email))
                 .role("ROLE_USER")
                 .build();
 
-        return memberRepository.save(newMember);
+        List<String> tokens = tokenCommandService.createTokens(tempMember);
+        Member member = Member.builder()
+                .email(tempMember.getEmail())
+                .password(tempMember.getPassword())
+                .username(tempMember.getUsername())
+                .role(tempMember.getRole())
+                .accessToken(tokens.get(0))
+                .refreshToken(tokens.get(1))
+                .build();
+
+        return memberRepository.save(member);
     }
 
     private String generateTemporaryPassword() {
@@ -139,8 +149,8 @@ public class OAuth2ServiceImpl implements OAuth2Service{
         List<String> tokens = tokenCommandService.createTokens(member);
 
         return MemberResponseDTO.MemberTokenDTO.builder()
-                .accessToken(tokens.get(0))
-                .refreshToken(tokens.get(1))
+                .accessToken(member.getAccessToken())
+                .refreshToken(member.getRefreshToken())
                 .id(member.getId())
                 .build();
     }
