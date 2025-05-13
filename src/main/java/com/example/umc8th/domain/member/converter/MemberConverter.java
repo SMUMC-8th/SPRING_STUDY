@@ -2,6 +2,8 @@ package com.example.umc8th.domain.member.converter;
 
 import com.example.umc8th.domain.member.dto.MemberResponseDTO;
 import com.example.umc8th.domain.member.entity.Member;
+import com.example.umc8th.domain.member.enums.SocialLogin;
+import com.example.umc8th.domain.member.enums.UserRole;
 
 public class MemberConverter {
 
@@ -10,6 +12,22 @@ public class MemberConverter {
         return Member.builder()
                 .username(username)
                 .password(password)
+                .role(UserRole.ROLE_USER)
+                .socialLogin(null)
+                .build();
+    }
+
+    // 소셜 로그인 전용 (회원가입)
+    public static Member toMember(
+            String username,
+            SocialLogin socialLogin,
+            UserRole userRole
+    ) {
+        return Member.builder()
+                .username(username)
+                .password(null)
+                .socialLogin(socialLogin)
+                .role(userRole)
                 .build();
     }
 
@@ -20,14 +38,12 @@ public class MemberConverter {
                 .build();
     }
 
-    // id, accessToken, refreshToken -> LoginResponseDTO
+    // accessToken, refreshToken -> LoginResponseDTO
     public static MemberResponseDTO.LoginResponseDTO toLoginResponseDTO(
-            Long id,
             String accessToken,
             String refreshToken
     ) {
         return MemberResponseDTO.LoginResponseDTO.builder()
-                .id(id)
                 .accessToken(accessToken)
                 .refreshToken(refreshToken)
                 .build();

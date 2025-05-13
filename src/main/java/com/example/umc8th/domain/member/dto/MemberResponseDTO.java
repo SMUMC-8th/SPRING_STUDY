@@ -8,5 +8,5 @@ public class MemberResponseDTO {
     public record SignUpResponseDTO(Long id) {}
 
     @Builder
-    public record LoginResponseDTO(Long id, String accessToken, String refreshToken) {}
+    public record LoginResponseDTO(String accessToken, String refreshToken) {}
 }
