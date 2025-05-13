@@ -33,18 +33,18 @@ public class JwtFilter extends OncePerRequestFilter {
             if (authorizationHeader != null && authorizationHeader.startsWith("Bearer ")) {
                 String token = authorizationHeader.substring(7);
 
-                if (!jwtUtil.isValid(token)) {
-                    throw new JwtException("Invalid JWT token");
-                }
+//                if (!jwtUtil.isValid(token)) {
+//                    throw new JwtException("Invalid JWT token");
+//                }
 
                 String username = jwtUtil.getUsername(token);
-                if (username == null) {
-                    throw new JwtException("Username is null in token");
-                }
+//                if (username == null) {
+//                    throw new JwtException("Username is null in token");
+//                }
 
                 UserDetails userDetails = customUserDetailsService.loadUserByUsername(username);
 
-                UsernamePasswordAuthenticationToken authentication =
+                Authentication authentication =
                         new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
 
                 SecurityContextHolder.getContext().setAuthentication(authentication);
