@@ -1,5 +1,6 @@
 package com.example.umc8th.domain.member.entity;
 
+import com.example.umc8th.domain.member.enums.Role;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -14,6 +15,12 @@ public class Member {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @Column(name = "email")
+    private String email;
+
+    @Enumerated(EnumType.STRING)
+    private Role role;
 
     @Column(name = "username", unique = true, nullable = false)
     private String username;
