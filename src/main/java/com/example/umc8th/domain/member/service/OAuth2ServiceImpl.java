@@ -50,7 +50,7 @@ public class OAuth2ServiceImpl implements OAuth2Service {
         OAuth2DTO.KakaoProfile profile = requestUserInfo(tokenDTO.getAccess_token());
 
         // 3. 이메일로 회원 조회 또는 신규 회원 등록
-        String email = profile.getId().toString();
+        String email = profile.getKakao_account().getEmail().toString();
         Member member = findOrCreateMember(email);
 
         // 4. JWT 생성 및 반환
