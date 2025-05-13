@@ -27,6 +27,12 @@ public class Member {
     @Column(name = "refresh_token", length = 1000)
     private String refreshToken;
 
+    @Column(name="email", unique = true, nullable = true)
+    private String email;
+
+    @Column(name="role", unique = true, nullable = true)
+    private String role;
+
     public void updateTokens(String accessToken, String refreshToken) {
         this.accessToken = accessToken;
         this.refreshToken = refreshToken;

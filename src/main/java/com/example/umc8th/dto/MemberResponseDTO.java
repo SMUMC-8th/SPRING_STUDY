@@ -37,4 +37,19 @@ public class MemberResponseDTO {
         }
 
     }
+
+    @Getter
+    @Builder
+    public static class MemberTokenDTO{
+        private Long id;
+        private String accessToken;
+        private String refreshToken;
+        public static MemberTokenDTO from(Member member) {
+            return MemberTokenDTO.builder()
+                    .id(member.getId())
+                    .accessToken(member.getAccessToken())
+                    .refreshToken(member.getRefreshToken())
+                    .build();
+        }
+    }
 }

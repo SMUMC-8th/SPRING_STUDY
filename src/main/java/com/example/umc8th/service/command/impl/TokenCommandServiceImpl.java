@@ -8,6 +8,9 @@ import com.example.umc8th.service.command.TokenCommandService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class TokenCommandServiceImpl implements TokenCommandService {
@@ -30,5 +33,12 @@ public class TokenCommandServiceImpl implements TokenCommandService {
                 .accessToken(accessToken)
                 .refreshToken(refreshToken)
                 .build();
+    }
+
+    public List<String> createTokens(Member member){
+        List<String> result = new ArrayList<>();
+        result.add(jwtUtil.createAccessToken(member));
+        result.add(jwtUtil.createRefreshToken(member));
+        return result;
     }
 }
