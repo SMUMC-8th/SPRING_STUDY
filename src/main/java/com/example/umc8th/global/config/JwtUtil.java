@@ -59,7 +59,7 @@ public class JwtUtil {
         Instant now = Instant.now();
         return Jwts.builder()
                 .subject(member.getUsername()) // Subject를 Username으로 설정
-                .claim("id", member.getId()) // claim으로 내용 추가
+                .claim("email", member.getEmail()) // claim으로 내용 추가
                 .issuedAt(Date.from(now)) // 언제 발급한지
                 .expiration(Date.from(now.plus(expiration))) // 언제까지 유효한지
                 .signWith(secretKey) // sign할 Key
