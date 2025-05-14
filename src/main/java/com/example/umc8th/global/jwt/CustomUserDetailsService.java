@@ -1,5 +1,7 @@
-package com.example.umc8th.code.member;
+package com.example.umc8th.global.jwt;
 
+import com.example.umc8th.code.member.entity.Member;
+import com.example.umc8th.code.member.repo.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;

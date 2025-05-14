@@ -1,5 +1,6 @@
-package com.example.umc8th.code.member;
+package com.example.umc8th.global.jwt;
 
+import com.example.umc8th.code.member.entity.Member;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
