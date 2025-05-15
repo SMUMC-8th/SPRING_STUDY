@@ -2,17 +2,17 @@ package com.example.umc8th.global.config;
 
 import com.example.umc8th.global.auth.CustomUserDetailsService;
 
-import com.example.umc8th.global.jwt.JwtFilter;
-import com.example.umc8th.global.jwt.JwtUtil;
-import com.example.umc8th.global.jwt.exception.CustomAccessDeniedHandler;
-import com.example.umc8th.global.jwt.exception.CustomEntryPoint;
+import com.example.umc8th.global.auth.filter.JwtFilter;
+import com.example.umc8th.global.auth.handler.CustomAccessDeniedHandler;
+import com.example.umc8th.global.auth.handler.CustomEntryPoint;
+import com.example.umc8th.global.auth.util.JwtUtil;
 import jakarta.servlet.Filter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.http.SessionCreationPolicy;
 
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -39,32 +39,26 @@ public class SecurityConfig {
             "/swagger-ui/**",
             "/swagger-resources/**",
             "/v3/api-docs/**",
+            "/oauth2/callback/kakao"
     };
 
     @Bean
-    SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception{
         http
                 .authorizeHttpRequests(request -> request
                         .requestMatchers(allowUrl).permitAll()
                         .anyRequest().authenticated()
                 )
+                .cors(cors -> cors.configurationSource(CorsConfig.apiConfigurationSource()))
                 .csrf(AbstractHttpConfigurer::disable)
                 .httpBasic(AbstractHttpConfigurer::disable)
+                .formLogin(AbstractHttpConfigurer::disable)
+                .oauth2Login(Customizer.withDefaults())
                 .addFilterBefore(jwtFilter(), UsernamePasswordAuthenticationFilter.class)
                 .exceptionHandling(exception -> exception
                         .authenticationEntryPoint(customEntryPoint)
                         .accessDeniedHandler(customAccessDeniedHandler)
                 )
-//                .formLogin(formLogin -> formLogin
-//                        .securityContextRepository(securityContextRepository())
-//                        .defaultSuccessUrl("/swagger-ui/index.html")
-//                )
-//                .sessionManagement(sessionManagement -> sessionManagement
-//                        .sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED)
-//                )
-//                .securityContext(context -> context
-//                        .securityContextRepository(securityContextRepository())
-//                )
         ;
 
         return http.build();

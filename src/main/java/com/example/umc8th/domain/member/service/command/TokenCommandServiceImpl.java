@@ -1,13 +1,14 @@
-package com.example.umc8th.global.jwt;
+package com.example.umc8th.domain.member.service.command;
 
 import com.example.umc8th.domain.member.dto.MemberResponseDTO;
 import com.example.umc8th.domain.member.entity.Member;
+import com.example.umc8th.global.auth.util.JwtUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
-public class TokenCommandService {
+public class TokenCommandServiceImpl implements TokenCommandService {
 
     private final JwtUtil jwtUtil;
 
