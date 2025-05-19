@@ -16,10 +16,11 @@ public class Member {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "username", unique = true, nullable = false)
+    @Column(name = "username")
     private String username;
 
-    @Column(name = "password", nullable = false)
+    //간편 로그인에서는 비밀번호를 입력하지 않기에 nullable삭제
+    @Column(name = "password")
     private String password;
 
     @Column(name = "email")

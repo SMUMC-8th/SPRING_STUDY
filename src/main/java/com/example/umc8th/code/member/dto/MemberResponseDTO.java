@@ -26,6 +26,7 @@ public class MemberResponseDTO {
     public static class LoginResponseDTO {
 
         private Long id;
+        private String email;
         private String accessToken;
         private String refreshToken;
 
