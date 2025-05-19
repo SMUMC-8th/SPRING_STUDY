@@ -1,5 +1,6 @@
 package com.example.umc8th.code.reply.controller;
 
+import com.example.umc8th.global.apiPayload.CustomResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -7,7 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import com.example.umc8th.code.reply.dto.ReplyRequestDTO;
 import com.example.umc8th.code.reply.entity.Reply;
 import com.example.umc8th.code.reply.dto.ReplyResponseDTO;
-import com.example.umc8th.code.exception.CustomResponse;
+
 import com.example.umc8th.code.reply.service.command.ReplyCommandService;
 import com.example.umc8th.code.reply.service.query.ReplyQueryService;
 

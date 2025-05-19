@@ -2,8 +2,8 @@ package com.example.umc8th.code.reply.service.command;
 
 import com.example.umc8th.code.article.entity.Article;
 import com.example.umc8th.code.article.repository.ArticleRepository;
-import com.example.umc8th.code.exception.GeneralErrorCode;
-import com.example.umc8th.code.exception.GeneralException;
+import com.example.umc8th.global.apiPayload.code.GeneralErrorCode;
+import com.example.umc8th.global.apiPayload.code.GeneralException;
 import com.example.umc8th.code.reply.converter.ReplyConverter;
 import com.example.umc8th.code.reply.service.query.ReplyQueryServiceImpl;
 import jakarta.transaction.Transactional;

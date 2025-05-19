@@ -2,9 +2,9 @@ package com.example.umc8th.code.article.service.command;
 
 import com.example.umc8th.code.article.converter.ArticleConverter;
 import com.example.umc8th.code.article.enums.Active;
-import com.example.umc8th.code.exception.BaseErrorCode;
-import com.example.umc8th.code.exception.GeneralErrorCode;
-import com.example.umc8th.code.exception.GeneralException;
+
+import com.example.umc8th.global.apiPayload.code.GeneralErrorCode;
+import com.example.umc8th.global.apiPayload.code.GeneralException;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

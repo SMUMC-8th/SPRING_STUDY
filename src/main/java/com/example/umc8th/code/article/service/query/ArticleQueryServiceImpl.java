@@ -1,14 +1,15 @@
 package com.example.umc8th.code.article.service.query;
 
 import com.example.umc8th.code.article.enums.Active;
+import com.example.umc8th.global.apiPayload.code.GeneralErrorCode;
+import com.example.umc8th.global.apiPayload.code.GeneralException;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import com.example.umc8th.code.article.repository.ArticleRepository;
-import com.example.umc8th.code.exception.GeneralErrorCode;
-import com.example.umc8th.code.exception.GeneralException;
+
 import com.example.umc8th.code.article.entity.Article;
 
 import java.util.List;

@@ -1,12 +1,13 @@
 package com.example.umc8th.code.article.controller;
 
 import com.example.umc8th.code.article.dto.ArticleResponseDTO;
+import com.example.umc8th.global.apiPayload.CustomResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import com.example.umc8th.code.article.dto.ArticleRequestDTO;
-import com.example.umc8th.code.exception.CustomResponse;
+
 import com.example.umc8th.code.article.service.command.ArticleCommandService;
 import com.example.umc8th.code.article.service.query.ArticleQueryService;
 import com.example.umc8th.code.article.entity.Article;

@@ -1,5 +1,6 @@
 package com.example.umc8th.code.member.entity;
 
+import com.example.umc8th.code.member.Role;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -20,4 +21,10 @@ public class Member {
 
     @Column(name = "password", nullable = false)
     private String password;
+
+    @Column(name = "email")
+    private String email;
+
+    @Column(name = "role")
+    private Role role;
 }

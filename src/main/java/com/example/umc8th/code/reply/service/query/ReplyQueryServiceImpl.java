@@ -11,8 +11,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import com.example.umc8th.code.reply.entity.Reply;
-import com.example.umc8th.code.exception.GeneralErrorCode;
-import com.example.umc8th.code.exception.GeneralException;
+import com.example.umc8th.global.apiPayload.code.GeneralErrorCode;
+import com.example.umc8th.global.apiPayload.code.GeneralException;
 import com.example.umc8th.code.reply.repository.ReplyRepository;
 
 import java.util.List;
