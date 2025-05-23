@@ -4,10 +4,12 @@ import com.example.umc8th.global.auth.filter.JwtFilter;
 import com.example.umc8th.global.auth.handler.CustomAccessDeniedHandler;
 import com.example.umc8th.global.auth.handler.CustomEntryPoint;
 import com.example.umc8th.global.auth.util.JwtUtil;
+import com.example.umc8th.global.oauth2.handler.OAuth2SuccessfulHandler;
 import jakarta.servlet.Filter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
@@ -28,17 +30,19 @@ public class SecurityConfig {
     private final UserDetailsService customUserDetailsService;
     private final CustomEntryPoint customEntryPoint;
     private final CustomAccessDeniedHandler customAccessDeniedHandler;
+    private final OAuth2SuccessfulHandler oAuth2SuccessfulHandler;
 
     private String[] allowUrl = {
             "/auth/sign-up",
             "/auth/login",
+            "/oauth2/**",
             "/swagger-ui/**",
             "/swagger-resources/**",
             "/v3/api-docs/**",
     };
 
     @Bean
-    SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception{
         http
                 .authorizeHttpRequests(request -> request
                         .requestMatchers(allowUrl).permitAll()
@@ -47,21 +51,13 @@ public class SecurityConfig {
                 .cors(cors -> cors.configurationSource(CorsConfig.apiConfigurationSource()))
                 .csrf(AbstractHttpConfigurer::disable)
                 .httpBasic(AbstractHttpConfigurer::disable)
+                .formLogin(AbstractHttpConfigurer::disable)
+                .oauth2Login(Customizer.withDefaults())
                 .addFilterBefore(jwtFilter(), UsernamePasswordAuthenticationFilter.class)
                 .exceptionHandling(exception -> exception
                         .authenticationEntryPoint(customEntryPoint)
                         .accessDeniedHandler(customAccessDeniedHandler)
                 )
-//                .formLogin(formLogin -> formLogin
-//                        .securityContextRepository(securityContextRepository())
-//                        .defaultSuccessUrl("/swagger-ui/index.html")
-//                )
-//                .sessionManagement(sessionManagement -> sessionManagement
-//                        .sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED)
-//                )
-//                .securityContext(context -> context
-//                        .securityContextRepository(securityContextRepository())
-//                )
         ;
 
         return http.build();
