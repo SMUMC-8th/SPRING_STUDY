@@ -22,7 +22,7 @@ public class MemberCommandServiceImpl implements MemberCommandService{
     public Member signUp(MemberRequestDTO.SignUpRequestDTO dto) {
         return memberRepository.save(
                 Member.builder()
-                        .username(dto.getUsername())
+                        .email(dto.getUsername())
                         .password(passwordEncoder.encode(dto.getPassword()))
                         .build()
         );
@@ -30,7 +30,7 @@ public class MemberCommandServiceImpl implements MemberCommandService{
 
     @Override
     public MemberResponseDTO.LoginResponseDTO login(MemberRequestDTO.LoginRequestDTO dto) {
-        Member member = memberRepository.findByUsername(dto.getUsername()).orElseThrow(() ->
+        Member member = memberRepository.findByEmail(dto.getUsername()).orElseThrow(() ->
                 new MemberException(MemberErrorCode.NOT_FOUND));
         if (!passwordEncoder.matches(dto.getPassword(), member.getPassword())) {
             throw new MemberException(MemberErrorCode.BAD_CREDENTIAL);

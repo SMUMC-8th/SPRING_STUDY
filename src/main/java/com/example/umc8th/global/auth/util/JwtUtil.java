@@ -55,7 +55,7 @@ public class JwtUtil {
     private String createToken(Member member, Duration expiration) {
         Instant now = Instant.now();
         return Jwts.builder()
-                .subject(member.getUsername())
+                .subject(member.getEmail())
                 .claim("id", member.getId())
                 .issuedAt(Date.from(now))
                 .expiration(Date.from(now.plus(expiration)))
